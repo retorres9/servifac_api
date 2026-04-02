@@ -2,6 +2,7 @@ import { BadRequestException, Inject } from '@nestjs/common';
 import type { UserRepository } from '../../domain/repository/user.repository';
 import { CreateUserInput } from '../model/create-user.input';
 import { CreateUserOutput } from '../model/create-user.output';
+import { User } from '../../domain/user.entity';
 
 export class CreateUserUseCase {
   constructor(
@@ -10,27 +11,38 @@ export class CreateUserUseCase {
   ) {}
 
   async execute(userInput: CreateUserInput): Promise<CreateUserOutput> {
-    const existingUser = await this.userRepository.findByEmail(
+    const existingUser = await this.userRepository.findByCi(
       userInput.strEmail
     );
     if (existingUser) {
         throw new BadRequestException('User already exists');
     }
-    const user = await this.userRepository.createUser({
-      strCi: userInput.
-      strFirstName: userInput.strFirstName,
-      strLastName: userInput.strLastName,
-      strEmail: userInput.strEmail,
-      strPassword: userInput.strPassword,
-      intIdRole: userInput.intIdRole,
-      
+    const user = new User(
+      userInput.strCi,
+      userInput.strFirstName,
+      userInput.strLastName,
+      userInput.strUsername,
+      userInput.strEmail,
+      userInput.intRole,
+      userInput.strPassword,
+      userInput.strPhone,
+      userInput.strAddress,
+      userInput.strCity,
+
+    );
+    const userSaved = await this.userRepository.createUser({
+      ...user      
     });
     return {
-      intUserId: user.intUserId,
-      strFirstName: user.strFirstName,
-      strLastName: user.strLastName,
-      strEmail: user.strEmail,
-      intIdRole: user.intIdRole
+      intUserId: userSaved.intUserId || 0,
+      strFirstName: userSaved.strFirstName,
+      strLastName: userSaved.strLastName,
+      strEmail: userSaved.strEmail,
+      intRole: userSaved.intRole,
+      strCi: userSaved.strCi,
+      strUsername: userSaved.strUsername,
+      blIsActive: userSaved.blIsActive || false,
+      dtCreatedAt: userSaved.dtCreatedAt || new Date(),
     };
   }
 }
