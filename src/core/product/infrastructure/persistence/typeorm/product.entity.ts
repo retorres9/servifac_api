@@ -17,7 +17,7 @@ export class ProductEntity {
   prod_normalProfit: number;
 
   @Column({ type: 'decimal', precision: 7, scale: 3, default: 23.2 })
-  prod_wholesaleProfit: number;
+  prod_wholesaleProfit: number | undefined;
 
   @Column({ default: true })
   prod_inStock: boolean;

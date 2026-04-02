@@ -12,7 +12,7 @@ export class CreateUserUseCase {
 
   async execute(userInput: CreateUserInput): Promise<CreateUserOutput> {
     const existingUser = await this.userRepository.findByCi(
-      userInput.strEmail
+      userInput.strCi
     );
     if (existingUser) {
         throw new BadRequestException('User already exists');
