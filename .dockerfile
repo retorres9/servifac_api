@@ -1,11 +1,12 @@
-FROM alpine:3.18
+FROM node:22-alpine AS build
 
 LABEL maintainer="retorres"
 
 WORKDIR /app
 
 # Copy project files
-COPY . /app
+COPY package*.json ./
+RUN npm ci
 
-# Default command (open a shell); adjust as needed for your application
-CMD ["/bin/sh"]
+COPY . .
+RUN npm run build

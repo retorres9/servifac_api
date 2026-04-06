@@ -9,5 +9,4 @@ export type CreateUserInput = {
   strPhone: string;
   strAddress: string;
   strCity: string;
-
 };

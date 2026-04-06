@@ -3,7 +3,7 @@ import { UserRepository } from "src/core/users/domain/repository/user.repository
 import { Repository } from "typeorm";
 import { User } from "src/core/users/domain/user.entity";
 import { BadRequestException } from "@nestjs/common";
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 import { UserEntity } from "./user.entity";
 
 export class UserTypeormRepository implements UserRepository {
@@ -41,6 +41,7 @@ export class UserTypeormRepository implements UserRepository {
             usr_city: strCity,
             usr_phone: strPhone,
             usr_role: intRole,
+            usr_isAbleToChangePassword: false,
             usr_username: `${strFirstName.substring(0, 2)}${strLastName}`,
         });
         //!TODO: Handle unique constraint violation for usr_username
@@ -60,7 +61,19 @@ export class UserTypeormRepository implements UserRepository {
 
     }
     async getUsers(): Promise<User[]> {
-        throw new Error("Method not implemented.");
+        const userEntities = await this.userRepository.find();
+        return userEntities.map(userEntity => new User(
+            userEntity.usr_ci,
+            userEntity.usr_firstName,
+            userEntity.usr_lastName,
+            userEntity.usr_username,
+            userEntity.usr_password,
+            userEntity.usr_role,
+            userEntity.usr_email,
+            userEntity.usr_phone,
+            userEntity.usr_address,
+            userEntity.usr_city,
+        ));
     }
     async findByCi(ci: string): Promise<User | null> {
         const userEntity = await this.userRepository.findOne({ where: { usr_ci: ci } });
@@ -82,13 +95,45 @@ export class UserTypeormRepository implements UserRepository {
 
     }
     async login(email: string, password: string): Promise<User | null> {
-        throw new Error("Method not implemented.");
+        const userFound = await this.userRepository.findOne({ where: [
+            { usr_email: email },
+            { usr_username: email }
+        ] });
+        if (!userFound) {
+            return null;
+        }
+        const isPasswordValid = await bcrypt.compare(password, userFound.usr_password);
+        if (!isPasswordValid) {
+            if (userFound.usr_loginAttempts >= 5) {
+                await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_isActive: false });
+                throw new BadRequestException('Account locked due to too many failed login attempts');
+            }
+            await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_loginAttempts: userFound.usr_loginAttempts + 1 });
+            return null;
+        }
+        await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_lastLogin: new Date(), usr_loginAttempts: 0 });
+
+        return new User(
+            userFound.usr_ci,
+            userFound.usr_firstName,
+            userFound.usr_lastName,
+            userFound.usr_username,
+            userFound.usr_password,
+            userFound.usr_role,
+            userFound.usr_email,
+            userFound.usr_phone,
+            userFound.usr_address,
+            userFound.usr_city,
+        );
     }
     async resetPassword(email: string, newPassword: string): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    async signOut(userId: number): Promise<void> {
-        throw new Error("Method not implemented.");
+        const userFound = await this.userRepository.findOne({ where: { usr_email: email } });
+        if (!userFound) {
+            throw new BadRequestException('User not found');
+        }
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await this.hashPassword(newPassword, salt);
+        await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_password: hashedPassword, usr_isAbleToChangePassword: true });
     }
 
     private async hashPassword(password: string, salt: string): Promise<string> {

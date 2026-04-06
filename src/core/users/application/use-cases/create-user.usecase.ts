@@ -11,11 +11,9 @@ export class CreateUserUseCase {
   ) {}
 
   async execute(userInput: CreateUserInput): Promise<CreateUserOutput> {
-    const existingUser = await this.userRepository.findByCi(
-      userInput.strCi
-    );
+    const existingUser = await this.userRepository.findByCi(userInput.strCi);
     if (existingUser) {
-        throw new BadRequestException('User already exists');
+      throw new BadRequestException('User already exists');
     }
     const user = new User(
       userInput.strCi,
@@ -27,11 +25,10 @@ export class CreateUserUseCase {
       userInput.strPassword,
       userInput.strPhone,
       userInput.strAddress,
-      userInput.strCity,
-
+      userInput.strCity
     );
     const userSaved = await this.userRepository.createUser({
-      ...user      
+      ...user,
     });
     return {
       intUserId: userSaved.intUserId || 0,
