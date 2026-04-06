@@ -6,6 +6,7 @@ import { CreateUserUseCase } from './application/use-cases/create-user.usecase';
 import { UserController } from './interface/controllers/user.controller';
 import { USER_REPOSITORY } from './domain/repository/user.repository';
 import { UserTypeormRepository } from './infrastructure/persistence/typeorm/user.repository';
+import { LoginUseCase } from './application/use-cases/login.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserEntity])],
@@ -14,6 +15,8 @@ import { UserTypeormRepository } from './infrastructure/persistence/typeorm/user
     provide: USER_REPOSITORY,
     useClass: UserTypeormRepository,
   },
-  CreateUserUseCase],
+  CreateUserUseCase,
+  LoginUseCase,
+    ],
 })
 export class UserModule {}
