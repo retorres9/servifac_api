@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class UserEntity {
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     usr_id!: number;
 
     @Column({ unique: true, nullable: false })
@@ -47,7 +47,7 @@ export class UserEntity {
     @Column({ type: 'timestamp', nullable: true })
     usr_lastLogin!: Date | null;
 
-    @Column({ nullable: true })
+    @Column({ type: 'varchar', nullable: true })
     usr_tempPass!: string | null;
 
     @Column({ default: false })

@@ -1,12 +1,12 @@
 import { BadRequestException, Inject } from '@nestjs/common';
-import type { UserRepository } from '../../domain/repository/user.repository';
+import { USER_REPOSITORY, type UserRepository } from '../../domain/repository/user.repository';
 import { CreateUserInput } from '../model/create-user.input';
 import { CreateUserOutput } from '../model/create-user.output';
 import { User } from '../../domain/user.entity';
 
 export class CreateUserUseCase {
   constructor(
-    @Inject('USER_REPOSITORY')
+    @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepository
   ) {}
 
@@ -19,7 +19,6 @@ export class CreateUserUseCase {
       userInput.strCi,
       userInput.strFirstName,
       userInput.strLastName,
-      userInput.strUsername,
       userInput.strEmail,
       userInput.intRole,
       userInput.strPassword,
@@ -30,6 +29,9 @@ export class CreateUserUseCase {
     const userSaved = await this.userRepository.createUser({
       ...user,
     });
+    if (!userSaved) {
+      throw new BadRequestException('Failed to create user');
+    }
     return {
       intUserId: userSaved.intUserId || 0,
       strFirstName: userSaved.strFirstName,

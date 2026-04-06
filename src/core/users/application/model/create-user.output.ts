@@ -1,7 +1,7 @@
 export type CreateUserOutput = {
   intUserId: number;
   strCi: string;
-  strUsername: string;
+  strUsername: string | undefined;
   strFirstName: string;
   strLastName: string;
   strEmail: string;

@@ -1,8 +1,8 @@
 import { IsNotEmpty, MinLength } from 'class-validator';
 
 export class CreateLocationDto {
-  intLocationId: number;
+  intLocationId!: number;
   @IsNotEmpty()
   @MinLength(4)
-  strLocationName: string;
+  strLocationName!: string;
 }

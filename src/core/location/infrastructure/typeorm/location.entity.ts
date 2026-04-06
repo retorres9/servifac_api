@@ -1,5 +1,5 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { ProductEntity } from '../persistence/typeorm/product.entity';
+import { ProductEntity } from 'src/core/product/infrastructure/persistence/typeorm/product.entity';
+import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class LocationEntity {
@@ -9,6 +9,6 @@ export class LocationEntity {
   @Column({ nullable: false })
   loc_name!: string;
 
-  @ManyToMany(() => ProductEntity, (product) => product.locations)
+  @OneToMany(() => ProductEntity, (product) => product.location)
   products!: ProductEntity[];
 }

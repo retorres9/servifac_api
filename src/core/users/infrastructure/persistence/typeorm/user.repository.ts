@@ -11,6 +11,23 @@ export class UserTypeormRepository implements UserRepository {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>
   ) {}
+    async findByUsername(username: string): Promise<User | null> {
+        const userEntity = await this.userRepository.findOne({ where: { usr_username: username } });
+        if (!userEntity) {
+            return null;
+        }
+        return new User(
+            userEntity.usr_ci,
+            userEntity.usr_firstName,
+            userEntity.usr_lastName,
+            userEntity.usr_password,
+            userEntity.usr_role,
+            userEntity.usr_email,
+            userEntity.usr_phone,
+            userEntity.usr_address,
+            userEntity.usr_city,
+        );
+    }
     
     async createUser(user: User): Promise<User> {
         const { 
@@ -50,7 +67,6 @@ export class UserTypeormRepository implements UserRepository {
             savedUser.usr_ci,
             savedUser.usr_firstName,
             savedUser.usr_lastName,
-            savedUser.usr_username,
             savedUser.usr_password,
             savedUser.usr_role,
             savedUser.usr_email,
@@ -66,7 +82,6 @@ export class UserTypeormRepository implements UserRepository {
             userEntity.usr_ci,
             userEntity.usr_firstName,
             userEntity.usr_lastName,
-            userEntity.usr_username,
             userEntity.usr_password,
             userEntity.usr_role,
             userEntity.usr_email,
@@ -84,7 +99,6 @@ export class UserTypeormRepository implements UserRepository {
             userEntity.usr_ci,
             userEntity.usr_firstName,
             userEntity.usr_lastName,
-            userEntity.usr_username,
             userEntity.usr_password,
             userEntity.usr_role,
             userEntity.usr_email,
@@ -117,7 +131,6 @@ export class UserTypeormRepository implements UserRepository {
             userFound.usr_ci,
             userFound.usr_firstName,
             userFound.usr_lastName,
-            userFound.usr_username,
             userFound.usr_password,
             userFound.usr_role,
             userFound.usr_email,
