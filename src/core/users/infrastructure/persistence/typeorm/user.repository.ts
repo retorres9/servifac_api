@@ -113,10 +113,12 @@ export class UserTypeormRepository implements UserRepository {
             { usr_email: email },
             { usr_username: email }
         ] });
+        console.log('User found:', userFound);
         if (!userFound) {
             return null;
         }
         const isPasswordValid = await bcrypt.compare(password, userFound.usr_password);
+        console.log('Password valid:', isPasswordValid);
         if (!isPasswordValid) {
             if (userFound.usr_loginAttempts >= 5) {
                 await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_isActive: false });
