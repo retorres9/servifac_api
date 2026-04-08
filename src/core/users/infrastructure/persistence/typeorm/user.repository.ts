@@ -61,6 +61,7 @@ export class UserTypeormRepository implements UserRepository {
             usr_isAbleToChangePassword: false,
             usr_username: `${strFirstName.substring(0, 2)}${strLastName}`,
         });
+        console.log('New User Entity:', newUserEntity);
         //!TODO: Handle unique constraint violation for usr_username
         const savedUser = await this.userRepository.save(newUserEntity);
         return new User(
@@ -109,10 +110,7 @@ export class UserTypeormRepository implements UserRepository {
 
     }
     async login(email: string, password: string): Promise<User | null> {
-        const userFound = await this.userRepository.findOne({ where: [
-            { usr_email: email },
-            { usr_username: email }
-        ] });
+        const userFound = await this.userRepository.findOne({ where: { usr_email: email } });
         console.log('User found:', userFound);
         if (!userFound) {
             return null;

@@ -19,9 +19,9 @@ export class CreateUserUseCase {
       userInput.strCi,
       userInput.strFirstName,
       userInput.strLastName,
-      userInput.strEmail,
-      userInput.intRole,
       userInput.strPassword,
+      userInput.intRole,
+      userInput.strEmail,
       userInput.strPhone,
       userInput.strAddress,
       userInput.strCity
