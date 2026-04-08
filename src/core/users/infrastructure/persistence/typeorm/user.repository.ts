@@ -1,6 +1,6 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { UserRepository } from "src/core/users/domain/repository/user.repository";
-import { Repository } from "typeorm";
+import { Like, Repository } from "typeorm";
 import { User } from "src/core/users/domain/user.entity";
 import { BadRequestException } from "@nestjs/common";
 import * as bcrypt from 'bcryptjs';
@@ -59,10 +59,13 @@ export class UserTypeormRepository implements UserRepository {
             usr_phone: strPhone,
             usr_role: intRole,
             usr_isAbleToChangePassword: false,
-            usr_username: `${strFirstName.substring(0, 2)}${strLastName}`,
+            usr_username: `${strFirstName.toLowerCase().substring(0, 2)}${strLastName.toLowerCase()}`,
         });
-        console.log('New User Entity:', newUserEntity);
-        //!TODO: Handle unique constraint violation for usr_username
+        
+        const existingUsername: number = await this.userRepository.count({ where: { usr_username: Like(`${newUserEntity.usr_username}%`)}});
+        if (existingUsername > 0) {
+            newUserEntity.usr_username += existingUsername;
+        }
         const savedUser = await this.userRepository.save(newUserEntity);
         return new User(
             savedUser.usr_ci,
