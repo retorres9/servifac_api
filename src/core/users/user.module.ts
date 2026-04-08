@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Res } from '@nestjs/common';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './infrastructure/persistence/typeorm/user.entity';
@@ -8,6 +8,8 @@ import { USER_REPOSITORY } from './domain/repository/user.repository';
 import { UserTypeormRepository } from './infrastructure/persistence/typeorm/user.repository';
 import { LoginUseCase } from './application/use-cases/login.usecase';
 import { JwtModule } from '@nestjs/jwt';
+import { ResetPasswordUseCase } from './application/use-cases/reset-password.usecase';
+import { RestorePasswordUseCase } from './application/use-cases/restore-password.usecase';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { JwtModule } from '@nestjs/jwt';
   },
   CreateUserUseCase,
   LoginUseCase,
+  ResetPasswordUseCase,
+  RestorePasswordUseCase
     ],
 })
 export class UserModule {}

@@ -1,5 +1,4 @@
 import { Controller, Post, Body } from '@nestjs/common';
-// import { UpdateCategoryDto } from './dto/update-category.dto';
 import { CreateCategoryUseCase } from 'src/core/categories/application/use-cases/create-category.usecase';
 import { CreateCategoryDto } from '../../dto/create-category.dto';
 
@@ -7,7 +6,7 @@ import { CreateCategoryDto } from '../../dto/create-category.dto';
 export class CategoriesController {
   constructor(private readonly createCategoryUseCase: CreateCategoryUseCase) {}
 
-  @Post()
+  @Post('new')
   create(@Body() createCategoryDto: CreateCategoryDto) {
     return this.createCategoryUseCase.execute(createCategoryDto);
   }

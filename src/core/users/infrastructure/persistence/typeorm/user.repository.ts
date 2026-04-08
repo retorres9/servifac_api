@@ -11,8 +11,17 @@ export class UserTypeormRepository implements UserRepository {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>
   ) {}
+    async restorePassword(user: User, prevPassword: string, newPassword: string): Promise<void> {
+        const validPreviousPassword = await bcrypt.compare(prevPassword, user.strPassword);
+        if (!validPreviousPassword) {
+            throw new BadRequestException('Previous password is incorrect');
+        }
+        const salt = await bcrypt.genSalt();
+        const hashedNewPassword = await this.hashPassword(newPassword, salt);
+        await this.userRepository.update({ usr_id: user.intUserId }, { usr_password: hashedNewPassword, usr_isAbleToChangePassword: false, usr_tempPass: null });
+    }
     async findByUsername(username: string): Promise<User | null> {
-        const userEntity = await this.userRepository.findOne({ where: { usr_username: username } });
+        const userEntity: UserEntity | null = await this.userRepository.findOne({ where: { usr_username: username } });
         if (!userEntity) {
             return null;
         }
@@ -26,6 +35,15 @@ export class UserTypeormRepository implements UserRepository {
             userEntity.usr_phone,
             userEntity.usr_address,
             userEntity.usr_city,
+            userEntity.usr_username,
+            userEntity.usr_id,
+            userEntity.usr_tempPass || undefined,
+            userEntity.usr_isActive,
+            userEntity.usr_createdAt,
+            userEntity.usr_updatedAt,
+            userEntity.usr_lastLogin || undefined,
+            userEntity.usr_isAbleToChangePassword,
+            userEntity.usr_loginAttempts
         );
     }
     
@@ -77,6 +95,15 @@ export class UserTypeormRepository implements UserRepository {
             savedUser.usr_phone,
             savedUser.usr_address,
             savedUser.usr_city,
+            savedUser.usr_username,
+            savedUser.usr_id,
+            savedUser.usr_tempPass || undefined,
+            savedUser.usr_isActive,
+            savedUser.usr_createdAt,
+            savedUser.usr_updatedAt,
+            savedUser.usr_lastLogin || undefined,
+            savedUser.usr_isAbleToChangePassword,
+            savedUser.usr_loginAttempts
         );
 
     }
@@ -142,14 +169,10 @@ export class UserTypeormRepository implements UserRepository {
             userFound.usr_city,
         );
     }
-    async resetPassword(email: string, newPassword: string): Promise<void> {
-        const userFound = await this.userRepository.findOne({ where: { usr_email: email } });
-        if (!userFound) {
-            throw new BadRequestException('User not found');
-        }
+    async resetPassword(user: User, email: string, newPassword: string): Promise<void> {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await this.hashPassword(newPassword, salt);
-        await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_password: hashedPassword, usr_isAbleToChangePassword: true });
+        await this.userRepository.update({ usr_id: user.intUserId }, { usr_password: hashedPassword, usr_isAbleToChangePassword: true });
     }
 
     private async hashPassword(password: string, salt: string): Promise<string> {

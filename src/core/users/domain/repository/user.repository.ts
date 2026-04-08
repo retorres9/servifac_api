@@ -7,5 +7,6 @@ export interface UserRepository {
   findByCi(ci: string): Promise<User | null>;
   findByUsername(username: string): Promise<User | null>;
   login(email: string, password: string): Promise<User | null>;
-  resetPassword(email: string, newPassword: string): Promise<void>;
+  resetPassword(user: User, email: string, newPassword: string): Promise<void>;
+  restorePassword(user: User, prevPassword: string, newPassword: string): Promise<void>;
 }

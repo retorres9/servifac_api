@@ -6,7 +6,7 @@ import { CreateLocationUseCase } from 'src/core/location/application/use-cases/c
 export class LocationController {
   constructor(private readonly createLocationUseCase: CreateLocationUseCase) { }
 
-  @Post()
+  @Post('new')
   createLocation(@Body() createLocationDto: CreateLocationDto) {
     return this.createLocationUseCase.execute(createLocationDto);
   }
