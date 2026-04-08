@@ -85,6 +85,7 @@ export class UserTypeormRepository implements UserRepository {
             newUserEntity.usr_username += existingUsername;
         }
         const savedUser = await this.userRepository.save(newUserEntity);
+        console.log('Saved user:', savedUser);
         return new User(
             savedUser.usr_ci,
             savedUser.usr_firstName,
@@ -140,7 +141,10 @@ export class UserTypeormRepository implements UserRepository {
 
     }
     async login(email: string, password: string): Promise<User | null> {
-        const userFound = await this.userRepository.findOne({ where: { usr_email: email } });
+        const userFound = await this.userRepository.findOne({ where: [
+            { usr_email: email },
+            { usr_username: email }
+        ] });
         console.log('User found:', userFound);
         if (!userFound) {
             return null;
@@ -167,6 +171,8 @@ export class UserTypeormRepository implements UserRepository {
             userFound.usr_phone,
             userFound.usr_address,
             userFound.usr_city,
+            userFound.usr_username,
+            userFound.usr_id
         );
     }
     async resetPassword(user: User, email: string, newPassword: string): Promise<void> {

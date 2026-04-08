@@ -1,6 +1,7 @@
 export type LoginOutput = {
   strToken: string;
   user: {
+    intUserId: number;
     strCi: string;
     strFirstName: string;
     strLastName: string;

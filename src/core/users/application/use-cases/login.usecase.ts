@@ -23,6 +23,7 @@ export class LoginUseCase {
         return {
             strToken: this.jwtService.sign({ sub: user.intUserId, username: user.strUsername }),
             user: {
+                intUserId: user.intUserId || 0,
                 strCi: user.strCi,
                 strFirstName: user.strFirstName,
                 strLastName: user.strLastName,

@@ -1,4 +1,4 @@
-import { Module, Res } from '@nestjs/common';
+import { Module} from '@nestjs/common';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './infrastructure/persistence/typeorm/user.entity';
