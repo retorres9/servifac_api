@@ -8,6 +8,7 @@ import { CategoriesModule } from './core/categories/interface/categories/categor
 import { LocationModule } from './core/location/location.module';
 import { ProductModule } from './core/product/product.module';
 import { UserModule } from './core/users/user.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { UserModule } from './core/users/user.module';
       useFactory: (configService: ConfigService) =>
         TypeormConfig(configService),
     }),
+    ScheduleModule.forRoot(),
     CategoriesModule,
     LocationModule,
     ProductModule,
