@@ -3,7 +3,7 @@ export const PRODUCT_REPOSITORY = Symbol('PRODUCT_REPOSITORY');
 export interface ProductRepository {
   createProduct(product: Product): Promise<Product>;
   getProducts(param: string): Promise<Product[]>;
-  findByCode(strProductCode: number): Promise<Product | null>;
+  findByCode(strProductCode: string): Promise<Product | null>;
   getProductsInventory(criteria: string, tax: number): Promise<Product[]>;
   getProductWarnings(): Promise<boolean>;
   getProductMinimumStock(): Promise<Product[]>;

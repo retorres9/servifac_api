@@ -1,8 +1,8 @@
 import { IsNotEmpty, MinLength } from 'class-validator';
 
 export class CreateCategoryDto {
-  intId: number;
+  intId: number = 0;
   @IsNotEmpty()
   @MinLength(4)
-  strCategoryName: string;
+  strCategoryName!: string;
 }

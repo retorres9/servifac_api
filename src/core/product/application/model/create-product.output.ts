@@ -1,5 +1,4 @@
 export type CreateProductOutput = {
-  intProductId: number;
+  strProductId: string;
   strProductName: string;
-  decProductPrice: number;
 };

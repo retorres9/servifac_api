@@ -24,27 +24,16 @@ export class CreateProductUseCase {
     const product = new Product(
       productInput.strProductCode,
       productInput.strProductName,
-      productInput.dblPrice,
-      productInput.dblPvPrice,
-      productInput.dblRetailPrice,
-      productInput.intQuantityAvailable,
       productInput.intMinQuantity,
       productInput.intTypeOfTax,
       productInput.intIdLocation,
       productInput.intIdCategory
     );
 
-    product.dblPvPrice = product.getPrice(
-      productInput.dblPvPrice,
-      productInput.mnyProfitMargin,
-      productInput.intTypeOfTax
-    );
-
     const productOutput = await this.productRepository.createProduct(product);
     return {
-      intProductId: productOutput.strProductCode,
-      strProductName: productOutput.strProductName,
-      decProductPrice: productOutput.dblRetailPrice,
+      strProductId: productOutput.strProductCode,
+      strProductName: productOutput.strProductName
     };
   }
 }
