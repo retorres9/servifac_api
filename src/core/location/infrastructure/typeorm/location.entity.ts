@@ -1,5 +1,5 @@
 import { ProductEntity } from 'src/core/product/infrastructure/persistence/typeorm/product.entity';
-import { Column, Entity, ManyToMany, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class LocationEntity {
