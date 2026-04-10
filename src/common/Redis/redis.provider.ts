@@ -1,7 +1,7 @@
 import Redis from "ioredis"
 
 export const CreateRedisClient = () => {
-    new Redis(process.env.REDIS_URL || 'redis://localhost:6379');
+    return new Redis(process.env.REDIS_URL || 'redis://localhost:9777');
 }
 
 export const REDIS_CLIENT = 'REDIS_CLIENT';

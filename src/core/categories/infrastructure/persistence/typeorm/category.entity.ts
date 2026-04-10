@@ -1,6 +1,6 @@
 
 import { ProductEntity } from 'src/core/product/infrastructure/persistence/typeorm/product.entity';
-import { PrimaryGeneratedColumn, Column, Entity, ManyToMany, OneToMany } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
 export class CategoryEntity {

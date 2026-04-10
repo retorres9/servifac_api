@@ -1,15 +1,16 @@
-import { Inject } from "@nestjs/common";
+import { Inject, Optional } from "@nestjs/common";
 import { Parameter } from "./parameter.entity";
 import { MoreThan, Repository } from "typeorm";
 import { ParameterRepository } from "../../domain/repository/parameter.repository";
 import { ParameterEntity } from "../../domain/parameter.entity";
 import { REDIS_CLIENT } from "src/common/Redis/redis.provider";
+import { InjectRepository } from "@nestjs/typeorm";
 
 export class ParameterTypeOrmRepository implements ParameterRepository {
     constructor(
-        @Inject(REDIS_CLIENT)
+        @Inject(REDIS_CLIENT) @Optional()
         private readonly redisClient: any,
-        @Inject(Parameter)
+        @InjectRepository(Parameter)
         private readonly parameterRepository: Repository<Parameter>
     ) {}
 

@@ -9,6 +9,7 @@ import { LocationModule } from './core/location/location.module';
 import { ProductModule } from './core/product/product.module';
 import { UserModule } from './core/users/user.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ParameterModule } from './core/parameter/parameter.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { ScheduleModule } from '@nestjs/schedule';
     CategoriesModule,
     LocationModule,
     ProductModule,
-    UserModule
+    UserModule,
+    ParameterModule
   ],
   controllers: [AppController],
   providers: [AppService],
