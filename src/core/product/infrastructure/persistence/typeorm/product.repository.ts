@@ -23,7 +23,6 @@ export class ProductTypeormRespository implements ProductRepository {
     const newProductEntity = this.productRepository.create({
       prod_code: product.strProductCode,
       prod_name: product.strProductName,
-      prod_minQuantity: product.intMinQuantity,
       prod_typeOfTax: product.intTypeOfTax,
       location: { loc_id: product.intIdLocation },
       category: { cat_id: product.intIdCategory }

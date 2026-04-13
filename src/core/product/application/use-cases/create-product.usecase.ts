@@ -24,7 +24,6 @@ export class CreateProductUseCase {
     const product = new Product(
       productInput.strProductCode,
       productInput.strProductName,
-      productInput.intMinQuantity,
       productInput.intTypeOfTax,
       productInput.intIdLocation,
       productInput.intIdCategory
