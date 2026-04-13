@@ -10,6 +10,7 @@ import { ProductModule } from './core/product/product.module';
 import { UserModule } from './core/users/user.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ParameterModule } from './core/parameter/parameter.module';
+import { WarehouseModule } from './core/warehouse/warehouse.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { ParameterModule } from './core/parameter/parameter.module';
     LocationModule,
     ProductModule,
     UserModule,
-    ParameterModule
+    ParameterModule,
+    WarehouseModule
   ],
   controllers: [AppController],
   providers: [AppService],

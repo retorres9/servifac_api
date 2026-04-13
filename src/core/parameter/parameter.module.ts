@@ -18,6 +18,7 @@ import { Parameter } from "./infrastructure/typeorm/parameter.entity";
         useClass: ParameterTypeOrmRepository,
     },
     CreateParameterUseCase
-]
+    ],
+    exports: [PARAMETER_REPOSITORY]
 })
 export class ParameterModule {}

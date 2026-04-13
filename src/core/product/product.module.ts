@@ -6,8 +6,11 @@ import { PRODUCT_REPOSITORY } from './domain/repository/product.repository';
 import { ProductTypeormRespository } from './infrastructure/persistence/typeorm/product.repository';
 import { CreateProductUseCase } from './application/use-cases/create-product.usecase';
 
+
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductEntity])],
+  imports: [
+    TypeOrmModule.forFeature([ProductEntity])
+  ],
   controllers: [ProductController],
   providers: [{
     provide: PRODUCT_REPOSITORY,

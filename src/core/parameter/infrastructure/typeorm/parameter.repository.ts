@@ -1,12 +1,12 @@
 import { Inject, Optional } from "@nestjs/common";
 import { Parameter } from "./parameter.entity";
 import { MoreThan, Repository } from "typeorm";
-import { ParameterRepository } from "../../domain/repository/parameter.repository";
+import { IParameterRepository } from "../../domain/repository/parameter.repository";
 import { ParameterEntity } from "../../domain/parameter.entity";
 import { REDIS_CLIENT } from "src/common/Redis/redis.provider";
 import { InjectRepository } from "@nestjs/typeorm";
 
-export class ParameterTypeOrmRepository implements ParameterRepository {
+export class ParameterTypeOrmRepository implements IParameterRepository {
     constructor(
         @Inject(REDIS_CLIENT) @Optional()
         private readonly redisClient: any,
@@ -53,8 +53,21 @@ export class ParameterTypeOrmRepository implements ParameterRepository {
     async getParameters(): Promise<ParameterEntity[]> {
         throw new Error("Method not implemented.");
     }
-    async findParameter(createParameterDto:ParameterEntity): Promise<ParameterEntity | null> {
-        throw new Error("Method not implemented.");
+    async findParameterById(id: number): Promise<ParameterEntity | null> {
+        const parameter = await this.parameterRepository.findOne({ where: { prmId: id } });
+        if (!parameter) {
+            return null;
+        }
+        return new ParameterEntity(
+            parameter.prmId,
+            parameter.prmName,
+            parameter.prmNemonic,
+            parameter.prmValue,
+            parameter.prmDescription,
+            parameter.prmCreatedAt,
+            parameter.prmUpdatedAt,
+            parameter.prmIsActive
+        );
     }
 
 
