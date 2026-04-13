@@ -1,5 +1,6 @@
 import { CategoryEntity } from 'src/core/categories/infrastructure/persistence/typeorm/category.entity';
 import { LocationEntity } from 'src/core/location/infrastructure/typeorm/location.entity';
+import { Warehouse } from 'src/core/warehouseStock/infrastructure/typeorm/warehouse.entity';
 import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 
 @Entity()
@@ -34,11 +35,11 @@ export class ProductEntity {
   @Column({ type: 'smallint' })
   prod_typeOfTax!: number;
 
-  //@OneToMany(
-  //  (type) => WarehouseStock,
-  //  (warehouseStock) => warehouseStock.products
-  //)
-  //warehouseStock?: WarehouseStock[];
+  // @ManyToOne(
+  //  () => Warehouse,
+  //  (warehouse) => warehouse.product
+  // )
+  // warehouseStock?: Warehouse;
 
   @ManyToOne(() => CategoryEntity, (categories) => categories.cat_id, {
     eager: true,
