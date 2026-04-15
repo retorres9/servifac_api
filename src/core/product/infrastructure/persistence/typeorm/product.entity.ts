@@ -4,8 +4,15 @@ import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class ProductEntity {
-  @PrimaryColumn({ unique: true, type: 'varchar' })
-  prod_code!: string;
+
+  @PrimaryColumn()
+  prodId!: number;
+
+  @Column({ unique: true, type: 'varchar' })
+  prodBarcode!: string;
+
+  @Column({ unique: true, type: 'varchar', nullable: false })
+  prodCode!: string;
 
   @Column({ unique: true, nullable: false })
   prod_name!: string;
@@ -16,28 +23,13 @@ export class ProductEntity {
   @Column({ type: 'smallint' })
   prod_typeOfTax!: number;
 
-  // @ManyToOne(
-  //  () => Warehouse,
-  //  (warehouse) => warehouse.product
-  // )
-  // warehouseStock?: Warehouse;
-
   @ManyToOne(() => CategoryEntity, (categories) => categories.cat_id, {
     eager: true,
   })
   category!: CategoryEntity;
 
-  @ManyToOne(() => LocationEntity, (location) => location.loc_id, {
+  @ManyToOne(() => LocationEntity, (location) => location.locId, {
     eager: true,
   })
   location!: LocationEntity;
-
-  //@OneToMany((type) => SaleDetail, (saleDetail) => saleDetail.product)
-  //saleDetail: SaleDetail;
-
-  //@OneToMany(
-  //  (type) => ProductProvider,
-  //  (productProvider) => productProvider.ppr_product
-  //)
-  //ppr_provider: Product;
 }

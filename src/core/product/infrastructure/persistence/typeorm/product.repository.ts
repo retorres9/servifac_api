@@ -16,15 +16,15 @@ export class ProductTypeormRespository implements ProductRepository {
   }
 
   async createProduct(product: Product): Promise<Product> {
-    const productFound = await this.productRepository.findOne({ where: { prod_code: product.strProductCode } });
+    const productFound = await this.productRepository.findOne({ where: { prodBarcode: product.strProductCode } });
     if (productFound) {
       throw new BadRequestException('Product already exists');
     }
     const newProductEntity = this.productRepository.create({
-      prod_code: product.strProductCode,
+      prodBarcode: product.strProductCode,
       prod_name: product.strProductName,
       prod_typeOfTax: product.intTypeOfTax,
-      location: { loc_id: product.intIdLocation },
+      location: { locId: product.intIdLocation },
       category: { cat_id: product.intIdCategory }
     });
     const savedProduct = await this.productRepository.save(newProductEntity);
@@ -34,7 +34,7 @@ export class ProductTypeormRespository implements ProductRepository {
     throw new Error('Method not implemented.');
   }
   async findByCode(strProductCode: string): Promise<Product | null> {
-    const productFound = await this.productRepository.findOne({ where: { prod_code: strProductCode } });
+    const productFound = await this.productRepository.findOne({ where: { prodBarcode: strProductCode } });
     if (!productFound) {
       return null;
     }

@@ -4,7 +4,7 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 @Entity()
 export class LocationEntity {
   @PrimaryGeneratedColumn({ type: 'smallint' })
-  loc_id!: number;
+  locId!: number;
 
   @Column({ nullable: false })
   loc_name!: string;

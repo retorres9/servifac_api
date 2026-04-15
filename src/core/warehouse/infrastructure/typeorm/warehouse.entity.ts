@@ -1,5 +1,5 @@
 import { Parameter } from "src/core/parameter/infrastructure/typeorm/parameter.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Warehouse {
@@ -7,13 +7,15 @@ export class Warehouse {
     wrhId!: number;
 
     @Column({ nullable: false })
+    @Index({ unique: true })
     wrhName!: string;
 
     @Column({ nullable: false })
     wrhDescription!: string;
 
     @ManyToOne(() => Parameter, { eager: true })
-    wrhTypeOfWarehouse!: Parameter;
+    @JoinColumn({ name: 'wrhFkTypeOfWarehouse' })
+    wrhFkTypeOfWarehouse!: Parameter;
 
     @Column({ nullable: false })
     wrhAddress!: string;

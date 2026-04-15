@@ -14,12 +14,12 @@ export class LocationTypeormRepository implements LocationRepository {
       loc_name: createLocationDto.strLocationName,
     });
     const savedLocation = await this.locationRepository.save(newLocationEntity);
-    return new Location(savedLocation.loc_id, savedLocation.loc_name);
+    return new Location(savedLocation.locId, savedLocation.loc_name);
   }
   async getLocations(): Promise<Location[]> {
     const locations = await this.locationRepository.find();
     return locations.map(
-      (location) => new Location(location.loc_id, location.loc_name)
+      (location) => new Location(location.locId, location.loc_name)
     );
   }
   async findByName(createLocationDto: Location): Promise<Location | null> {
@@ -28,7 +28,7 @@ export class LocationTypeormRepository implements LocationRepository {
       where: { loc_name: name },
     });
     return LocationFound
-      ? new Location(LocationFound.loc_id, LocationFound.loc_name)
+      ? new Location(LocationFound.locId, LocationFound.loc_name)
       : null;
   }
 }
