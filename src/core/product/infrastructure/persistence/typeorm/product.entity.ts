@@ -1,6 +1,6 @@
 import { CategoryEntity } from 'src/core/categories/infrastructure/persistence/typeorm/category.entity';
 import { LocationEntity } from 'src/core/location/infrastructure/typeorm/location.entity';
-import { Column, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class ProductEntity {

@@ -1,12 +1,14 @@
 import { LocationEntity } from "src/core/location/infrastructure/typeorm/location.entity";
 import { ProductEntity } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
 import { Warehouse } from "src/core/warehouse/infrastructure/typeorm/warehouse.entity";
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-@Index(["wrsFkProductCode", "wrsFkWarehouseId"], { unique: true })
 @Index(["wrsFkProductCode", "wrsFkWarehouseId", "wrsFkLocationId"], { unique: true })
 export class WarehouseStock {
+    @PrimaryGeneratedColumn()
+    wrsId!: number;
+
     @ManyToOne(() => ProductEntity)
     @JoinColumn({ name: 'wrsFkProductCode' })
     wrsFkProductCode!: ProductEntity;
@@ -28,4 +30,18 @@ export class WarehouseStock {
     @JoinColumn({ name: 'wrsFkLocationId' })
     wrsFkLocationId!: LocationEntity;
 
+    @Column({type: 'money', nullable: false})
+    wrsCost!: number;
+
+    @Column({type: 'money', nullable: false})
+    wrsSalePrice!: number;
+
+    @Column({type: 'money', nullable: true})
+    wrsDiscountPrice!: number;
+
+    @Column({type: 'numeric', nullable: true})
+    wrsMinQuantity!: number;
+
+    @Column({type: 'numeric', nullable: true})
+    wrsMaxQuantity!: number;
 }
