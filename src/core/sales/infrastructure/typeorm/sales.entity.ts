@@ -12,7 +12,7 @@ export class Sales{
     @OneToMany(() => SalesLine, (line) => line.sllFkIdSales, { cascade: true, eager: true })
     salesLines!: SalesLine[];
 
-    @ManyToOne(() => Customer)
+    @ManyToOne(() => Customer, (customer) => customer.cusId)
     @JoinColumn({ name: 'salFkIdCustomer' })
     salFkIdCustomer!: Customer;
 

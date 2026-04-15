@@ -1,4 +1,5 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Sales } from "src/core/sales/infrastructure/typeorm/sales.entity";
+import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Customer {
@@ -20,4 +21,7 @@ export class Customer {
 
     @Column({ type: 'varchar', nullable: true })
     cusPhone?: string;
+
+    @OneToMany(() => Sales, (sales) => sales.salFkIdCustomer)
+    sales!: Sales[];
 }

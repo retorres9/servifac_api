@@ -1,5 +1,5 @@
-import { ProductEntity } from 'src/core/product/infrastructure/persistence/typeorm/product.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Warehouse } from 'src/core/warehouse/infrastructure/typeorm/warehouse.entity';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class LocationEntity {
@@ -7,8 +7,9 @@ export class LocationEntity {
   locId!: number;
 
   @Column({ nullable: false })
-  loc_name!: string;
+  locName!: string;
 
-  @OneToMany(() => ProductEntity, (product) => product.location)
-  products!: ProductEntity[];
+  @ManyToOne(() => Warehouse)
+  @JoinColumn({ name: 'locFkWarehouseId' })
+  locFkWarehouseId!: Warehouse;
 }

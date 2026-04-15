@@ -1,9 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Provider {
     @PrimaryGeneratedColumn()
     prvId!: number;
+
+    @Column({ type: 'varchar', nullable: false })
+    @Index({ unique: true })
+    prvRuc!: string;
+
+    @Column({ type: 'varchar', nullable: true })
+    prvBusinessName?: string;
 
     @Column({ type: 'varchar', nullable: false })
     prvName!: string;
