@@ -11,6 +11,11 @@ import { UserModule } from './core/users/user.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ParameterModule } from './core/parameter/parameter.module';
 import { WarehouseModule } from './core/warehouse/warehouse.module';
+import { ProviderModule } from './core/provider/provider.module';
+import { ProductProviderModule } from './core/productProvider/product-provider.module';
+import { StockMovementModule } from './core/stockMovement/stock-movement.module';
+import { WarehouseStockModule } from './core/warehouseStock/warehouse-stock.module';
+import { StockMovementLineModule } from './core/stockMovementLine/stock-movement-line.module';
 
 @Module({
   imports: [
@@ -29,7 +34,12 @@ import { WarehouseModule } from './core/warehouse/warehouse.module';
     ProductModule,
     UserModule,
     ParameterModule,
-    WarehouseModule
+    WarehouseModule,
+    ProviderModule,
+    ProductProviderModule,
+    StockMovementModule,
+    WarehouseStockModule,
+    StockMovementLineModule
   ],
   controllers: [AppController],
   providers: [AppService],

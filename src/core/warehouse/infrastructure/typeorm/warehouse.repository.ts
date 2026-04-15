@@ -15,7 +15,7 @@ export class WarehouseTypeormRepository implements IWarehouseRepository {
         const newWarehouse = this.warehouseRepository.create({
             wrhName: entry.strWarehouseName,
             wrhDescription: entry.strWarehouseDescription,
-            wrhTypeOfWarehouse: entry.intTypeOfWarehouse! ? { prmId: (entry.intTypeOfWarehouse as any).prmId ?? (entry.intTypeOfWarehouse as any).intId }
+            wrhFkTypeOfWarehouse: entry.intTypeOfWarehouse! ? { prmId: (entry.intTypeOfWarehouse as any).prmId ?? (entry.intTypeOfWarehouse as any).intId }
       : undefined,
             wrhAddress: entry.strWarehouseAddress
         });
@@ -23,12 +23,12 @@ export class WarehouseTypeormRepository implements IWarehouseRepository {
     }
 
     async getWarehouseEntries(): Promise<WarehouseEntity[]> {
-        const warehouses = await this.warehouseRepository.find({ relations: { wrhTypeOfWarehouse: true } });
+        const warehouses = await this.warehouseRepository.find({ relations: { wrhFkTypeOfWarehouse: true } });
         return warehouses.map(warehouse => ({
             intIdWarehouse: warehouse.wrhId,
             strWarehouseName: warehouse.wrhName,
             strWarehouseDescription: warehouse.wrhDescription,
-            intTypeOfWarehouse: warehouse.wrhTypeOfWarehouse as unknown as ParameterEntity,
+            intTypeOfWarehouse: warehouse.wrhFkTypeOfWarehouse as unknown as ParameterEntity,
             strWarehouseAddress: warehouse.wrhAddress
         }));
     }
@@ -42,26 +42,26 @@ export class WarehouseTypeormRepository implements IWarehouseRepository {
             intIdWarehouse: warehouse.wrhId,
             strWarehouseName: warehouse.wrhName,
             strWarehouseDescription: warehouse.wrhDescription,
-            intTypeOfWarehouse: warehouse.wrhTypeOfWarehouse as unknown as ParameterEntity,
+            intTypeOfWarehouse: warehouse.wrhFkTypeOfWarehouse as unknown as ParameterEntity,
             strWarehouseAddress: warehouse.wrhAddress
         };
     }
 
     async updateWarehouse(entry: WarehouseEntity): Promise<WarehouseEntity | null> {
-        const warehouse = await this.warehouseRepository.findOne({ where: { wrhId: entry.intIdWarehouse }, relations: { wrhTypeOfWarehouse: true } });
+        const warehouse = await this.warehouseRepository.findOne({ where: { wrhId: entry.intIdWarehouse }, relations: { wrhFkTypeOfWarehouse: true } });
         if (!warehouse) {
             return null;
         }
         warehouse.wrhName = entry.strWarehouseName;
         warehouse.wrhDescription = entry.strWarehouseDescription;
-        warehouse.wrhTypeOfWarehouse = entry.intTypeOfWarehouse! ? { prmId: (entry.intTypeOfWarehouse as any).prmId ?? (entry.intTypeOfWarehouse as any).intId } : undefined as any;
+        warehouse.wrhFkTypeOfWarehouse = entry.intTypeOfWarehouse! ? { prmId: (entry.intTypeOfWarehouse as any).prmId ?? (entry.intTypeOfWarehouse as any).intId } : undefined as any;
         warehouse.wrhAddress = entry.strWarehouseAddress;
         const updatedWarehouse = await this.warehouseRepository.save(warehouse);
         return {
             intIdWarehouse: updatedWarehouse.wrhId,
             strWarehouseName: updatedWarehouse.wrhName,
             strWarehouseDescription: updatedWarehouse.wrhDescription,
-            intTypeOfWarehouse: updatedWarehouse.wrhTypeOfWarehouse as unknown as ParameterEntity,
+            intTypeOfWarehouse: updatedWarehouse.wrhFkTypeOfWarehouse as unknown as ParameterEntity,
             strWarehouseAddress: updatedWarehouse.wrhAddress
         };
     }

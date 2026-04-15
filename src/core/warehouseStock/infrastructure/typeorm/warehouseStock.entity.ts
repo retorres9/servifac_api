@@ -4,16 +4,16 @@ import { Warehouse } from "src/core/warehouse/infrastructure/typeorm/warehouse.e
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 
 @Entity()
-@Index(["wrsFkProductCode", "wrsFkWarehouseStockCode"], { unique: true })
-@Index(["wrsFkProductCode", "wrsFkWarehouseStockCode", "wrsFkLocationId"], { unique: true })
+@Index(["wrsFkProductCode", "wrsFkWarehouseId"], { unique: true })
+@Index(["wrsFkProductCode", "wrsFkWarehouseId", "wrsFkLocationId"], { unique: true })
 export class WarehouseStock {
-    @ManyToOne(() => ProductEntity, (product) => product.prodBarcode)
+    @ManyToOne(() => ProductEntity)
     @JoinColumn({ name: 'wrsFkProductCode' })
-    product!: ProductEntity;
+    wrsFkProductCode!: ProductEntity;
 
-    @ManyToOne(() => Warehouse, (warehouse) => warehouse.wrhId)
+    @ManyToOne(() => Warehouse)
     @JoinColumn({ name: 'wrsFkWarehouseId' })
-    warehouseStock!: Warehouse;
+    wrsFkWarehouseId!: Warehouse;
 
     @Column({type: 'numeric', nullable: false})
     wrsQuantity!: number;
@@ -24,8 +24,8 @@ export class WarehouseStock {
     @Column({type: 'varchar', nullable: true})
     wrsUnityOfMeasure!: string;
 
-    @ManyToOne(() => LocationEntity, (location) => location.locId)
+    @ManyToOne(() => LocationEntity)
     @JoinColumn({ name: 'wrsFkLocationId' })
-    location!: LocationEntity;
+    wrsFkLocationId!: LocationEntity;
 
 }

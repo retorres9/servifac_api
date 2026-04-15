@@ -8,9 +8,6 @@ export class StockMovement {
     @PrimaryGeneratedColumn()
     stmId!: number;
 
-    @Column({ type: 'numeric', nullable: false })
-    stmQuantity!: number;
-
     @ManyToOne(() => Parameter, { eager: true })
     stmMovementType!: Parameter;
 
