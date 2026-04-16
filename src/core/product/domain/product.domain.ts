@@ -1,4 +1,4 @@
-export class Product {
+export class ProductDomain {
   constructor(
     public strProductCode: string,
     public strProductName: string,

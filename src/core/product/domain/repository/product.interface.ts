@@ -1,12 +1,12 @@
-import { Product } from '../product.entity';
+import { ProductDomain } from '../product.domain';
 export const PRODUCT_INTERFACE = Symbol('PRODUCT_INTERFACE');
 export interface IProduct {
-  createProduct(product: Product): Promise<Product>;
-  getProducts(param: string): Promise<Product[]>;
-  findByCode(strProductCode: string): Promise<Product | null>;
-  getProductsInventory(criteria: string, tax: number): Promise<Product[]>;
+  createProduct(product: ProductDomain): Promise<ProductDomain>;
+  getProducts(param: string): Promise<ProductDomain[]>;
+  findByCode(strProductCode: string): Promise<ProductDomain | null>;
+  getProductsInventory(criteria: string, tax: number): Promise<ProductDomain[]>;
   getProductWarnings(): Promise<boolean>;
-  getProductMinimumStock(): Promise<Product[]>;
+  getProductMinimumStock(): Promise<ProductDomain[]>;
   updateProductStock(
     strProductCode: number,
     intQuantityAvailable: number

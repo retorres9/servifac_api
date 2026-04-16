@@ -3,7 +3,7 @@ import { Location } from 'src/core/location/infrastructure/typeorm/location.enti
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class ProductEntity {
+export class Product {
 
   @PrimaryGeneratedColumn()
   prodId!: number;

@@ -1,21 +1,21 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProductEntity } from './product.entity';
+import { Product } from './product.entity';
 import { Repository } from 'typeorm';
 import { IProduct } from 'src/core/product/domain/repository/product.interface';
-import { Product } from 'src/core/product/domain/product.entity';
+import { ProductDomain } from 'src/core/product/domain/product.domain';
 import { BadRequestException } from '@nestjs/common';
 
 export class ProductTypeormRespository implements IProduct {
   constructor(
-    @InjectRepository(ProductEntity)
-    private readonly productRepository: Repository<ProductEntity>
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>
   ) {}
 
-  private mapToDomainEntity(productEntity: ProductEntity): Product {
-    return (productEntity as unknown) as Product;
+  private mapToDomainEntity(productEntity: Product): ProductDomain {
+    return (productEntity as unknown) as ProductDomain;
   }
 
-  async createProduct(product: Product): Promise<Product> {
+  async createProduct(product: ProductDomain): Promise<ProductDomain> {
     const productFound = await this.productRepository.findOne({ where: { prodBarcode: product.strProductCode } });
     if (productFound) {
       throw new BadRequestException('Product already exists');
@@ -30,23 +30,23 @@ export class ProductTypeormRespository implements IProduct {
     const savedProduct = await this.productRepository.save(newProductEntity);
     return this.mapToDomainEntity(savedProduct);
   }
-  getProducts(param: string): Promise<Product[]> {
+  getProducts(param: string): Promise<ProductDomain[]> {
     throw new Error('Method not implemented.');
   }
-  async findByCode(strProductCode: string): Promise<Product | null> {
+  async findByCode(strProductCode: string): Promise<ProductDomain | null> {
     const productFound = await this.productRepository.findOne({ where: { prodBarcode: strProductCode } });
     if (!productFound) {
       return null;
     }
     return this.mapToDomainEntity(productFound);
   }
-  getProductsInventory(criteria: string, tax: number): Promise<Product[]> {
+  getProductsInventory(criteria: string, tax: number): Promise<ProductDomain[]> {
     throw new Error('Method not implemented.');
   }
   getProductWarnings(): Promise<boolean> {
     throw new Error('Method not implemented.');
   }
-  getProductMinimumStock(): Promise<Product[]> {
+  getProductMinimumStock(): Promise<ProductDomain[]> {
     throw new Error('Method not implemented.');
   }
   updateProductStock(strProductCode: number, intQuantityAvailable: number): Promise<void> {

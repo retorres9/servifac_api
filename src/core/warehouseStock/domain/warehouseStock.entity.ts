@@ -1,4 +1,4 @@
-export class WarehouseStockEntity {
+export class WarehouseStockDomain {
     constructor(
         public strProductCode: string,
         public intWarehouseId: number,

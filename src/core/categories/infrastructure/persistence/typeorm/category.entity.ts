@@ -1,5 +1,5 @@
 
-import { ProductEntity } from 'src/core/product/infrastructure/persistence/typeorm/product.entity';
+import { Product } from 'src/core/product/infrastructure/persistence/typeorm/product.entity';
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
@@ -10,6 +10,6 @@ export class Category {
   @Column({ nullable: false })
   cat_name!: string;
 
-  @OneToMany(() => ProductEntity, (product) => product.category)
-  products!: ProductEntity[];
+  @OneToMany(() => Product, (product) => product.category)
+  products!: Product[];
 }

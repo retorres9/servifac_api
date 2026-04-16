@@ -1,4 +1,4 @@
-import { ProductEntity } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
+import { Product } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
 import { StockMovement } from "src/core/stockMovement/infrastructure/typeorm/stock-movement.entity";
 import { Warehouse } from "src/core/warehouse/infrastructure/typeorm/warehouse.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -12,9 +12,9 @@ export class StockMovementLine {
     @JoinColumn({ name: 'smlFkMovementId' })
     smlFkMovementId!: StockMovement;
 
-    @ManyToOne(() => ProductEntity, (product) => product.prodId)
+    @ManyToOne(() => Product, (product) => product.prodId)
     @JoinColumn({ name: 'smlFkProductId' })
-    smlFkProductId!: ProductEntity;
+    smlFkProductId!: Product;
 
     @ManyToOne(() => Warehouse, (warehouse) => warehouse.wrhId)
     @JoinColumn({ name: 'smlFkWarehouseId' })

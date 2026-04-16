@@ -1,4 +1,4 @@
-import { ProductEntity } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
+import { Product } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
 import { Provider } from "src/core/provider/infrastructure/typeorm/provider.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -7,9 +7,9 @@ export class ProductProvider {
     @PrimaryGeneratedColumn()
     prpId!: number;
 
-    @ManyToOne(() => ProductEntity, (product) => product.prodId)
+    @ManyToOne(() => Product, (product) => product.prodId)
     @JoinColumn({ name: 'pprFkProductId' })
-    pprFkProductId!: ProductEntity;
+    pprFkProductId!: Product;
 
     @ManyToOne(() => Provider, (provider) => provider.prvId)
     @JoinColumn({ name: 'pprFkProviderId' })

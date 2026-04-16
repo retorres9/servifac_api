@@ -1,5 +1,5 @@
 import { Location } from "src/core/location/infrastructure/typeorm/location.entity";
-import { ProductEntity } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
+import { Product } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
 import { Warehouse } from "src/core/warehouse/infrastructure/typeorm/warehouse.entity";
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
@@ -9,9 +9,9 @@ export class WarehouseStock {
     @PrimaryGeneratedColumn()
     wrsId!: number;
 
-    @ManyToOne(() => ProductEntity)
+    @ManyToOne(() => Product)
     @JoinColumn({ name: 'wrsFkProductCode' })
-    wrsFkProductCode!: ProductEntity;
+    wrsFkProductCode!: Product;
 
     @ManyToOne(() => Warehouse)
     @JoinColumn({ name: 'wrsFkWarehouseId' })

@@ -3,7 +3,7 @@ import { PRODUCT_INTERFACE } from '../../domain/repository/product.interface';
 import type { IProduct } from '../../domain/repository/product.interface';
 import { CreateProductOutput } from '../model/create-product.output';
 import { CreateProductInput } from '../model/create-product.input';
-import { Product } from '../../domain/product.entity';
+import { ProductDomain } from '../../domain/product.domain';
 
 export class CreateProductUseCase {
   constructor(
@@ -21,7 +21,7 @@ export class CreateProductUseCase {
       throw new BadRequestException('Product already exists');
     }
 
-    const product = new Product(
+    const product = new ProductDomain(
       productInput.strProductCode,
       productInput.strProductName,
       productInput.intTypeOfTax,

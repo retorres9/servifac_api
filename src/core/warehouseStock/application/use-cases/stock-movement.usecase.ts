@@ -1,12 +1,12 @@
-import { WAREHOUSE_REPOSITORY, type WarehouseRepository } from "../../domain/repository/warehouseStock.repository";
+import { WAREHOUSE_INTERFACE, type IWarehouseStock } from "../../domain/repository/warehouseStock.interface";
 import { BadRequestException, Inject, NotImplementedException } from "@nestjs/common";
 import { StockMovementInput } from "../model/stock-movement.input";
-import { WarehouseStockEntity } from "../../domain/warehouseStock.entity";
+import { WarehouseStockDomain } from "../../domain/warehouseStock.entity";
 
 export class StockMovementUseCase {
     constructor(
-        @Inject(WAREHOUSE_REPOSITORY)
-        private readonly warehouseRepository: WarehouseRepository
+        @Inject(WAREHOUSE_INTERFACE)
+        private readonly warehouseRepository: IWarehouseStock
     ) {}
 
     async execute(stockMovementInput: StockMovementInput): Promise<void> {
@@ -14,7 +14,7 @@ export class StockMovementUseCase {
         // if (billId) {
         //     throw new BadRequestException('La factura ya ha sido ingresada en el sistema');
         // }
-        // const entity: WarehouseStockEntity = {
+        // const entity: WarehouseStockDomain = {
         //     strProductCode: stockMovementInput.productCode,
         //     intQuantity: stockMovementInput.quantity,
         //     intLocationId: stockMovementInput.locationId,

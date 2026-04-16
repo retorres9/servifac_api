@@ -1,4 +1,4 @@
-import { ProductEntity } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
+import { Product } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
 import { Sales } from "src/core/sales/infrastructure/typeorm/sales.entity";
 import { Warehouse } from "src/core/warehouse/infrastructure/typeorm/warehouse.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -12,9 +12,9 @@ export class SalesLine {
     @JoinColumn({ name: 'sllFkIdSales' })
     sllFkIdSales!: Sales;
 
-    @ManyToOne(() => ProductEntity)
+    @ManyToOne(() => Product)
     @JoinColumn({ name: 'sllFkIdProduct' })
-    sllFkIdProduct!: ProductEntity;
+    sllFkIdProduct!: Product;
 
     @ManyToOne(() => Warehouse)
     @JoinColumn({ name: 'sllFkIdWarehouse' })
