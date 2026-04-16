@@ -31,9 +31,6 @@ export class WarehouseStock {
     wrsFkLocationId!: Location;
 
     @Column({type: 'money', nullable: false})
-    wrsCost!: number;
-
-    @Column({type: 'money', nullable: false})
     wrsSalePrice!: number;
 
     @Column({type: 'money', nullable: true})

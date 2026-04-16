@@ -1,12 +1,14 @@
-import { WarehouseStockDomain } from "../warehouseStock.entity";
+import { WarehouseStockDomain } from "../warehouseStock.domain";
 
 export const WAREHOUSE_INTERFACE = Symbol('WAREHOUSE_INTERFACE');
 
 export interface IWarehouseStock {
-    getBillId(billId: string): Promise<string>;
-    createWarehouseEntry(entry: WarehouseStockDomain): Promise<WarehouseStockDomain>;
-    getWarehouseEntries(): Promise<WarehouseStockDomain[]>;
-    findByProductCode(productCode: string): Promise<WarehouseStockDomain[]>;
-    findByLocationId(locationId: number): Promise<WarehouseStockDomain[]>;
-    findByDateRange(startDate: Date, endDate: Date): Promise<WarehouseStockDomain[]>;
+    addStock(entry: WarehouseStockDomain): Promise<WarehouseStockDomain>;
+    getStockByProduct(productId: number): Promise<WarehouseStockDomain[]>;
+    getStockByWarehouse(warehouseId: number): Promise<WarehouseStockDomain[]>;
+    getStockByProductAndWarehouse(productId: number, warehouseId: number): Promise<WarehouseStockDomain[]>;
+    updStock(productId: number, warehouseId: number, newQty: number): Promise<WarehouseStockDomain>;
+    updStockPrices(productId: number, warehouseId: number, newPrice: number): Promise<WarehouseStockDomain>;
+
+    //! TODO: Add methods for getLowStock, getStockByLocation, updateMinMax, reserveStock, releaseReservation.
 }
