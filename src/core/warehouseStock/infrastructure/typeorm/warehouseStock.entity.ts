@@ -1,4 +1,4 @@
-import { LocationEntity } from "src/core/location/infrastructure/typeorm/location.entity";
+import { Location } from "src/core/location/infrastructure/typeorm/location.entity";
 import { ProductEntity } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
 import { Warehouse } from "src/core/warehouse/infrastructure/typeorm/warehouse.entity";
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
@@ -26,9 +26,9 @@ export class WarehouseStock {
     @Column({type: 'varchar', nullable: true})
     wrsUnityOfMeasure!: string;
 
-    @ManyToOne(() => LocationEntity)
+    @ManyToOne(() => Location)
     @JoinColumn({ name: 'wrsFkLocationId' })
-    wrsFkLocationId!: LocationEntity;
+    wrsFkLocationId!: Location;
 
     @Column({type: 'money', nullable: false})
     wrsCost!: number;

@@ -1,5 +1,5 @@
 import { Category } from 'src/core/categories/infrastructure/persistence/typeorm/category.entity';
-import { LocationEntity } from 'src/core/location/infrastructure/typeorm/location.entity';
+import { Location } from 'src/core/location/infrastructure/typeorm/location.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -28,8 +28,8 @@ export class ProductEntity {
   })
   category!: Category;
 
-  @ManyToOne(() => LocationEntity, (location) => location.locId, {
+  @ManyToOne(() => Location, (location) => location.locId, {
     eager: true,
   })
-  location!: LocationEntity;
+  location!: Location;
 }

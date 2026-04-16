@@ -1,13 +1,13 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LocationEntity } from './location.entity';
+import { Location } from './location.entity';
 import { ILocation } from '../../domain/repository/location.interface';
 import { LocationDomain } from '../../domain/location.domain';
 
 export class LocationTypeormRepository implements ILocation {
   constructor(
-    @InjectRepository(LocationEntity)
-    private readonly locationRepository: Repository<LocationEntity>
+    @InjectRepository(Location)
+    private readonly locationRepository: Repository<Location>
   ) {}
   async createLocation(createLocationDto: LocationDomain): Promise<LocationDomain> {
     const newLocationEntity = this.locationRepository.create({

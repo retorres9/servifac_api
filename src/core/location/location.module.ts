@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
 import { LocationController } from './interface/presentation/http/location.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { LocationEntity } from './infrastructure/typeorm/location.entity';
+import { Location } from './infrastructure/typeorm/location.entity';
 import { LOCATION_INTERFACE } from './domain/repository/location.interface';
 import { LocationTypeormRepository } from './infrastructure/typeorm/location.repository';
 import { CreateLocationUseCase } from './application/use-cases/create-location.usecase';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([LocationEntity])],
+  imports: [TypeOrmModule.forFeature([Location])],
   controllers: [LocationController],
   providers: [
     { provide: LOCATION_INTERFACE, useClass: LocationTypeormRepository },

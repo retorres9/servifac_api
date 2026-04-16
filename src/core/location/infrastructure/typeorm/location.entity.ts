@@ -2,7 +2,7 @@ import { Warehouse } from 'src/core/warehouse/infrastructure/typeorm/warehouse.e
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class LocationEntity {
+export class Location {
   @PrimaryGeneratedColumn({ type: 'smallint' })
   locId!: number;
 
