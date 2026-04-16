@@ -1,10 +1,10 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { Provider } from "./provider.entity";
-import { IProviderInterface } from "../../domain/repository/provider.interface";
+import { IProvider } from "../../domain/repository/provider.interface";
 import { ProviderDomain } from "../../domain/provider.domain";
 import { Repository } from "typeorm";
 
-export class ProviderRepository implements IProviderInterface {
+export class ProviderRepository implements IProvider {
     constructor(
         @InjectRepository(Provider)
         private readonly providerRepository: Repository<Provider>

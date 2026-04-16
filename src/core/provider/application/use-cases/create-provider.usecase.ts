@@ -1,11 +1,11 @@
 import { BadRequestException, Inject } from "@nestjs/common";
-import { type IProviderInterface, PROVIDER_REPOSITORY } from "../../domain/repository/provider.interface";
+import { type IProvider, PROVIDER_INTERFACE } from "../../domain/repository/provider.interface";
 import { ProviderDomain } from "../../domain/provider.domain";
 import { CreateProviderInput } from "../model/create-provider.input";
 
 export class CreateProviderUseCase {
     constructor(
-        @Inject(PROVIDER_REPOSITORY) private readonly providerRepository: IProviderInterface
+        @Inject(PROVIDER_INTERFACE) private readonly providerRepository: IProvider
     ) {}
 
     async execute(entry: CreateProviderInput): Promise<ProviderDomain> {
