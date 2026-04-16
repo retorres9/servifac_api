@@ -1,16 +1,16 @@
 import { DeepPartial, Repository } from "typeorm";
-import { IWarehouseRepository } from "../../domain/repository/warehouse.repository";
-import { WarehouseEntity } from "../../domain/warehouse.entity";
+import { IWarehouse } from "../../domain/repository/warehouse.interface";
+import { WarehouseDomain } from "../../domain/warehouse.domain";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Warehouse } from "./warehouse.entity";
 import { ParameterEntity } from "src/core/parameter/domain/parameter.entity";
 
-export class WarehouseTypeormRepository implements IWarehouseRepository {
+export class WarehouseTypeormRepository implements IWarehouse {
     constructor(
         @InjectRepository(Warehouse)
         private readonly warehouseRepository: Repository<Warehouse>
     ) {}
-    async createWarehouseEntry(entry: DeepPartial<WarehouseEntity>): Promise<void> {
+    async createWarehouseEntry(entry: DeepPartial<WarehouseDomain>): Promise<void> {
 
         const newWarehouse = this.warehouseRepository.create({
             wrhName: entry.strWarehouseName,
@@ -22,7 +22,7 @@ export class WarehouseTypeormRepository implements IWarehouseRepository {
         await this.warehouseRepository.save(newWarehouse);
     }
 
-    async getWarehouseEntries(): Promise<WarehouseEntity[]> {
+    async getWarehouseEntries(): Promise<WarehouseDomain[]> {
         const warehouses = await this.warehouseRepository.find({ relations: { wrhFkTypeOfWarehouse: true } });
         return warehouses.map(warehouse => ({
             intIdWarehouse: warehouse.wrhId,
@@ -33,7 +33,7 @@ export class WarehouseTypeormRepository implements IWarehouseRepository {
         }));
     }
 
-    async getWarehouseEntryByName(name: string): Promise<WarehouseEntity | null> {
+    async getWarehouseEntryByName(name: string): Promise<WarehouseDomain | null> {
         const warehouse = await this.warehouseRepository.findOne({ where: { wrhName: name } });
         if (!warehouse) {
             return null;
@@ -47,7 +47,7 @@ export class WarehouseTypeormRepository implements IWarehouseRepository {
         };
     }
 
-    async updateWarehouse(entry: WarehouseEntity): Promise<WarehouseEntity | null> {
+    async updateWarehouse(entry: WarehouseDomain): Promise<WarehouseDomain | null> {
         const warehouse = await this.warehouseRepository.findOne({ where: { wrhId: entry.intIdWarehouse }, relations: { wrhFkTypeOfWarehouse: true } });
         if (!warehouse) {
             return null;

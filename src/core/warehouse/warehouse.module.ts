@@ -2,7 +2,7 @@ import { Module } from "@nestjs/common";
 import { WarehouseController } from "./interface/controllers/warehouse.controller";
 import { Warehouse } from "./infrastructure/typeorm/warehouse.entity";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { WAREHOUSE_REPOSITORY } from "./domain/repository/warehouse.repository";
+import { WAREHOUSE_INTERFACE } from "./domain/repository/warehouse.interface";
 import { WarehouseTypeormRepository } from "./infrastructure/typeorm/warehouse.repository";
 import { CreateWarehouseUseCase } from "./application/use-cases/create-warehouse.usecase";
 import { ParameterModule } from "../parameter/parameter.module";
@@ -14,9 +14,10 @@ import { ParameterModule } from "../parameter/parameter.module";
     ],
     controllers: [WarehouseController],
     providers: [{
-        provide: WAREHOUSE_REPOSITORY,
+        provide: WAREHOUSE_INTERFACE,
         useClass: WarehouseTypeormRepository
     },
-    CreateWarehouseUseCase]
+    CreateWarehouseUseCase],
+    exports: [CreateWarehouseUseCase]
 })
 export class WarehouseModule {}

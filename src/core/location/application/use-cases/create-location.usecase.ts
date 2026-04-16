@@ -1,13 +1,13 @@
 import { BadRequestException, Inject } from '@nestjs/common';
-import { LOCATION_REPOSITORY } from '../../domain/repository/location.repository';
-import type { LocationRepository } from '../../domain/repository/location.repository';
+import { LOCATION_INTERFACE } from '../../domain/repository/location.interface';
+import type { ILocation } from '../../domain/repository/location.interface';
 import type { CreateLocationInput } from '../model/create-location.input';
 import type { CreateLocationOutput } from '../model/create-location.output';
 
 export class CreateLocationUseCase {
   constructor(
-    @Inject(LOCATION_REPOSITORY)
-    private readonly locationRepository: LocationRepository
+    @Inject(LOCATION_INTERFACE)
+    private readonly locationRepository: ILocation
   ) {}
 
   async execute(

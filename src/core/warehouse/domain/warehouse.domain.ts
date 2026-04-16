@@ -1,6 +1,6 @@
 import { ParameterEntity } from "src/core/parameter/domain/parameter.entity";
 
-export class WarehouseEntity {
+export class WarehouseDomain {
     constructor(
         public intIdWarehouse: number,
         public strWarehouseName: string,

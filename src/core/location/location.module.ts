@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { LocationController } from './interface/presentation/http/location.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { LocationEntity } from './infrastructure/typeorm/location.entity';
-import { LOCATION_REPOSITORY } from './domain/repository/location.repository';
+import { LOCATION_INTERFACE } from './domain/repository/location.interface';
 import { LocationTypeormRepository } from './infrastructure/typeorm/location.repository';
 import { CreateLocationUseCase } from './application/use-cases/create-location.usecase';
 
@@ -10,7 +10,7 @@ import { CreateLocationUseCase } from './application/use-cases/create-location.u
   imports: [TypeOrmModule.forFeature([LocationEntity])],
   controllers: [LocationController],
   providers: [
-    { provide: LOCATION_REPOSITORY, useClass: LocationTypeormRepository },
+    { provide: LOCATION_INTERFACE, useClass: LocationTypeormRepository },
     CreateLocationUseCase,
   ],
 })

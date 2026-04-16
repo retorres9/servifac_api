@@ -5,4 +5,7 @@ export class CreateLocationDto {
   @IsNotEmpty()
   @MinLength(4)
   strLocationName!: string;
+
+  @IsNotEmpty()
+  intWarehouse: number = 0;
 }
