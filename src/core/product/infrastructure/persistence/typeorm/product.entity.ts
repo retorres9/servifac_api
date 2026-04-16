@@ -1,4 +1,4 @@
-import { CategoryEntity } from 'src/core/categories/infrastructure/persistence/typeorm/category.entity';
+import { Category } from 'src/core/categories/infrastructure/persistence/typeorm/category.entity';
 import { LocationEntity } from 'src/core/location/infrastructure/typeorm/location.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -23,10 +23,10 @@ export class ProductEntity {
   @Column({ type: 'smallint' })
   prod_typeOfTax!: number;
 
-  @ManyToOne(() => CategoryEntity, (categories) => categories.cat_id, {
+  @ManyToOne(() => Category, (categories) => categories.cat_id, {
     eager: true,
   })
-  category!: CategoryEntity;
+  category!: Category;
 
   @ManyToOne(() => LocationEntity, (location) => location.locId, {
     eager: true,

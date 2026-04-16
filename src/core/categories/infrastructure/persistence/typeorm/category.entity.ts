@@ -3,7 +3,7 @@ import { ProductEntity } from 'src/core/product/infrastructure/persistence/typeo
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 @Entity()
-export class CategoryEntity {
+export class Category {
   @PrimaryGeneratedColumn({ type: 'smallint' })
   cat_id!: number;
 

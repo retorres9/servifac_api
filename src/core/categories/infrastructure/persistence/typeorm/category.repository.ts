@@ -1,5 +1,5 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { CategoryEntity } from './category.entity';
+import { Category } from './category.entity';
 import { CategoryDomain } from 'src/core/categories/domain/category.domain';
 import { Repository } from 'typeorm';
 import { ICategory } from 'src/core/categories/domain/repository/category.interface';
@@ -7,8 +7,8 @@ import { CreateCategoryInput } from 'src/core/categories/application/models/crea
 
 export class CategoryTypeormRepository implements ICategory {
   constructor(
-    @InjectRepository(CategoryEntity)
-    private readonly categoryRepository: Repository<CategoryEntity>
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>
   ) {}
 
   async findByName(
