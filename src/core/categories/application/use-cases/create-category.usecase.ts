@@ -1,13 +1,13 @@
 import { BadRequestException, Inject } from '@nestjs/common';
-import { CATEGORY_REPOSITORY } from '../../domain/repository/category.repository';
-import type { CategoryRepository } from '../../domain/repository/category.repository';
+import { CATEGORY_INTERFACE } from '../../domain/repository/category.interface';
+import type { ICategory } from '../../domain/repository/category.interface';
 import type { CreateCategoryInput } from '../models/create-category.input';
 import { CreateCategoryOutput } from '../models/create-category.output';
 
 export class CreateCategoryUseCase {
   constructor(
-    @Inject(CATEGORY_REPOSITORY)
-    private readonly categoryRepository: CategoryRepository
+    @Inject(CATEGORY_INTERFACE)
+    private readonly categoryRepository: ICategory
   ) {}
 
   async execute(

@@ -1,6 +1,6 @@
 import { ProductEntity } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
 import { Provider } from "src/core/provider/infrastructure/typeorm/provider.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class ProductProvider {
