@@ -1,7 +1,7 @@
 import { Inject, OnApplicationBootstrap } from "@nestjs/common";
 import Redis from "ioredis";
-import { PARAMETER_REPOSITORY } from "src/core/parameter/domain/repository/parameter.repository";
-import type { IParameterRepository } from "src/core/parameter/domain/repository/parameter.repository";
+import { PARAMETER_INTERFACE } from "src/core/parameter/domain/repository/parameter.interface";
+import type { IParameter } from "src/core/parameter/domain/repository/parameter.interface";
 
 export class ParameterService implements OnApplicationBootstrap {
     private readonly cache = new Map<string, string>();
@@ -12,8 +12,8 @@ export class ParameterService implements OnApplicationBootstrap {
     constructor(
         @Inject('REDIS_CLIENT')
         private readonly redisClient: Redis,
-        @Inject(PARAMETER_REPOSITORY)
-        private readonly parameterRepository: IParameterRepository
+        @Inject(PARAMETER_INTERFACE)
+        private readonly parameterRepository: IParameter
     ) {}
 
     async onApplicationBootstrap() {

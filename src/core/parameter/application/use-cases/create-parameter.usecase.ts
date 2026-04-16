@@ -1,12 +1,12 @@
 import { BadRequestException, Inject } from "@nestjs/common";
-import { PARAMETER_REPOSITORY } from "../../domain/repository/parameter.repository";
-import type { IParameterRepository } from "../../domain/repository/parameter.repository";
+import { PARAMETER_INTERFACE } from "../../domain/repository/parameter.interface";
+import type { IParameter } from "../../domain/repository/parameter.interface";
 import { CreateParameterInput } from "../model/create-parameter.input";
 
 export class CreateParameterUseCase {
   constructor(
-    @Inject(PARAMETER_REPOSITORY)
-    private readonly parameterRepository: IParameterRepository
+    @Inject(PARAMETER_INTERFACE)
+    private readonly parameterRepository: IParameter
   ) {
     
   }

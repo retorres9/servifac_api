@@ -3,7 +3,7 @@ import { IWarehouse } from "../../domain/repository/warehouse.interface";
 import { WarehouseDomain } from "../../domain/warehouse.domain";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Warehouse } from "./warehouse.entity";
-import { ParameterEntity } from "src/core/parameter/domain/parameter.entity";
+import { ParameterDomain } from "src/core/parameter/domain/parameter.domain";
 
 export class WarehouseTypeormRepository implements IWarehouse {
     constructor(
@@ -28,7 +28,7 @@ export class WarehouseTypeormRepository implements IWarehouse {
             intIdWarehouse: warehouse.wrhId,
             strWarehouseName: warehouse.wrhName,
             strWarehouseDescription: warehouse.wrhDescription,
-            intTypeOfWarehouse: warehouse.wrhFkTypeOfWarehouse as unknown as ParameterEntity,
+            intTypeOfWarehouse: warehouse.wrhFkTypeOfWarehouse.prmId,
             strWarehouseAddress: warehouse.wrhAddress
         }));
     }
@@ -42,7 +42,7 @@ export class WarehouseTypeormRepository implements IWarehouse {
             intIdWarehouse: warehouse.wrhId,
             strWarehouseName: warehouse.wrhName,
             strWarehouseDescription: warehouse.wrhDescription,
-            intTypeOfWarehouse: warehouse.wrhFkTypeOfWarehouse as unknown as ParameterEntity,
+            intTypeOfWarehouse: warehouse.wrhFkTypeOfWarehouse.prmId,
             strWarehouseAddress: warehouse.wrhAddress
         };
     }
@@ -54,14 +54,14 @@ export class WarehouseTypeormRepository implements IWarehouse {
         }
         warehouse.wrhName = entry.strWarehouseName;
         warehouse.wrhDescription = entry.strWarehouseDescription;
-        warehouse.wrhFkTypeOfWarehouse = entry.intTypeOfWarehouse! ? { prmId: (entry.intTypeOfWarehouse as any).prmId ?? (entry.intTypeOfWarehouse as any).intId } : undefined as any;
+        warehouse.wrhFkTypeOfWarehouse = entry.intTypeOfWarehouse! ? { prmId: entry.intTypeOfWarehouse } : undefined as any;
         warehouse.wrhAddress = entry.strWarehouseAddress;
         const updatedWarehouse = await this.warehouseRepository.save(warehouse);
         return {
             intIdWarehouse: updatedWarehouse.wrhId,
             strWarehouseName: updatedWarehouse.wrhName,
             strWarehouseDescription: updatedWarehouse.wrhDescription,
-            intTypeOfWarehouse: updatedWarehouse.wrhFkTypeOfWarehouse as unknown as ParameterEntity,
+            intTypeOfWarehouse: updatedWarehouse.wrhFkTypeOfWarehouse.prmId,
             strWarehouseAddress: updatedWarehouse.wrhAddress
         };
     }

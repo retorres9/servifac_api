@@ -3,14 +3,14 @@ import { WAREHOUSE_INTERFACE, type IWarehouse } from "../../domain/repository/wa
 import { CreateWarehouseInput } from "../model/create-warehosue.input";
 import { WarehouseDomain } from "../../domain/warehouse.domain";
 import { DeepPartial } from "typeorm";
-import { type IParameterRepository, PARAMETER_REPOSITORY } from "src/core/parameter/domain/repository/parameter.repository";
+import { type IParameter, PARAMETER_INTERFACE } from "src/core/parameter/domain/repository/parameter.interface";
 
 export class CreateWarehouseUseCase {
     constructor(
         @Inject(WAREHOUSE_INTERFACE)
         private readonly warehouseRepository: IWarehouse,
-        @Inject(PARAMETER_REPOSITORY)
-        private readonly parameterRepository: IParameterRepository
+        @Inject(PARAMETER_INTERFACE)
+        private readonly parameterRepository: IParameter
     ) {}
 
     async execute(input: CreateWarehouseInput): Promise<void> {
@@ -26,7 +26,7 @@ export class CreateWarehouseUseCase {
         const warehouseEntity: DeepPartial<WarehouseDomain> = {
             strWarehouseName: input.strWarehouseName,
             strWarehouseDescription: input.strWarehouseDescription,
-            intTypeOfWarehouse: typeOfWarehouse,
+            intTypeOfWarehouse: input.intTypeOfWarehouse,
             strWarehouseAddress: input.strWarehouseAddress
         };
         await this.warehouseRepository.createWarehouseEntry(warehouseEntity);

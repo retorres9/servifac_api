@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { ParameterController } from "./interface/controllers/parameter.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { PARAMETER_REPOSITORY } from "./domain/repository/parameter.repository";
+import { PARAMETER_INTERFACE } from "./domain/repository/parameter.interface";
 import { ParameterTypeOrmRepository } from "./infrastructure/typeorm/parameter.repository";
 import { CreateParameterUseCase } from "./application/use-cases/create-parameter.usecase";
 import { RedisModule } from "src/common/Redis/redis.module";
@@ -14,11 +14,11 @@ import { Parameter } from "./infrastructure/typeorm/parameter.entity";
     ],
     controllers: [ParameterController],
     providers: [{
-        provide: PARAMETER_REPOSITORY,
+        provide: PARAMETER_INTERFACE,
         useClass: ParameterTypeOrmRepository,
     },
     CreateParameterUseCase
     ],
-    exports: [PARAMETER_REPOSITORY]
+    exports: [PARAMETER_INTERFACE]
 })
 export class ParameterModule {}

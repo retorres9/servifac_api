@@ -1,4 +1,4 @@
-export class ParameterEntity {
+export class ParameterDomain {
     constructor(
         public intId: number,
         public strName: string,
