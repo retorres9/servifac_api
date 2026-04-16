@@ -2,7 +2,7 @@ import { Customer } from "src/core/customer/infrastructure/typeorm/customer.enti
 import { Parameter } from "src/core/parameter/infrastructure/typeorm/parameter.entity";
 import { SalesLine } from "src/core/salesLine/infrastructure/typeorm/sales-line.entity";
 import { UserEntity } from "src/core/users/infrastructure/persistence/typeorm/user.entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Sales{
@@ -12,7 +12,7 @@ export class Sales{
     @OneToMany(() => SalesLine, (line) => line.sllFkIdSales, { cascade: true, eager: true })
     salesLines!: SalesLine[];
 
-    @ManyToOne(() => Customer, (customer) => customer.cusId)
+    @ManyToOne(() => Customer, (customer) => customer.sales)
     @JoinColumn({ name: 'salFkIdCustomer' })
     salFkIdCustomer!: Customer;
 

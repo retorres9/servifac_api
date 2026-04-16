@@ -18,6 +18,7 @@ import { WarehouseStockModule } from './core/warehouseStock/warehouse-stock.modu
 import { StockMovementLineModule } from './core/stockMovementLine/stock-movement-line.module';
 import { SalesModule } from './core/sales/sales.module';
 import { SalesLineModule } from './core/salesLine/infrastructure/typeorm/sales-line.module';
+import { CustomerModule } from './core/customer/customer.module';
 
 @Module({
   imports: [
@@ -43,7 +44,8 @@ import { SalesLineModule } from './core/salesLine/infrastructure/typeorm/sales-l
     WarehouseStockModule,
     StockMovementLineModule,
     SalesModule,
-    SalesLineModule
+    SalesLineModule,
+    CustomerModule
   ],
   controllers: [AppController],
   providers: [AppService],
