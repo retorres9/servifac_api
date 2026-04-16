@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ProductController } from './interface/controllers/product.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductEntity } from './infrastructure/persistence/typeorm/product.entity';
-import { PRODUCT_REPOSITORY } from './domain/repository/product.repository';
+import { PRODUCT_INTERFACE } from './domain/repository/product.interface';
 import { ProductTypeormRespository } from './infrastructure/persistence/typeorm/product.repository';
 import { CreateProductUseCase } from './application/use-cases/create-product.usecase';
 
@@ -13,7 +13,7 @@ import { CreateProductUseCase } from './application/use-cases/create-product.use
   ],
   controllers: [ProductController],
   providers: [{
-    provide: PRODUCT_REPOSITORY,
+    provide: PRODUCT_INTERFACE,
     useClass: ProductTypeormRespository,
   },
   CreateProductUseCase],

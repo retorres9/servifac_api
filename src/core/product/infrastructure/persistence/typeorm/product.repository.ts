@@ -1,11 +1,11 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductEntity } from './product.entity';
 import { Repository } from 'typeorm';
-import { ProductRepository } from 'src/core/product/domain/repository/product.repository';
+import { IProduct } from 'src/core/product/domain/repository/product.interface';
 import { Product } from 'src/core/product/domain/product.entity';
 import { BadRequestException } from '@nestjs/common';
 
-export class ProductTypeormRespository implements ProductRepository {
+export class ProductTypeormRespository implements IProduct {
   constructor(
     @InjectRepository(ProductEntity)
     private readonly productRepository: Repository<ProductEntity>

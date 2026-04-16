@@ -1,6 +1,6 @@
 import { Product } from '../product.entity';
-export const PRODUCT_REPOSITORY = Symbol('PRODUCT_REPOSITORY');
-export interface ProductRepository {
+export const PRODUCT_INTERFACE = Symbol('PRODUCT_INTERFACE');
+export interface IProduct {
   createProduct(product: Product): Promise<Product>;
   getProducts(param: string): Promise<Product[]>;
   findByCode(strProductCode: string): Promise<Product | null>;

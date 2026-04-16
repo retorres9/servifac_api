@@ -1,14 +1,14 @@
 import { BadRequestException, Inject } from '@nestjs/common';
-import { PRODUCT_REPOSITORY } from '../../domain/repository/product.repository';
-import type { ProductRepository } from '../../domain/repository/product.repository';
+import { PRODUCT_INTERFACE } from '../../domain/repository/product.interface';
+import type { IProduct } from '../../domain/repository/product.interface';
 import { CreateProductOutput } from '../model/create-product.output';
 import { CreateProductInput } from '../model/create-product.input';
 import { Product } from '../../domain/product.entity';
 
 export class CreateProductUseCase {
   constructor(
-    @Inject(PRODUCT_REPOSITORY)
-    private readonly productRepository: ProductRepository
+    @Inject(PRODUCT_INTERFACE)
+    private readonly productRepository: IProduct
   ) {}
 
   async execute(
