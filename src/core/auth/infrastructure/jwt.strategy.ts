@@ -2,7 +2,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import type { UserRepository } from 'src/core/users/domain/repository/user.repository';
+import type { IUser } from 'src/core/users/domain/repository/user.interface';
 import { JwtPayload } from '../domain/jwt.payload';
 import { User } from 'src/core/users/domain/user.entity';
 
@@ -10,7 +10,7 @@ import { User } from 'src/core/users/domain/user.entity';
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: UserRepository
+    private readonly userRepository: IUser
   ) {
     super({
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

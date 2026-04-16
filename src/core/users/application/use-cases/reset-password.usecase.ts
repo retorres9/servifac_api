@@ -1,11 +1,11 @@
 import { BadRequestException, Inject, NotFoundException } from "@nestjs/common";
-import { USER_REPOSITORY } from "../../domain/repository/user.repository";
-import type { UserRepository } from "../../domain/repository/user.repository";
+import { USER_INTERFACE } from "../../domain/repository/user.interface";
+import type { IUser } from "../../domain/repository/user.interface";
 
 export class ResetPasswordUseCase {
   constructor(
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository
+    @Inject(USER_INTERFACE)
+    private readonly userRepository: IUser
   ) {}
 
   async execute(strEmail: string, newPassword: string): Promise<void> {

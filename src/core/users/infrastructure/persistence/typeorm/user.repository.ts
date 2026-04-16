@@ -1,12 +1,12 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { UserRepository } from "src/core/users/domain/repository/user.repository";
+import { IUser } from "src/core/users/domain/repository/user.interface";
 import { Like, Repository } from "typeorm";
 import { User } from "src/core/users/domain/user.entity";
 import { BadRequestException } from "@nestjs/common";
 import * as bcrypt from 'bcryptjs';
 import { UserEntity } from "./user.entity";
 
-export class UserTypeormRepository implements UserRepository {
+export class UserTypeormRepository implements IUser {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>

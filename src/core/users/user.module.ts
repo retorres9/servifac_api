@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserEntity } from './infrastructure/persistence/typeorm/user.entity';
 import { CreateUserUseCase } from './application/use-cases/create-user.usecase';
 import { UserController } from './interface/controllers/user.controller';
-import { USER_REPOSITORY } from './domain/repository/user.repository';
+import { USER_INTERFACE } from './domain/repository/user.interface';
 import { UserTypeormRepository } from './infrastructure/persistence/typeorm/user.repository';
 import { LoginUseCase } from './application/use-cases/login.usecase';
 import { JwtModule } from '@nestjs/jwt';
@@ -21,7 +21,7 @@ import { RestorePasswordUseCase } from './application/use-cases/restore-password
   ],
   controllers: [UserController],
   providers: [{
-    provide: USER_REPOSITORY,
+    provide: USER_INTERFACE,
     useClass: UserTypeormRepository,
   },
   CreateUserUseCase,

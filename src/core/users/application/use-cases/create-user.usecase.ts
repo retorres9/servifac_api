@@ -1,13 +1,13 @@
 import { BadRequestException, Inject } from '@nestjs/common';
-import { USER_REPOSITORY, type UserRepository } from '../../domain/repository/user.repository';
+import { USER_INTERFACE, type IUser } from '../../domain/repository/user.interface';
 import { CreateUserInput } from '../model/create-user.input';
 import { CreateUserOutput } from '../model/create-user.output';
 import { User } from '../../domain/user.entity';
 
 export class CreateUserUseCase {
   constructor(
-    @Inject(USER_REPOSITORY)
-    private readonly userRepository: UserRepository
+    @Inject(USER_INTERFACE)
+    private readonly userRepository: IUser
   ) {}
 
   async execute(userInput: CreateUserInput): Promise<CreateUserOutput> {

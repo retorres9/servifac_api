@@ -1,7 +1,7 @@
 import { User } from '../user.entity';
 
-export const USER_REPOSITORY = Symbol('USER_REPOSITORY');
-export interface UserRepository {
+export const USER_INTERFACE = Symbol('USER_INTERFACE');
+export interface IUser {
   createUser(user: User): Promise<User>;
   getUsers(): Promise<User[]>;
   findByCi(ci: string): Promise<User | null>;

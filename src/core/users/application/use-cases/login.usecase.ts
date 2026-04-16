@@ -1,14 +1,14 @@
 import { Inject, UnauthorizedException } from "@nestjs/common";
 import { LoginInput } from "../model/login/login.input";
 import { LoginOutput } from "../model/login/login.output";
-import { USER_REPOSITORY } from "../../domain/repository/user.repository";
-import type { UserRepository } from "../../domain/repository/user.repository";
+import { USER_INTERFACE } from "../../domain/repository/user.interface";
+import type { IUser } from "../../domain/repository/user.interface";
 import { JwtService } from "@nestjs/jwt";
 
 export class LoginUseCase {
     constructor(
-        @Inject(USER_REPOSITORY)
-        private readonly userRepository: UserRepository,
+        @Inject(USER_INTERFACE)
+        private readonly userRepository: IUser,
         private readonly jwtService: JwtService
     ) {}
     async execute(input: LoginInput): Promise<LoginOutput> {
