@@ -17,7 +17,7 @@ import { StockMovementModule } from './core/stockMovement/stock-movement.module'
 import { WarehouseStockModule } from './core/warehouseStock/warehouse-stock.module';
 import { StockMovementLineModule } from './core/stockMovementLine/stock-movement-line.module';
 import { SalesModule } from './core/sales/sales.module';
-import { SalesLineModule } from './core/salesLine/infrastructure/typeorm/sales-line.module';
+import { SalesLineModule } from './core/salesLine/sales-line.module';
 import { CustomerModule } from './core/customer/customer.module';
 
 @Module({

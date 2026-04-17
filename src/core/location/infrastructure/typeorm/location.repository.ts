@@ -32,8 +32,7 @@ export class LocationRepository implements ILocation {
         location.locFkWarehouseId.wrhId)
       );
   }
-  async findByName(createLocationDto: LocationDomain): Promise<LocationDomain | null> {
-    const name = createLocationDto.strLocationName;
+  async findByName(name: string): Promise<LocationDomain | null> {
     const LocationFound = await this.locationRepository.findOne({
       where: { locName: name },
     });

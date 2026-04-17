@@ -1,6 +1,6 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { SalesLine } from "./sales-line.entity";
+import { SalesLine } from "./infrastructure/typeorm/sales-line.entity";
 
 @Module({
     imports: [

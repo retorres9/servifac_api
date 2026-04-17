@@ -2,7 +2,6 @@ import { BadRequestException, Inject } from "@nestjs/common";
 import { WAREHOUSE_INTERFACE, type IWarehouse } from "../../domain/repository/warehouse.interface";
 import { CreateWarehouseInput } from "../model/create-warehosue.input";
 import { WarehouseDomain } from "../../domain/warehouse.domain";
-import { DeepPartial } from "typeorm";
 import { type IParameter, PARAMETER_INTERFACE } from "src/core/parameter/domain/repository/parameter.interface";
 
 export class CreateWarehouseUseCase {
@@ -23,7 +22,7 @@ export class CreateWarehouseUseCase {
         if (existingWarehouse) {
             throw new BadRequestException('Warehouse already exists');
         }
-        const warehouseEntity: DeepPartial<WarehouseDomain> = {
+        const warehouseEntity: Partial<WarehouseDomain> = {
             strWarehouseName: input.strWarehouseName,
             strWarehouseDescription: input.strWarehouseDescription,
             intTypeOfWarehouse: input.intTypeOfWarehouse,

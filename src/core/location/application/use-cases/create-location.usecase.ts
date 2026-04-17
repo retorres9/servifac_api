@@ -14,7 +14,7 @@ export class CreateLocationUseCase {
     locationInput: CreateLocationInput
   ): Promise<CreateLocationOutput> {
     const existingLocation =
-      await this.locationRepository.findByName(locationInput);
+      await this.locationRepository.findByName(locationInput.strLocationName);
     if (existingLocation) {
       throw new BadRequestException({ message: 'Location already exists' });
     }
