@@ -1,6 +1,6 @@
 import { WarehouseStockDomain } from "../warehouseStock.domain";
 
-export const WAREHOUSE_INTERFACE = Symbol('WAREHOUSE_INTERFACE');
+export const WAREHOUSESTOCK_INTERFACE = Symbol('WAREHOUSESTOCK_INTERFACE');
 
 export interface IWarehouseStock {
     addStock(entry: WarehouseStockDomain): Promise<WarehouseStockDomain>;

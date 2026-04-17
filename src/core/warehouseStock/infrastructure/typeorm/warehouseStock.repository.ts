@@ -40,7 +40,23 @@ export class WareHouseStockRepository implements IWarehouseStock {
         );
     }
     getStockByProduct(productId: number): Promise<WarehouseStockDomain[]> {
-        throw new Error("Method not implemented.");
+        const stockEntries = this.warehouseStockRepository.find({
+            where: { wrsFkProductCode: { prodId: productId } },
+            relations: ['wrsFkWarehouseId', 'wrsFkLocationId', 'wrsFkProductCode']
+        });
+        return stockEntries.then(entries => entries.map(entry => new WarehouseStockDomain(
+            entry.wrsFkProductCode.prodId, 
+            entry.wrsFkWarehouseId.wrhId,
+            entry.wrsFkLocationId.locId,
+            entry.wrsQuantity,
+            entry.wrsSalePrice,
+            entry.wrsReservedQuantity,
+            null,
+            entry.wrsUnityOfMeasure,
+            entry.wrsDiscountPrice || undefined,
+            entry.wrsMinQuantity || undefined,
+            entry.wrsMaxQuantity || undefined
+        )));
     }
     getStockByWarehouse(warehouseId: number): Promise<WarehouseStockDomain[]> {
         throw new Error("Method not implemented.");

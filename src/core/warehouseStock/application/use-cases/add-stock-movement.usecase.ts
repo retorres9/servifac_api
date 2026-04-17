@@ -1,4 +1,4 @@
-import { WAREHOUSE_INTERFACE, type IWarehouseStock } from "../../domain/repository/warehouseStock.interface";
+import { WAREHOUSESTOCK_INTERFACE, type IWarehouseStock } from "../../domain/repository/warehouseStock.interface";
 import { BadRequestException, Inject } from "@nestjs/common";
 import { AddStockMovementInput } from "../model/add-stock-movement.input";
 import { WarehouseStockDomain } from "../../domain/warehouseStock.domain";
@@ -9,7 +9,7 @@ import { ProductDomain } from "src/core/product/domain/product.domain";
 
 export class AddStockMovementUseCase {
     constructor(
-        @Inject(WAREHOUSE_INTERFACE)
+        @Inject(WAREHOUSESTOCK_INTERFACE)
         private readonly warehouseRepository: IWarehouseStock,
         @Inject(PRODUCT_INTERFACE)
         private readonly productRepository: IProduct,
