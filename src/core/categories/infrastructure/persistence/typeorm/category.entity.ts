@@ -5,10 +5,10 @@ import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 @Entity()
 export class Category {
   @PrimaryGeneratedColumn({ type: 'smallint' })
-  cat_id!: number;
+  catId!: number;
 
   @Column({ nullable: false })
-  cat_name!: string;
+  catName!: string;
 
   @OneToMany(() => Product, (product) => product.category)
   products!: Product[];

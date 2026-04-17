@@ -17,5 +17,6 @@ import { CreateProductUseCase } from './application/use-cases/create-product.use
     useClass: ProductRepository,
   },
   CreateProductUseCase],
+  exports: [PRODUCT_INTERFACE]
 })
 export class ProductModule {}

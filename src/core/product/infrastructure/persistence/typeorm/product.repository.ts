@@ -26,10 +26,10 @@ export class ProductRepository implements IProduct {
     }
     const newProductEntity = this.productRepository.create({
       prodBarcode: product.strProductCode,
-      prod_name: product.strProductName,
-      prod_typeOfTax: product.intTypeOfTax,
+      prodName: product.strProductName,
+      prodTypeOfTax: product.intTypeOfTax,
       location: { locId: product.intIdLocation },
-      category: { cat_id: product.intIdCategory }
+      category: { catId: product.intIdCategory }
     });
     const savedProduct = await this.productRepository.save(newProductEntity);
     return this.mapToDomainEntity(savedProduct);

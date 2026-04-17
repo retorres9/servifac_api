@@ -15,15 +15,15 @@ export class Product {
   prodCode!: string;
 
   @Column({ unique: true, nullable: false })
-  prod_name!: string;
+  prodName!: string;
 
   @Column({ type: 'boolean', default: true })
-  prod_isTaxed!: boolean;
+  prodIsTaxed!: boolean;
 
   @Column({ type: 'smallint' })
-  prod_typeOfTax!: number;
+  prodTypeOfTax!: number;
 
-  @ManyToOne(() => Category, (categories) => categories.cat_id, {
+  @ManyToOne(() => Category, (categories) => categories.catId, {
     eager: true,
   })
   category!: Category;

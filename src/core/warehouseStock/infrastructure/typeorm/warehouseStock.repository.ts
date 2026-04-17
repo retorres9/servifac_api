@@ -3,6 +3,7 @@ import { WarehouseStock } from "./warehouseStock.entity";
 import { IWarehouseStock } from "../../domain/repository/warehouseStock.interface";
 import { InjectRepository } from "@nestjs/typeorm";
 import { WarehouseStockDomain } from "../../domain/warehouseStock.domain";
+import { GetStockByWarehouseOutput } from "../../application/model/getStockByWarehouse.output";
 
 export class WareHouseStockRepository implements IWarehouseStock {
     constructor(
@@ -58,8 +59,17 @@ export class WareHouseStockRepository implements IWarehouseStock {
             entry.wrsMaxQuantity || undefined
         )));
     }
-    getStockByWarehouse(warehouseId: number): Promise<WarehouseStockDomain[]> {
-        throw new Error("Method not implemented.");
+    getStockByWarehouse(warehouseId: number): Promise<GetStockByWarehouseOutput[]> {
+        const stockEntries = this.warehouseStockRepository.find({
+            where: { wrsFkWarehouseId: { wrhId: warehouseId } },
+            relations: ['wrsFkProductCode', 'wrsFkWarehouseId', 'wrsFkLocationId']
+        });
+        return stockEntries.then(entries => entries.map(entry => ({
+            strProductName: entry.wrsFkProductCode.prodName,
+            intQuantity: entry.wrsQuantity,
+            dcmPrice: entry.wrsSalePrice,
+            strUnityOfMeasure: entry.wrsUnityOfMeasure
+        })));
     }
     getStockByProductAndWarehouse(productId: number, warehouseId: number): Promise<WarehouseStockDomain[]> {
         throw new Error("Method not implemented.");

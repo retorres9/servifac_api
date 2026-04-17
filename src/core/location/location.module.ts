@@ -13,5 +13,6 @@ import { CreateLocationUseCase } from './application/use-cases/create-location.u
     { provide: LOCATION_INTERFACE, useClass: LocationRepository },
     CreateLocationUseCase,
   ],
+  exports: [LOCATION_INTERFACE],
 })
 export class LocationModule {}

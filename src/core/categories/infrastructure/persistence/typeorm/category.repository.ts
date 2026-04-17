@@ -16,10 +16,10 @@ export class CategoryTypeormRepository implements ICategory {
   ): Promise<CategoryDomain | null> {
     const name = createCategoryDto.strCategoryName;
     const categoryFound = await this.categoryRepository.findOne({
-      where: { cat_name: name },
+      where: { catName: name },
     });
     return categoryFound
-      ? new CategoryDomain(categoryFound.cat_id, categoryFound.cat_name)
+      ? new CategoryDomain(categoryFound.catId, categoryFound.catName)
       : null;
   }
 
@@ -27,16 +27,16 @@ export class CategoryTypeormRepository implements ICategory {
     createCategoryDto: CreateCategoryInput
   ): Promise<CategoryDomain> {
     const newCategoryEntity = this.categoryRepository.create({
-      cat_name: createCategoryDto.strCategoryName,
+      catName: createCategoryDto.strCategoryName,
     });
     const savedCategory = await this.categoryRepository.save(newCategoryEntity);
-    return new CategoryDomain(savedCategory.cat_id, savedCategory.cat_name);
+    return new CategoryDomain(savedCategory.catId, savedCategory.catName);
   }
 
   async getCategories(): Promise<CategoryDomain[]> {
     const categoryEntities = await this.categoryRepository.find();
     return categoryEntities.map(
-      (entity) => new CategoryDomain(entity.cat_id, entity.cat_name)
+      (entity) => new CategoryDomain(entity.catId, entity.catName)
     );
   }
 }
