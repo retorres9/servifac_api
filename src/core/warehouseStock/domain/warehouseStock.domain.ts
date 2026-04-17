@@ -1,16 +1,16 @@
 export class WarehouseStockDomain {
     constructor(
-        public intIdWarehouseStock: number,
         public intProductCode: number,
         public intWarehouseId: number,
+        public intLocationId: number,
         public intQuantity: number,
-        public intReserved: number,
         public dcmPrice: number,
-        public intUnityOfMeasure?: string,
-        public intLocationId?: number,
-        public dcmDiscount?: number,
-        public intMinimumStock?: number,
-        public intMaximumStock?: number,
-        public intUpdatedBy?: number,
+        public intReserved?: number | null,
+        public intIdWarehouseStock?: number | null,
+        public strUnityOfMeasure?: string | null,
+        public dcmDiscount?: number | null,
+        public intMinimumStock?: number | null,
+        public intMaximumStock?: number | null,
+        public intUpdatedBy?: number | null
     ) {}
 }

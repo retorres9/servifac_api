@@ -5,4 +5,5 @@ export interface ILocation {
   createLocation(createLocationDto: LocationDomain): Promise<LocationDomain>;
   getLocations(): Promise<LocationDomain[]>;
   findByName(createLocationDto: LocationDomain): Promise<LocationDomain | null>;
+  getLocationById(locationId: number): Promise<LocationDomain | null>;
 }

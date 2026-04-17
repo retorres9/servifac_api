@@ -16,7 +16,7 @@ export class WareHouseStockRepository implements IWarehouseStock {
             wrsFkWarehouseId: { wrhId: entry.intWarehouseId },
             wrsQuantity: entry.intQuantity,
             wrsReservedQuantity: entry.intReserved,
-            wrsUnityOfMeasure: entry.intUnityOfMeasure ?? null,
+            wrsUnityOfMeasure: entry.strUnityOfMeasure ?? null,
             wrsFkLocationId: { locId: entry.intLocationId },
             wrsSalePrice: entry.dcmPrice,
             wrsDiscountPrice: entry.dcmDiscount || null,
@@ -25,15 +25,16 @@ export class WareHouseStockRepository implements IWarehouseStock {
         } as WarehouseStock);
         const savedStock = await this.warehouseStockRepository.save(newStockEntity);
         return  new WarehouseStockDomain(
-            savedStock.wrsId,
             savedStock.wrsFkProductCode.prodId, 
             savedStock.wrsFkWarehouseId.wrhId,
+            savedStock.wrsFkLocationId.locId,
             savedStock.wrsQuantity,
-            savedStock.wrsReservedQuantity,
             savedStock.wrsSalePrice,
+            savedStock.wrsReservedQuantity,
+            null,
             savedStock.wrsUnityOfMeasure,
-            savedStock.wrsFkLocationId ? savedStock.wrsFkLocationId.locId : undefined,
             savedStock.wrsDiscountPrice || undefined,
+            savedStock.wrsFkLocationId ? savedStock.wrsFkLocationId.locId : undefined,
             savedStock.wrsMinQuantity || undefined,
             savedStock.wrsMaxQuantity || undefined
         );

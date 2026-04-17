@@ -5,11 +5,15 @@ import { IProduct } from 'src/core/product/domain/repository/product.interface';
 import { ProductDomain } from 'src/core/product/domain/product.domain';
 import { BadRequestException } from '@nestjs/common';
 
-export class ProductTypeormRespository implements IProduct {
+export class ProductRepository implements IProduct {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>
   ) {}
+  getProductById(productId: number): Promise<ProductDomain | null> {
+    const product = this.productRepository.findOne({ where: { prodId: productId } });
+    return product.then(prod => prod ? this.mapToDomainEntity(prod) : null);
+  }
 
   private mapToDomainEntity(productEntity: Product): ProductDomain {
     return (productEntity as unknown) as ProductDomain;
