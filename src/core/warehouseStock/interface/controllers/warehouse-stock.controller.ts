@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from "@nestjs/common";
-import { AddStockMovementUseCase } from "../../application/use-cases/add-stock-movement.usecase";
+import { AddWarehouseStockMovementUseCase } from "../../application/use-cases/add-stock-movement.usecase";
 import { AddStockMovementDto } from "../dto/add-stock-movement.dto";
 import { GetStockByProductDto } from "../dto/get-stock-by-product.dto";
 import { GetStockByProductUseCase } from "../../application/use-cases/getStockByProduct.usecase";
@@ -10,7 +10,7 @@ import { GetStockByWarehouseUseCase } from "../../application/use-cases/getStock
 @Controller('warehouse-stock')
 export class WarehouseStockController {
     constructor(
-        private readonly addStockMovementUseCase: AddStockMovementUseCase,
+        private readonly addStockMovementUseCase: AddWarehouseStockMovementUseCase,
         private readonly getStockByProductUseCase: GetStockByProductUseCase,
         private readonly getStockByWarehouseUseCase: GetStockByWarehouseUseCase
     ) {}

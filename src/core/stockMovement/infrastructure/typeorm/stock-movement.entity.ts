@@ -24,5 +24,5 @@ export class StockMovement {
     stmCreatedBy!: UserEntity;
 
     @OneToMany(() => StockMovementLine, (line) => line.smlFkMovementId, { cascade: true, eager: true })
-    lines!: StockMovementLine[];
+    stmLines!: StockMovementLine[];
 }

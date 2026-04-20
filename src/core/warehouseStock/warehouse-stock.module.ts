@@ -6,7 +6,7 @@ import { WAREHOUSESTOCK_INTERFACE } from "./domain/repository/warehouseStock.int
 import { WareHouseStockRepository } from "./infrastructure/typeorm/warehouseStock.repository";
 import { GetStockByProductUseCase } from "./application/use-cases/getStockByProduct.usecase";
 import { GetStockByWarehouseUseCase } from "./application/use-cases/getStockByWarehouse.usecase";
-import { AddStockMovementUseCase } from "./application/use-cases/add-stock-movement.usecase";
+import { AddWarehouseStockMovementUseCase } from "./application/use-cases/add-stock-movement.usecase";
 import { ProductModule } from "../product/product.module";
 import { LocationModule } from "../location/location.module";
 
@@ -24,7 +24,7 @@ import { LocationModule } from "../location/location.module";
         },
         GetStockByProductUseCase,
         GetStockByWarehouseUseCase,
-        AddStockMovementUseCase
+        AddWarehouseStockMovementUseCase
     ]
 })
 export class WarehouseStockModule {}

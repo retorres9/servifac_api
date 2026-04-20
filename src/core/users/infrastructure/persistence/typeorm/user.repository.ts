@@ -18,32 +18,32 @@ export class UserTypeormRepository implements IUser {
         }
         const salt = await bcrypt.genSalt();
         const hashedNewPassword = await this.hashPassword(newPassword, salt);
-        await this.userRepository.update({ usr_id: user.intUserId }, { usr_password: hashedNewPassword, usr_isAbleToChangePassword: false, usr_tempPass: null });
+        await this.userRepository.update({ usrId: user.intUserId }, { usrPassword: hashedNewPassword, usrIsAbleToChangePassword: false, usrTempPass: null });
     }
     async findByUsername(username: string): Promise<UserDomain | null> {
-        const userEntity: UserEntity | null = await this.userRepository.findOne({ where: { usr_username: username } });
+        const userEntity: UserEntity | null = await this.userRepository.findOne({ where: { usrUsername: username } });
         if (!userEntity) {
             return null;
         }
         return new UserDomain(
-            userEntity.usr_ci,
-            userEntity.usr_firstName,
-            userEntity.usr_lastName,
-            userEntity.usr_password,
-            userEntity.usr_role,
-            userEntity.usr_email,
-            userEntity.usr_phone,
-            userEntity.usr_address,
-            userEntity.usr_city,
-            userEntity.usr_username,
-            userEntity.usr_id,
-            userEntity.usr_tempPass || undefined,
-            userEntity.usr_isActive,
-            userEntity.usr_createdAt,
-            userEntity.usr_updatedAt,
-            userEntity.usr_lastLogin || undefined,
-            userEntity.usr_isAbleToChangePassword,
-            userEntity.usr_loginAttempts
+            userEntity.usrCi,
+            userEntity.usrFirstName,
+            userEntity.usrLastName,
+            userEntity.usrPassword,
+            userEntity.usrRole,
+            userEntity.usrEmail,
+            userEntity.usrPhone,
+            userEntity.usrAddress,
+            userEntity.usrCity,
+            userEntity.usrUsername,
+            userEntity.usrId,
+            userEntity.usrTempPass || undefined,
+            userEntity.usrIsActive,
+            userEntity.usrCreatedAt,
+            userEntity.usrUpdatedAt,
+            userEntity.usrLastLogin || undefined,
+            userEntity.usrIsAbleToChangePassword,
+            userEntity.usrLoginAttempts
         );
     }
     
@@ -60,125 +60,125 @@ export class UserTypeormRepository implements IUser {
             intRole
          } = user;
 
-        const userFound = await this.userRepository.findOne({ where: { usr_ci: strCi } });
+        const userFound = await this.userRepository.findOne({ where: { usrCi: strCi } });
         if (userFound) {
             throw new BadRequestException('User already exists');
         }
         const salt = await bcrypt.genSalt();
         const hashedPassword = await this.hashPassword(strPassword, salt);
         const newUserEntity = this.userRepository.create({
-            usr_ci: strCi,
-            usr_firstName: strFirstName,
-            usr_lastName: strLastName,
-            usr_email: strEmail,
-            usr_password: hashedPassword,
-            usr_address: strAddress,
-            usr_city: strCity,
-            usr_phone: strPhone,
-            usr_role: intRole,
-            usr_isAbleToChangePassword: false,
-            usr_username: `${strFirstName.toLowerCase().substring(0, 2)}${strLastName.toLowerCase()}`,
+            usrCi: strCi,
+            usrFirstName: strFirstName,
+            usrLastName: strLastName,
+            usrEmail: strEmail,
+            usrPassword: hashedPassword,
+            usrAddress: strAddress,
+            usrCity: strCity,
+            usrPhone: strPhone,
+            usrRole: intRole,
+            usrIsAbleToChangePassword: false,
+            usrUsername: `${strFirstName.toLowerCase().substring(0, 2)}${strLastName.toLowerCase()}`,
         });
         
-        const existingUsername: number = await this.userRepository.count({ where: { usr_username: Like(`${newUserEntity.usr_username}%`)}});
+        const existingUsername: number = await this.userRepository.count({ where: { usrUsername: Like(`${newUserEntity.usrUsername}%`)}});
         if (existingUsername > 0) {
-            newUserEntity.usr_username += existingUsername;
+            newUserEntity.usrUsername += existingUsername;
         }
         const savedUser = await this.userRepository.save(newUserEntity);
         console.log('Saved user:', savedUser);
         return new UserDomain(
-            savedUser.usr_ci,
-            savedUser.usr_firstName,
-            savedUser.usr_lastName,
-            savedUser.usr_password,
-            savedUser.usr_role,
-            savedUser.usr_email,
-            savedUser.usr_phone,
-            savedUser.usr_address,
-            savedUser.usr_city,
-            savedUser.usr_username,
-            savedUser.usr_id,
-            savedUser.usr_tempPass || undefined,
-            savedUser.usr_isActive,
-            savedUser.usr_createdAt,
-            savedUser.usr_updatedAt,
-            savedUser.usr_lastLogin || undefined,
-            savedUser.usr_isAbleToChangePassword,
-            savedUser.usr_loginAttempts
+            savedUser.usrCi,
+            savedUser.usrFirstName,
+            savedUser.usrLastName,
+            savedUser.usrPassword,
+            savedUser.usrRole,
+            savedUser.usrEmail,
+            savedUser.usrPhone,
+            savedUser.usrAddress,
+            savedUser.usrCity,
+            savedUser.usrUsername,
+            savedUser.usrId,
+            savedUser.usrTempPass || undefined,
+            savedUser.usrIsActive,
+            savedUser.usrCreatedAt,
+            savedUser.usrUpdatedAt,
+            savedUser.usrLastLogin || undefined,
+            savedUser.usrIsAbleToChangePassword,
+            savedUser.usrLoginAttempts
         );
 
     }
     async getUsers(): Promise<UserDomain[]> {
         const userEntities = await this.userRepository.find();
         return userEntities.map(userEntity => new UserDomain(
-            userEntity.usr_ci,
-            userEntity.usr_firstName,
-            userEntity.usr_lastName,
-            userEntity.usr_password,
-            userEntity.usr_role,
-            userEntity.usr_email,
-            userEntity.usr_phone,
-            userEntity.usr_address,
-            userEntity.usr_city,
+            userEntity.usrCi,
+            userEntity.usrFirstName,
+            userEntity.usrLastName,
+            userEntity.usrPassword,
+            userEntity.usrRole,
+            userEntity.usrEmail,
+            userEntity.usrPhone,
+            userEntity.usrAddress,
+            userEntity.usrCity,
         ));
     }
     async findByCi(ci: string): Promise<UserDomain | null> {
-        const userEntity = await this.userRepository.findOne({ where: { usr_ci: ci } });
+        const userEntity = await this.userRepository.findOne({ where: { usrCi: ci } });
         if (!userEntity) {
             return null;
         }
         return new UserDomain(
-            userEntity.usr_ci,
-            userEntity.usr_firstName,
-            userEntity.usr_lastName,
-            userEntity.usr_password,
-            userEntity.usr_role,
-            userEntity.usr_email,
-            userEntity.usr_phone,
-            userEntity.usr_address,
-            userEntity.usr_city,
+            userEntity.usrCi,
+            userEntity.usrFirstName,
+            userEntity.usrLastName,
+            userEntity.usrPassword,
+            userEntity.usrRole,
+            userEntity.usrEmail,
+            userEntity.usrPhone,
+            userEntity.usrAddress,
+            userEntity.usrCity,
         );
 
     }
     async login(email: string, password: string): Promise<UserDomain | null> {
         const userFound = await this.userRepository.findOne({ where: [
-            { usr_email: email },
-            { usr_username: email }
+            { usrEmail: email },
+            { usrUsername: email }
         ] });
         console.log('User found:', userFound);
         if (!userFound) {
             return null;
         }
-        const isPasswordValid = await bcrypt.compare(password, userFound.usr_password);
+        const isPasswordValid = await bcrypt.compare(password, userFound.usrPassword);
         console.log('Password valid:', isPasswordValid);
         if (!isPasswordValid) {
-            if (userFound.usr_loginAttempts >= 5) {
-                await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_isActive: false });
+            if (userFound.usrLoginAttempts >= 5) {
+                await this.userRepository.update({ usrId: userFound.usrId }, { usrIsActive: false });
                 throw new BadRequestException('Account locked due to too many failed login attempts');
             }
-            await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_loginAttempts: userFound.usr_loginAttempts + 1 });
+            await this.userRepository.update({ usrId: userFound.usrId }, { usrLoginAttempts: userFound.usrLoginAttempts + 1 });
             return null;
         }
-        await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_lastLogin: new Date(), usr_loginAttempts: 0 });
+        await this.userRepository.update({ usrId: userFound.usrId }, { usrLastLogin: new Date(), usrLoginAttempts: 0 });
 
         return new UserDomain(
-            userFound.usr_ci,
-            userFound.usr_firstName,
-            userFound.usr_lastName,
-            userFound.usr_password,
-            userFound.usr_role,
-            userFound.usr_email,
-            userFound.usr_phone,
-            userFound.usr_address,
-            userFound.usr_city,
-            userFound.usr_username,
-            userFound.usr_id
+            userFound.usrCi,
+            userFound.usrFirstName,
+            userFound.usrLastName,
+            userFound.usrPassword,
+            userFound.usrRole,
+            userFound.usrEmail,
+            userFound.usrPhone,
+            userFound.usrAddress,
+            userFound.usrCity,
+            userFound.usrUsername,
+            userFound.usrId
         );
     }
     async resetPassword(user: UserDomain, email: string, newPassword: string): Promise<void> {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await this.hashPassword(newPassword, salt);
-        await this.userRepository.update({ usr_id: user.intUserId }, { usr_password: hashedPassword, usr_isAbleToChangePassword: true });
+        await this.userRepository.update({ usrId: user.intUserId }, { usrPassword: hashedPassword, usrIsAbleToChangePassword: true });
     }
 
     private async hashPassword(password: string, salt: string): Promise<string> {

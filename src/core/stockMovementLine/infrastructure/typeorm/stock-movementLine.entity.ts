@@ -8,7 +8,7 @@ export class StockMovementLine {
     @PrimaryGeneratedColumn()
     smlId!: number;
 
-    @ManyToOne(() => StockMovement, (movement) => movement.lines)
+    @ManyToOne(() => StockMovement, (movement) => movement.stmLines)
     @JoinColumn({ name: 'smlFkMovementId' })
     smlFkMovementId!: StockMovement;
 

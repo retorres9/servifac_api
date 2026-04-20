@@ -7,7 +7,7 @@ import { type ILocation, LOCATION_INTERFACE } from "src/core/location/domain/rep
 import { LocationDomain } from "src/core/location/domain/location.domain";
 import { ProductDomain } from "src/core/product/domain/product.domain";
 
-export class AddStockMovementUseCase {
+export class AddWarehouseStockMovementUseCase {
     constructor(
         @Inject(WAREHOUSESTOCK_INTERFACE)
         private readonly warehouseRepository: IWarehouseStock,

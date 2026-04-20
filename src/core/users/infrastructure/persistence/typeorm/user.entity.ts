@@ -3,57 +3,57 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class UserEntity {
     @PrimaryGeneratedColumn()
-    usr_id!: number;
+    usrId!: number;
 
     @Column({ unique: true, nullable: false })
-    usr_ci!: string;
+    usrCi!: string;
 
     @Column({ unique: true, nullable: false })
-    usr_username!: string;
+    usrUsername!: string;
 
     @Column({ nullable: false })
-    usr_firstName!: string;
+    usrFirstName!: string;
 
     @Column({ nullable: false })
-    usr_lastName!: string;
+    usrLastName!: string;
 
     @Column({ unique: true, nullable: false })
-    usr_email!: string;
+    usrEmail!: string;
 
     @Column({ nullable: false })
-    usr_phone!: string;
+    usrPhone!: string;
 
     @Column({ nullable: false })
-    usr_password!: string;
+    usrPassword!: string;
 
     @Column({ type: 'int', nullable: false })
-    usr_role!: number;
+    usrRole!: number;
 
     @Column({ default: true })
-    usr_isActive!: boolean;
+    usrIsActive!: boolean;
 
     @Column({ nullable: false })
-    usr_address!: string;
+    usrAddress!: string;
 
     @Column({ nullable: false })
-    usr_city!: string;
+    usrCity!: string;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-    usr_createdAt!: Date;
+    usrCreatedAt!: Date;
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-    usr_updatedAt!: Date;
+    usrUpdatedAt!: Date;
 
     @Column({ type: 'timestamp', nullable: true })
-    usr_lastLogin!: Date | null;
+    usrLastLogin!: Date | null;
 
     @Column({ type: 'varchar', nullable: true })
-    usr_tempPass!: string | null;
+    usrTempPass!: string | null;
 
     @Column({ default: false })
-    usr_isAbleToChangePassword!: boolean;
+    usrIsAbleToChangePassword!: boolean;
 
     @Column({ type: 'int', default: 0 })
-    usr_loginAttempts!: number;
+    usrLoginAttempts!: number;
     
 };
