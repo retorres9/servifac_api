@@ -29,7 +29,7 @@ export class StockMovementRepository implements IStockMovement {
         return movements.then(movs => movs.map(mov => new StockMovementDomain(
             mov.stmReferenceId,
             mov.stmMovementType.prmId,
-            mov.stmNote,
+            mov.stmNote ?? '',
             mov.stmCreatedBy.usrId
         )));
     }

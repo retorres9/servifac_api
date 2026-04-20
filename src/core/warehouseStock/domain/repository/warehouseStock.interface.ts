@@ -1,4 +1,3 @@
-import { GetStockByWarehouseOutput } from "../../application/model/getStockByWarehouse.output";
 import { WarehouseStockDomain } from "../warehouseStock.domain";
 
 export const WAREHOUSESTOCK_INTERFACE = Symbol('WAREHOUSESTOCK_INTERFACE');

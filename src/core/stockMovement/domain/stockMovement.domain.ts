@@ -3,6 +3,6 @@ export class StockMovementDomain {
         public strReference: string,
         public intIdMovementType: number,
         public intIdUser: number,
-        public strNote?: string,
+        public strNote: string,
     ) {}
 }

@@ -28,7 +28,4 @@ export class StockMovementLine {
 
     @Column({type: 'numeric', nullable: false})
     smlPreviousQuantity!: number;
-
-    @Column({type: 'varchar', nullable: true})
-    smlNote?: string;
 }
