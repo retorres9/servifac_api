@@ -1,7 +1,7 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { IUser } from "src/core/users/domain/repository/user.interface";
 import { Like, Repository } from "typeorm";
-import { User } from "src/core/users/domain/user.entity";
+import { UserDomain } from "src/core/users/domain/user.domain";
 import { BadRequestException } from "@nestjs/common";
 import * as bcrypt from 'bcryptjs';
 import { UserEntity } from "./user.entity";
@@ -11,7 +11,7 @@ export class UserTypeormRepository implements IUser {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>
   ) {}
-    async restorePassword(user: User, prevPassword: string, newPassword: string): Promise<void> {
+    async restorePassword(user: UserDomain, prevPassword: string, newPassword: string): Promise<void> {
         const validPreviousPassword = await bcrypt.compare(prevPassword, user.strPassword);
         if (!validPreviousPassword) {
             throw new BadRequestException('Previous password is incorrect');
@@ -20,12 +20,12 @@ export class UserTypeormRepository implements IUser {
         const hashedNewPassword = await this.hashPassword(newPassword, salt);
         await this.userRepository.update({ usr_id: user.intUserId }, { usr_password: hashedNewPassword, usr_isAbleToChangePassword: false, usr_tempPass: null });
     }
-    async findByUsername(username: string): Promise<User | null> {
+    async findByUsername(username: string): Promise<UserDomain | null> {
         const userEntity: UserEntity | null = await this.userRepository.findOne({ where: { usr_username: username } });
         if (!userEntity) {
             return null;
         }
-        return new User(
+        return new UserDomain(
             userEntity.usr_ci,
             userEntity.usr_firstName,
             userEntity.usr_lastName,
@@ -47,7 +47,7 @@ export class UserTypeormRepository implements IUser {
         );
     }
     
-    async createUser(user: User): Promise<User> {
+    async createUser(user: UserDomain): Promise<UserDomain> {
         const { 
             strCi, 
             strFirstName, 
@@ -86,7 +86,7 @@ export class UserTypeormRepository implements IUser {
         }
         const savedUser = await this.userRepository.save(newUserEntity);
         console.log('Saved user:', savedUser);
-        return new User(
+        return new UserDomain(
             savedUser.usr_ci,
             savedUser.usr_firstName,
             savedUser.usr_lastName,
@@ -108,9 +108,9 @@ export class UserTypeormRepository implements IUser {
         );
 
     }
-    async getUsers(): Promise<User[]> {
+    async getUsers(): Promise<UserDomain[]> {
         const userEntities = await this.userRepository.find();
-        return userEntities.map(userEntity => new User(
+        return userEntities.map(userEntity => new UserDomain(
             userEntity.usr_ci,
             userEntity.usr_firstName,
             userEntity.usr_lastName,
@@ -122,12 +122,12 @@ export class UserTypeormRepository implements IUser {
             userEntity.usr_city,
         ));
     }
-    async findByCi(ci: string): Promise<User | null> {
+    async findByCi(ci: string): Promise<UserDomain | null> {
         const userEntity = await this.userRepository.findOne({ where: { usr_ci: ci } });
         if (!userEntity) {
             return null;
         }
-        return new User(
+        return new UserDomain(
             userEntity.usr_ci,
             userEntity.usr_firstName,
             userEntity.usr_lastName,
@@ -140,7 +140,7 @@ export class UserTypeormRepository implements IUser {
         );
 
     }
-    async login(email: string, password: string): Promise<User | null> {
+    async login(email: string, password: string): Promise<UserDomain | null> {
         const userFound = await this.userRepository.findOne({ where: [
             { usr_email: email },
             { usr_username: email }
@@ -161,7 +161,7 @@ export class UserTypeormRepository implements IUser {
         }
         await this.userRepository.update({ usr_id: userFound.usr_id }, { usr_lastLogin: new Date(), usr_loginAttempts: 0 });
 
-        return new User(
+        return new UserDomain(
             userFound.usr_ci,
             userFound.usr_firstName,
             userFound.usr_lastName,
@@ -175,7 +175,7 @@ export class UserTypeormRepository implements IUser {
             userFound.usr_id
         );
     }
-    async resetPassword(user: User, email: string, newPassword: string): Promise<void> {
+    async resetPassword(user: UserDomain, email: string, newPassword: string): Promise<void> {
         const salt = await bcrypt.genSalt();
         const hashedPassword = await this.hashPassword(newPassword, salt);
         await this.userRepository.update({ usr_id: user.intUserId }, { usr_password: hashedPassword, usr_isAbleToChangePassword: true });

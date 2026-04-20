@@ -1,4 +1,5 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { ProductProvider } from "src/core/productProvider/infrastructure/typeorm/product-provider.entity";
+import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Provider {
@@ -29,4 +30,7 @@ export class Provider {
 
     @Column({ type: 'boolean', default: true })
     prvActive!: boolean;
+
+    @OneToMany(() => ProductProvider, (productProvider) => productProvider.pprFkProviderId)
+    productProviders!: ProductProvider[];
 }

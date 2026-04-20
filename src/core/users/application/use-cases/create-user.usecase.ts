@@ -2,7 +2,7 @@ import { BadRequestException, Inject } from '@nestjs/common';
 import { USER_INTERFACE, type IUser } from '../../domain/repository/user.interface';
 import { CreateUserInput } from '../model/create-user.input';
 import { CreateUserOutput } from '../model/create-user.output';
-import { User } from '../../domain/user.entity';
+import { User } from '../../domain/user.domain';
 
 export class CreateUserUseCase {
   constructor(

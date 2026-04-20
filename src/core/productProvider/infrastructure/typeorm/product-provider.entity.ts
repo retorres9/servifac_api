@@ -7,11 +7,11 @@ export class ProductProvider {
     @PrimaryGeneratedColumn()
     prpId!: number;
 
-    @ManyToOne(() => Product, (product) => product.prodId)
+    @ManyToOne(() => Product, (product) => product.productProviders)
     @JoinColumn({ name: 'pprFkProductId' })
     pprFkProductId!: Product;
 
-    @ManyToOne(() => Provider, (provider) => provider.prvId)
+    @ManyToOne(() => Provider, (provider) => provider.productProviders)
     @JoinColumn({ name: 'pprFkProviderId' })
     pprFkProviderId!: Provider;
 

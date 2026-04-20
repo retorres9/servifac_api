@@ -59,26 +59,109 @@ export class WareHouseStockRepository implements IWarehouseStock {
             entry.wrsMaxQuantity || undefined
         )));
     }
-    getStockByWarehouse(warehouseId: number): Promise<GetStockByWarehouseOutput[]> {
+    getStockByWarehouse(warehouseId: number): Promise<WarehouseStockDomain[]> {
         const stockEntries = this.warehouseStockRepository.find({
             where: { wrsFkWarehouseId: { wrhId: warehouseId } },
             relations: ['wrsFkProductCode', 'wrsFkWarehouseId', 'wrsFkLocationId']
         });
-        return stockEntries.then(entries => entries.map(entry => ({
-            strProductName: entry.wrsFkProductCode.prodName,
-            intQuantity: entry.wrsQuantity,
-            dcmPrice: entry.wrsSalePrice,
-            strUnityOfMeasure: entry.wrsUnityOfMeasure
-        })));
+        return stockEntries.then(entries => entries.map(entry => new WarehouseStockDomain(
+            entry.wrsFkProductCode.prodId, 
+            entry.wrsFkWarehouseId.wrhId,
+            entry.wrsFkLocationId.locId,
+            entry.wrsQuantity,
+            entry.wrsSalePrice,
+            entry.wrsReservedQuantity,
+            null,
+            entry.wrsUnityOfMeasure,
+            entry.wrsDiscountPrice || undefined,
+            entry.wrsMinQuantity || undefined,
+            entry.wrsMaxQuantity || undefined
+        )));
     }
     getStockByProductAndWarehouse(productId: number, warehouseId: number): Promise<WarehouseStockDomain[]> {
-        throw new Error("Method not implemented.");
+        const stockEntries = this.warehouseStockRepository.find({
+            where: { 
+                wrsFkProductCode: { prodId: productId },
+                wrsFkWarehouseId: { wrhId: warehouseId }
+            },
+            relations: ['wrsFkProductCode', 'wrsFkWarehouseId', 'wrsFkLocationId']
+        });
+        return stockEntries.then(entries => entries.map(entry => new WarehouseStockDomain(
+            entry.wrsFkProductCode.prodId, 
+            entry.wrsFkWarehouseId.wrhId,
+            entry.wrsFkLocationId.locId,
+            entry.wrsQuantity,
+            entry.wrsSalePrice,
+            entry.wrsReservedQuantity,
+            null,
+            entry.wrsUnityOfMeasure,
+            entry.wrsDiscountPrice || undefined,
+            entry.wrsMinQuantity || undefined,
+            entry.wrsMaxQuantity || undefined
+        )));
+
     }
+
     updStock(productId: number, warehouseId: number, newQty: number): Promise<WarehouseStockDomain> {
-        throw new Error("Method not implemented.");
+        const stockEntry = this.warehouseStockRepository.findOne({
+            where: { 
+                wrsFkProductCode: { prodId: productId },
+                wrsFkWarehouseId: { wrhId: warehouseId }
+            },
+            relations: ['wrsFkProductCode', 'wrsFkWarehouseId', 'wrsFkLocationId']
+        });
+
+        const updatedStock = stockEntry.then(entry => {
+            if (!entry) {
+                throw new Error('Stock entry not found for the given product and warehouse');
+            }
+            entry.wrsQuantity = newQty;
+            return this.warehouseStockRepository.save(entry).then(savedEntry => new WarehouseStockDomain(
+                savedEntry.wrsFkProductCode.prodId, 
+                savedEntry.wrsFkWarehouseId.wrhId,
+                savedEntry.wrsFkLocationId.locId,
+                savedEntry.wrsQuantity,
+                savedEntry.wrsSalePrice,
+                savedEntry.wrsReservedQuantity,
+                null,
+                savedEntry.wrsUnityOfMeasure,
+                savedEntry.wrsDiscountPrice || undefined,
+                savedEntry.wrsMinQuantity || undefined,
+                savedEntry.wrsMaxQuantity || undefined
+            ));
+        });
+        return updatedStock;
+
     }
     updStockPrices(productId: number, warehouseId: number, newPrice: number): Promise<WarehouseStockDomain> {
-        throw new Error("Method not implemented.");
+        const stockEntry = this.warehouseStockRepository.findOne({
+            where: { 
+                wrsFkProductCode: { prodId: productId },
+                wrsFkWarehouseId: { wrhId: warehouseId }
+            },
+            relations: ['wrsFkProductCode', 'wrsFkWarehouseId', 'wrsFkLocationId']
+        });
+        const updatedStock = stockEntry.then(entry => {
+            if (!entry) {
+                throw new Error('Stock entry not found for the given product and warehouse');
+            }
+            entry.wrsSalePrice = newPrice;
+            return this.warehouseStockRepository.save(entry).then(savedEntry => new WarehouseStockDomain(
+                savedEntry.wrsFkProductCode.prodId, 
+                savedEntry.wrsFkWarehouseId.wrhId,
+                savedEntry.wrsFkLocationId.locId,
+                savedEntry.wrsQuantity,
+                savedEntry.wrsSalePrice,
+                savedEntry.wrsReservedQuantity,
+                null,
+                savedEntry.wrsUnityOfMeasure,
+                savedEntry.wrsDiscountPrice || undefined,
+                savedEntry.wrsMinQuantity || undefined,
+                savedEntry.wrsMaxQuantity || undefined
+            ));
+        });
+        return updatedStock;
+
     }
     
 }

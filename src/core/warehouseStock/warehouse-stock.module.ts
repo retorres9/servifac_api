@@ -14,7 +14,7 @@ import { LocationModule } from "../location/location.module";
     imports: [
         TypeOrmModule.forFeature([WarehouseStock]),
         ProductModule,
-        LocationModule
+        LocationModule  
     ],
     controllers: [WarehouseStockController],
     providers: [

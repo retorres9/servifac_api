@@ -1,4 +1,4 @@
-export class User {
+export class UserDomain {
   constructor(
     public strCi: string,
     public strFirstName: string,
