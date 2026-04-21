@@ -22,6 +22,9 @@ export class Customer {
     @Column({ type: 'varchar', nullable: true })
     cusPhone?: string;
 
+    @Column({ type: 'varchar', nullable: true })
+    cusAddress?: string;
+
     @OneToMany(() => Sales, (sales) => sales.salFkIdCustomer)
     sales!: Sales[];
 }
