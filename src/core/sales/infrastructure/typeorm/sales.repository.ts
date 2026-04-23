@@ -9,8 +9,16 @@ export class SalesRepository implements ISales {
         @InjectRepository(Sales)
         private salesRepository: Repository<Sales>,
     ) {}
-    async createSale(sale: SalesDomain): Promise<void> {
-        throw new Error("Method not implemented.");
+    async createSale(sale: SalesDomain): Promise<number> {
+        const saleEntity = this.salesRepository.create({
+            salFkIdCustomer: { cusId: sale.intCustomerId },
+            salFkIdStatus: { prmId: sale.intIdStatus },
+            salTotal: sale.dcmTotal,
+            salTotalWithTax: sale.dcmTotalWithTax,
+            salFkIdUser: { usrId: sale.intUserId },
+        });
+        const savedSale = await this.salesRepository.save(saleEntity);
+        return savedSale.salId;
     }
     async getSaleById(id: number): Promise<SalesDomain[] | null> {
         throw new Error("Method not implemented.");
