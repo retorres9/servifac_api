@@ -11,7 +11,7 @@ export class ProductProvider {
     @JoinColumn({ name: 'pprFkProductId' })
     pprFkProductId!: Product;
 
-    @ManyToOne(() => Provider, (provider) => provider.productProviders)
+    @ManyToOne(() => Provider, (provider) => provider.prvProductProviders)
     @JoinColumn({ name: 'pprFkProviderId' })
     pprFkProviderId!: Provider;
 
@@ -23,4 +23,7 @@ export class ProductProvider {
 
     @Column({ type: 'numeric', nullable: true })
     pprLeadDays!: number;
+
+    @Column({ type: 'boolean', nullable: true })
+    pprIsActive!: boolean;
 }

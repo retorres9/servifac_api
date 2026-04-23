@@ -6,5 +6,4 @@ export interface IProductProvider {
     getProductProviderById(id: number): Promise<ProductProviderDomain[] | null>;
     getAllProductProviders(): Promise<ProductProviderDomain[]>;
     updateProductProvider(id: number, productProvider: ProductProviderDomain): Promise<void>;
-    deleteProductProvider(id: number): Promise<void>;
 }

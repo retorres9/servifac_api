@@ -4,6 +4,8 @@ export class ProductProviderDomain {
         public intIdProvider: number,
         public strSupplierSku: string,
         public intUnitPrice: number,
-        public intLeadDays: number
+        public intLeadDays: number,
+        public isActive: boolean,
+        public intId?: number
     ) {}
 }
