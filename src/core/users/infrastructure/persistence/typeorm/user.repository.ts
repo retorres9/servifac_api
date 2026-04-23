@@ -4,12 +4,12 @@ import { Like, Repository } from "typeorm";
 import { UserDomain } from "src/core/users/domain/user.domain";
 import { BadRequestException } from "@nestjs/common";
 import * as bcrypt from 'bcryptjs';
-import { UserEntity } from "./user.entity";
+import { User } from "./user.entity";
 
 export class UserTypeormRepository implements IUser {
   constructor(
-    @InjectRepository(UserEntity)
-    private readonly userRepository: Repository<UserEntity>
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>
   ) {}
     async restorePassword(user: UserDomain, prevPassword: string, newPassword: string): Promise<void> {
         const validPreviousPassword = await bcrypt.compare(prevPassword, user.strPassword);
@@ -21,7 +21,7 @@ export class UserTypeormRepository implements IUser {
         await this.userRepository.update({ usrId: user.intUserId }, { usrPassword: hashedNewPassword, usrIsAbleToChangePassword: false, usrTempPass: null });
     }
     async findByUsername(username: string): Promise<UserDomain | null> {
-        const userEntity: UserEntity | null = await this.userRepository.findOne({ where: { usrUsername: username } });
+        const userEntity: User | null = await this.userRepository.findOne({ where: { usrUsername: username } });
         if (!userEntity) {
             return null;
         }

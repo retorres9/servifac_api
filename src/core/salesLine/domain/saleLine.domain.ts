@@ -1,4 +1,4 @@
-export class SalesDomain {
+export class SaleLineDomain {
     constructor(
         public intSaleId: number,
         public intIdProduct: number,

@@ -1,4 +1,5 @@
-import { SalesLineModule } from "src/core/salesLine/sales-line.module";
+import { SaleLineDomain } from "src/core/salesLine/domain/saleLine.domain";
+
 
 export class SalesDomain {
     constructor(
@@ -7,6 +8,6 @@ export class SalesDomain {
         public dcmTotal: number,
         public dcmTotalWithTax: number,
         public intUserId: number,
-        public SaleLines: SalesLineModule[]
+        public SaleLines: SaleLineDomain[]
     ) {}
 }

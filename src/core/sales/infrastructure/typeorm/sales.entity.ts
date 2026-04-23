@@ -1,7 +1,7 @@
 import { Customer } from "src/core/customer/infrastructure/typeorm/customer.entity";
 import { Parameter } from "src/core/parameter/infrastructure/typeorm/parameter.entity";
 import { SalesLine } from "src/core/salesLine/infrastructure/typeorm/sales-line.entity";
-import { UserEntity } from "src/core/users/infrastructure/persistence/typeorm/user.entity";
+import { User } from "src/core/users/infrastructure/persistence/typeorm/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -12,7 +12,7 @@ export class Sales{
     @OneToMany(() => SalesLine, (line) => line.sllFkIdSales, { cascade: true, eager: true })
     salesLines!: SalesLine[];
 
-    @ManyToOne(() => Customer, (customer) => customer.sales)
+    @ManyToOne(() => Customer, (customer) => customer.cusFksales)
     @JoinColumn({ name: 'salFkIdCustomer' })
     salFkIdCustomer!: Customer;
 
@@ -29,7 +29,7 @@ export class Sales{
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     salCreatedAt!: Date;
 
-    @ManyToOne(() => UserEntity)
+    @ManyToOne(() => User)
     @JoinColumn({ name: 'salFkIdUser' })
-    salFkIdUser!: UserEntity;
+    salFkIdUser!: User;
 }

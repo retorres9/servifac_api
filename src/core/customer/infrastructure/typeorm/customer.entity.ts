@@ -1,5 +1,6 @@
 import { Sales } from "src/core/sales/infrastructure/typeorm/sales.entity";
-import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Warehouse } from "src/core/warehouse/infrastructure/typeorm/warehouse.entity";
+import { Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Customer {
@@ -16,15 +17,18 @@ export class Customer {
     @Index()
     cusCi!: string;
 
-    @Column({ type: 'varchar', nullable: true })
-    cusEmail?: string;
+    @Column({ type: 'varchar' })
+    cusEmail!: string;
 
-    @Column({ type: 'varchar', nullable: true })
-    cusPhone?: string;
+    @Column({ type: 'varchar' })
+    cusPhone!: string;
 
-    @Column({ type: 'varchar', nullable: true })
-    cusAddress?: string;
+    @Column({ type: 'varchar' })
+    cusAddress!: string;
 
     @OneToMany(() => Sales, (sales) => sales.salFkIdCustomer)
-    sales!: Sales[];
+    cusFksales!: Sales[];
+
+    @OneToOne(() => Warehouse, (warehouse) => warehouse.wrhId)
+    cusFkWarehouse!: Warehouse;
 }

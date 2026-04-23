@@ -1,7 +1,7 @@
-import { SalesLineModule } from "../../sales-line.module";
+import { SaleLineDomain } from "../saleLine.domain";
 
 export const SALES_LINE_REPOSITORY = Symbol('SALES_LINE_REPOSITORY');
 export interface ISalesLine {
-    createSaleLine(saleLine: SalesLineModule): Promise<void>;
-    getSaleLineById(id: number): Promise<SalesLineModule[] | null>;
+    createSaleLine(saleLine: SaleLineDomain): Promise<void>;
+    getSaleLineById(id: number): Promise<SaleLineDomain[] | null>;
 }

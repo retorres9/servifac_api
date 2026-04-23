@@ -9,7 +9,7 @@ export class StockMovementDto {
     intIdMovementType!: number;
 
     @IsOptional()
-    strNote?: string;
+    strNote: string | null | undefined;
 
     @Min(1)
     @IsNumber()

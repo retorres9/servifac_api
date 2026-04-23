@@ -11,7 +11,7 @@ export class GetStockByWarehouseUseCase {
     async execute(warehouseId: number): Promise<GetStockByWarehouseOutput[]> {
         const stockEntries = await this.warehouseStock.getStockByWarehouse(warehouseId);
         return stockEntries.map(entry => ({
-            strProductName: entry.strProductName, // Assuming you want to return the product name.
+            strProductName: entry.strProductName!, // Assuming you want to return the product name.
             intQuantity: entry.intQuantity,
             dcmPrice: entry.dcmPrice,
             strUnityOfMeasure: entry.strUnityOfMeasure

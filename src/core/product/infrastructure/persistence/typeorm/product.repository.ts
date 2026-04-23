@@ -28,7 +28,6 @@ export class ProductRepository implements IProduct {
       prodBarcode: product.strProductCode,
       prodName: product.strProductName,
       prodTypeOfTax: product.intTypeOfTax,
-      location: { locId: product.intIdLocation },
       category: { catId: product.intIdCategory }
     });
     const savedProduct = await this.productRepository.save(newProductEntity);

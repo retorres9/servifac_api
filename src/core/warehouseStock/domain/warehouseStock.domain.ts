@@ -11,6 +11,7 @@ export class WarehouseStockDomain {
         public dcmDiscount?: number | null,
         public intMinimumStock?: number | null,
         public intMaximumStock?: number | null,
-        public intUpdatedBy?: number | null
+        public intUpdatedBy?: number | null,
+        public strProductName?: string | null
     ) {}
 }

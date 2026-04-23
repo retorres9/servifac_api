@@ -5,6 +5,9 @@ export class CustomerDomain {
         public strLastName: string,
         public strEmail: string,
         public strPhone: string,
-        public strAddress: string
+        public strAddress: string,
+        public intIdWarehouse: number,
+        public strWarehouseName: string | null,
+        public intCustomerId?: number
     ) {}
 }

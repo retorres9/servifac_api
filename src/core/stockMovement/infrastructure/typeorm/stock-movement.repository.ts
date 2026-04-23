@@ -12,9 +12,9 @@ export class StockMovementRepository implements IStockMovement {
 
     async addStockMovement(stockMovement: StockMovementDomain): Promise<void> {
         const newStockMovement = this.stockMovementRepository.create({
-            stmMovementType: {prmId: stockMovement.intIdMovementType},
+            stmMovementType: stockMovement.intIdMovementType ? {prmId: stockMovement.intIdMovementType} : undefined,
             stmReferenceId: stockMovement.strReference,
-            stmNote: stockMovement.strNote,
+            stmNote: stockMovement.strNote || undefined,
             stmCreatedBy: {usrId: stockMovement.intIdUser}
         });
         await this.stockMovementRepository.save(newStockMovement);
@@ -28,7 +28,7 @@ export class StockMovementRepository implements IStockMovement {
         });
         return movements.then(movs => movs.map(mov => new StockMovementDomain(
             mov.stmReferenceId,
-            mov.stmMovementType.prmId,
+            mov.stmMovementType ? mov.stmMovementType.prmId : 0,
             mov.stmNote ?? '',
             mov.stmCreatedBy.usrId
         )));
@@ -41,8 +41,8 @@ export class StockMovementRepository implements IStockMovement {
         });
         return movements.then(movs => movs.map(mov => new StockMovementDomain(
             mov.stmReferenceId,
-            mov.stmMovementType.prmId,
-            mov.stmNote || '',
+            mov.stmMovementType ? mov.stmMovementType.prmId : 0,
+            mov.stmNote ?? undefined,
             mov.stmCreatedBy.usrId
         )));
     }
@@ -58,8 +58,8 @@ export class StockMovementRepository implements IStockMovement {
         });
         return movements.then(movs => movs.map(mov => new StockMovementDomain(
             mov.stmReferenceId,
-            mov.stmMovementType.prmId,
-            mov.stmNote || '',
+            mov.stmMovementType ? mov.stmMovementType.prmId : 0,
+            mov.stmNote ?? undefined,
             mov.stmCreatedBy.usrId
         )));
     }

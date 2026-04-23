@@ -14,6 +14,7 @@ import { StockMovementRepository } from "./infrastructure/typeorm/stock-movement
             provide: STOCK_MOVEMENT_INTERFACE,
             useClass: StockMovementRepository,
         }
-    ]
+    ],
+    exports: [STOCK_MOVEMENT_INTERFACE]
 })
 export class StockMovementModule {}

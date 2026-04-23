@@ -2,7 +2,7 @@ import { BadRequestException, Inject } from '@nestjs/common';
 import { USER_INTERFACE, type IUser } from '../../domain/repository/user.interface';
 import { CreateUserInput } from '../model/create-user.input';
 import { CreateUserOutput } from '../model/create-user.output';
-import { User } from '../../domain/user.domain';
+import { UserDomain } from '../../domain/user.domain';
 
 export class CreateUserUseCase {
   constructor(
@@ -15,7 +15,7 @@ export class CreateUserUseCase {
     if (existingUser) {
       throw new BadRequestException('User already exists');
     }
-    const user = new User(
+    const user = new UserDomain(
       userInput.strCi,
       userInput.strFirstName,
       userInput.strLastName,

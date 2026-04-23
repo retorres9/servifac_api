@@ -1,7 +1,7 @@
 import { Module} from '@nestjs/common';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './infrastructure/persistence/typeorm/user.entity';
+import { User } from './infrastructure/persistence/typeorm/user.entity';
 import { CreateUserUseCase } from './application/use-cases/create-user.usecase';
 import { UserController } from './interface/controllers/user.controller';
 import { USER_INTERFACE } from './domain/repository/user.interface';
@@ -13,7 +13,7 @@ import { RestorePasswordUseCase } from './application/use-cases/restore-password
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: 'your_jwt_secret_key', // Cambia esto por una clave secreta segura
       signOptions: { expiresIn: '1h' }, // Opcional: configura la expiración del token

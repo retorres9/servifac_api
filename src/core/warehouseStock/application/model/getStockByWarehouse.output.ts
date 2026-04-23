@@ -1,6 +1,6 @@
 export type GetStockByWarehouseOutput = {
-    strProductName: string;
+    strProductName?: string;
     intQuantity: number;
     dcmPrice: number;
-    strUnityOfMeasure: string;
+    strUnityOfMeasure?: string | null;
 };

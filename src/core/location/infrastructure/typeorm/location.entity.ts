@@ -12,4 +12,6 @@ export class Location {
   @ManyToOne(() => Warehouse)
   @JoinColumn({ name: 'locFkWarehouseId' })
   locFkWarehouseId!: Warehouse;
+
+  
 }
