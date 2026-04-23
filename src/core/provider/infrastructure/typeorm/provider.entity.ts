@@ -1,4 +1,5 @@
 import { ProductProvider } from "src/core/productProvider/infrastructure/typeorm/product-provider.entity";
+import { User } from "src/core/users/infrastructure/persistence/typeorm/user.entity";
 import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -28,9 +29,15 @@ export class Provider {
     @Column({ type: 'varchar', nullable: true })
     prvPhone?: string;
 
+    @Column({ type: 'varchar', nullable: true })
+    prvAddress?: string;
+
     @Column({ type: 'boolean', default: true })
     prvActive!: boolean;
 
     @OneToMany(() => ProductProvider, (productProvider) => productProvider.pprFkProviderId)
-    productProviders!: ProductProvider[];
+    prvProductProviders!: ProductProvider[];
+
+    @OneToMany(() => User, (user) => user.usrId)
+    prvUsers!: User[];
 }

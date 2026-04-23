@@ -1,9 +1,12 @@
 export type CreateProviderInput = {
-    intIdProvider: number;
+    strRuc: string;
     strProviderName: string;
+    strProviderBusinessName: string;
     strProviderDescription: string;
     strProviderContact: string;
-    strProviderEmail: string;
     strProviderPhone: string;
-    boolProviderActive: boolean;
+    strProviderEmail: string;
+    strProviderAddress: string;
+    intIdUser?: number;
+    strUser?: string;
 }
