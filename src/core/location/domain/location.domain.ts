@@ -1,7 +1,13 @@
 export class LocationDomain {
   constructor(
-    public intLocationId: number,
     public strLocationName: string,
-    public intWarehouse: number
+    public strLocationDescription: string,
+    public intWarehouse: number,
+    public intLocationId?: number,
+    public strWarehouseName?: string,
+    public intUserCreate?: number,
+    public dtCreatedAt?: Date,
+    public intUserUpdate?: number,
+    public dtUpdatedAt?: Date,
   ) {}
 }

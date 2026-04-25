@@ -2,7 +2,6 @@ import { BadRequestException, Inject } from '@nestjs/common';
 import { CATEGORY_INTERFACE } from '../../domain/repository/category.interface';
 import type { ICategory } from '../../domain/repository/category.interface';
 import type { CreateCategoryInput } from '../models/create-category.input';
-import { CreateCategoryOutput } from '../models/create-category.output';
 
 export class CreateCategoryUseCase {
   constructor(

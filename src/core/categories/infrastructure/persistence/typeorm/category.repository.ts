@@ -48,7 +48,7 @@ export class CategoryTypeormRepository implements ICategory {
         entity.catName, 
         entity.catDescription, 
         entity.catCreatedBy.usrId,
-        entity.catCreatedBy.usrFirstName,
+        entity.catCreatedBy.usrUsername,
         entity.catId, 
       )
     );

@@ -3,7 +3,7 @@ import { BadRequestException, Inject } from "@nestjs/common";
 import { AddStockMovementInput } from "../model/add-stock-movement.input";
 import { WarehouseStockDomain } from "../../domain/warehouseStock.domain";
 import { type IProduct, PRODUCT_INTERFACE } from "@core/product/domain/repository/product.interface";
-import { type ILocation, LOCATION_INTERFACE } from "@core/location/domain/repository/location.interface";
+import { type ILocation, LOCATION_INTERFACE } from "@core/location/domain/interfaces/location.interface";
 import { LocationDomain } from "@core/location/domain/location.domain";
 import { ProductDomain } from "@core/product/domain/product.domain";
 

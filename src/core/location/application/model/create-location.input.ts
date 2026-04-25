@@ -1,5 +1,6 @@
 export type CreateLocationInput = {
-  intLocationId: number;
   strLocationName: string;
+  strLocationDescription: string;
   intWarehouse: number;
+  intUserCreate: number;
 };
