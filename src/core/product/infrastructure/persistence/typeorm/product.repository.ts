@@ -1,8 +1,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './product.entity';
 import { Repository } from 'typeorm';
-import { IProduct } from 'src/core/product/domain/repository/product.interface';
-import { ProductDomain } from 'src/core/product/domain/product.domain';
+import { IProduct } from '@core/product/domain/repository/product.interface';
+import { ProductDomain } from '@core/product/domain/product.domain';
 import { BadRequestException } from '@nestjs/common';
 
 export class ProductRepository implements IProduct {

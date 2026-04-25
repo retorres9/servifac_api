@@ -1,5 +1,5 @@
 import { Inject } from "@nestjs/common";
-import { type ITransactionManager, TRANSACTION_MANAGER } from "src/common/domain/transaction.manager";
+import { type ITransactionManager, TRANSACTION_MANAGER } from "@common/domain/transaction.manager";
 import { SALES_INTERFACE, type ISales } from "../../domain/interfaces/sales.interface";
 import { SellStockInput } from "../model/createSale.input";
 import { CUSTOMER_REPOSITORY, type ICustomer } from "@core/customer/domain/interfaces/customer.interface";

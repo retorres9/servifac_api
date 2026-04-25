@@ -3,7 +3,7 @@ import { Parameter } from "./parameter.entity";
 import { MoreThan, Repository } from "typeorm";
 import { IParameter } from "../../domain/repository/parameter.interface";
 import { ParameterDomain } from "../../domain/parameter.domain";
-import { REDIS_CLIENT } from "src/common/Redis/redis.provider";
+import { REDIS_CLIENT } from "@common/Redis/redis.provider";
 import { InjectRepository } from "@nestjs/typeorm";
 
 export class ParameterTypeOrmRepository implements IParameter {

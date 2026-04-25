@@ -4,7 +4,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { PARAMETER_INTERFACE } from "./domain/repository/parameter.interface";
 import { ParameterTypeOrmRepository } from "./infrastructure/typeorm/parameter.repository";
 import { CreateParameterUseCase } from "./application/use-cases/create-parameter.usecase";
-import { RedisModule } from "src/common/Redis/redis.module";
+import { RedisModule } from "@common/Redis/redis.module";
 import { Parameter } from "./infrastructure/typeorm/parameter.entity";
 
 @Module({

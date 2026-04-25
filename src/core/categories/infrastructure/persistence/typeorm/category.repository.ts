@@ -1,9 +1,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category } from './category.entity';
-import { CategoryDomain } from 'src/core/categories/domain/category.domain';
+import { CategoryDomain } from '@core/categories/domain/category.domain';
 import { Repository } from 'typeorm';
-import { ICategory } from 'src/core/categories/domain/repository/category.interface';
-import { CreateCategoryInput } from 'src/core/categories/application/models/create-category.input';
+import { ICategory } from '@core/categories/domain/repository/category.interface';
 
 export class CategoryTypeormRepository implements ICategory {
   constructor(
@@ -12,31 +11,46 @@ export class CategoryTypeormRepository implements ICategory {
   ) {}
 
   async findByName(
-    createCategoryDto: CreateCategoryInput
+    createCategoryDto: CategoryDomain
   ): Promise<CategoryDomain | null> {
     const name = createCategoryDto.strCategoryName;
     const categoryFound = await this.categoryRepository.findOne({
       where: { catName: name },
+      relations: ['catFkCreatedBy']
     });
     return categoryFound
-      ? new CategoryDomain(categoryFound.catId, categoryFound.catName)
+      ? new CategoryDomain(
+        categoryFound.catName, 
+        categoryFound.catDescription, 
+        categoryFound.catCreatedBy.usrId, 
+        categoryFound.catCreatedBy.usrFirstName,
+        categoryFound.catId, 
+      )
       : null;
   }
 
   async createCategory(
-    createCategoryDto: CreateCategoryInput
+    createCategoryDto: CategoryDomain
   ): Promise<CategoryDomain> {
     const newCategoryEntity = this.categoryRepository.create({
       catName: createCategoryDto.strCategoryName,
+      catDescription: createCategoryDto.strCategoryDescription,
+      catCreatedBy: { usrId: createCategoryDto.intUserId },
     });
     const savedCategory = await this.categoryRepository.save(newCategoryEntity);
-    return new CategoryDomain(savedCategory.catId, savedCategory.catName);
+    return new CategoryDomain(savedCategory.catName, savedCategory.catDescription, savedCategory.catCreatedBy.usrId);
   }
 
   async getCategories(): Promise<CategoryDomain[]> {
     const categoryEntities = await this.categoryRepository.find();
     return categoryEntities.map(
-      (entity) => new CategoryDomain(entity.catId, entity.catName)
+      (entity) => new CategoryDomain(
+        entity.catName, 
+        entity.catDescription, 
+        entity.catCreatedBy.usrId,
+        entity.catCreatedBy.usrFirstName,
+        entity.catId, 
+      )
     );
   }
 }

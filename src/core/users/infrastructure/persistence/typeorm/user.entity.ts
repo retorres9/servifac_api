@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Category } from "@core/categories/infrastructure/persistence/typeorm/category.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -56,4 +57,6 @@ export class User {
     @Column({ type: 'int', default: 0 })
     usrLoginAttempts!: number;
     
+    @OneToMany(() => Category, (category) => category.catCreatedBy)
+    categories!: Category[];
 };

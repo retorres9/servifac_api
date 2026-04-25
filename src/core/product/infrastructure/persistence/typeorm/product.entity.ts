@@ -1,5 +1,5 @@
-import { Category } from 'src/core/categories/infrastructure/persistence/typeorm/category.entity';
-import { ProductProvider } from 'src/core/productProvider/infrastructure/typeorm/product-provider.entity';
+import { Category } from '@core/categories/infrastructure/persistence/typeorm/category.entity';
+import { ProductProvider } from '@core/productProvider/infrastructure/typeorm/product-provider.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

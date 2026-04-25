@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TRANSACTION_MANAGER } from "./domain/transaction.manager";
 import { DataSource } from "typeorm";
-import { TypeOrmTransactionManager } from "src/infrastructure/database/typeorm.transaction.manager";
+import { TypeOrmTransactionManager } from "@infrastructure/database/typeorm.transaction.manager";
 
 @Module({
     providers: [{

@@ -1,4 +1,4 @@
-import { ITransactionManager } from "src/common/domain/transaction.manager";
+import { ITransactionManager } from "@common/domain/transaction.manager";
 import { DataSource } from "typeorm";
 
 export class TypeOrmTransactionManager implements ITransactionManager {

@@ -1,4 +1,4 @@
-import { Warehouse } from 'src/core/warehouse/infrastructure/typeorm/warehouse.entity';
+import { Warehouse } from '@core/warehouse/infrastructure/typeorm/warehouse.entity';
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()

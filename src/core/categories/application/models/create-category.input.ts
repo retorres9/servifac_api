@@ -1,4 +1,5 @@
 export type CreateCategoryInput = {
-  intId: number;
   strCategoryName: string;
+  strCategoryDescription: string;
+  intUserId: number;
 };

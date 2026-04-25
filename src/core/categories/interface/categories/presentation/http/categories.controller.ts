@@ -1,5 +1,5 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { CreateCategoryUseCase } from 'src/core/categories/application/use-cases/create-category.usecase';
+import { CreateCategoryUseCase } from '@core/categories/application/use-cases/create-category.usecase';
 import { CreateCategoryDto } from '../../dto/create-category.dto';
 
 @Controller('categories')

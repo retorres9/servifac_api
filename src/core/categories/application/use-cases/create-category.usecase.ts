@@ -12,7 +12,7 @@ export class CreateCategoryUseCase {
 
   async execute(
     categoryInput: CreateCategoryInput
-  ): Promise<CreateCategoryOutput> {
+  ): Promise<void> {
     const existingCategory =
       await this.categoryRepository.findByName(categoryInput);
     console.log('Existing Category:', existingCategory);
@@ -20,8 +20,6 @@ export class CreateCategoryUseCase {
       throw new BadRequestException({ message: 'Category already exists' });
     }
 
-    const newCategory =
-      await this.categoryRepository.createCategory(categoryInput);
-    return newCategory;
+    await this.categoryRepository.createCategory(categoryInput);
   }
 }
