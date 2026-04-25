@@ -1,9 +1,10 @@
 import { Inject } from "@nestjs/common";
 import { type ITransactionManager, TRANSACTION_MANAGER } from "@common/domain/transaction.manager";
 import { SALES_INTERFACE, type ISales } from "../../domain/interfaces/sales.interface";
-import { SellStockInput } from "../model/createSale.input";
 import { CUSTOMER_REPOSITORY, type ICustomer } from "@core/customer/domain/interfaces/customer.interface";
 import { type IStockMovement, STOCK_MOVEMENT_INTERFACE } from "@core/stockMovement/domain/repository/stockMovement.interface";
+import { type ISalesLine, SALES_LINE_REPOSITORY } from "@core/salesLine/domain/interfaces/saleLine.interface";
+import { SaleLineDomain } from "@core/salesLine/domain/saleLine.domain";
 
 export class CreateSaleUseCase {
     constructor(
@@ -14,11 +15,17 @@ export class CreateSaleUseCase {
         @Inject(CUSTOMER_REPOSITORY)
         private readonly customerRepository: ICustomer,
         @Inject(STOCK_MOVEMENT_INTERFACE)
-        private readonly stockMovementRepository: IStockMovement
+        private readonly stockMovementRepository: IStockMovement,
+        @Inject(SALES_LINE_REPOSITORY)
+        private readonly salesLineRepository: ISalesLine
     ) {}
 
-    async execute(input: SellStockInput) {
+    async execute(input: SaleLineDomain): Promise<void> {
         await this.transactionManager.run(async () => {
+            const client = await this.customerRepository.getCustomerById(input.intCustomerId);
+            if (!client) {
+                throw new Error("Customer not found");
+            }
             const saleId = await this.salesRepository.createSale({
                 intCustomerId: input.intCustomerId,
                 intIdStatus: 1, // Assuming 1 represents a new sale
@@ -27,10 +34,8 @@ export class CreateSaleUseCase {
                 intUserId: input.intUserId,
                 SaleLines: []
             });
-            const client = await this.customerRepository.getCustomerById(input.intCustomerId);
-            if (!client) {
-                throw new Error("Customer not found");
-            }
+            input.lines.forEach(line => line.intIdSale = saleId);
+            await this.salesLineRepository.createSaleLines(input.lines);
             await this.stockMovementRepository.addStockMovement(
                 {
                     strReference: `Sale #${saleId}`,
@@ -38,7 +43,8 @@ export class CreateSaleUseCase {
                     strNote: `Quantity: -${input.intUserId}`,
                     intIdUser: input.intUserId,
                 }
-            )
+            );
+
         });
     }
 }
