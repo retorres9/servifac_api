@@ -19,13 +19,16 @@ export class ProviderRepository implements IProvider {
             prvActive: entry.boolProviderActive
         });
         return this.providerRepository.save(newProvider).then(savedProvider => ({
+            strRuc: savedProvider.prvRuc,
             intIdProvider: savedProvider.prvId,
             strProviderName: savedProvider.prvName,
             strProviderDescription: savedProvider.prvDescription ?? '',
             strProviderContact: savedProvider.prvContact ?? '',
             strProviderEmail: savedProvider.prvEmail ?? '',
             strProviderPhone: savedProvider.prvPhone ?? '',
-            boolProviderActive: savedProvider.prvActive
+            boolProviderActive: savedProvider.prvActive,
+            strProviderBusinessName: savedProvider.prvBusinessName ?? '',
+            strProviderAddress: savedProvider.prvAddress ?? ''
         }));
     }
     async getProviderEntries(): Promise<ProviderDomain[]> {
@@ -37,7 +40,10 @@ export class ProviderRepository implements IProvider {
             strProviderContact: provider.prvContact ?? '',
             strProviderEmail: provider.prvEmail ?? '',
             strProviderPhone: provider.prvPhone ?? '',
-            boolProviderActive: provider.prvActive
+            boolProviderActive: provider.prvActive,
+            strProviderBusinessName: provider.prvBusinessName ?? '',
+            strProviderAddress: provider.prvAddress ?? '',
+            strRuc: provider.prvRuc
         }));
     }
     async getProviderEntry(entry: ProviderDomain): Promise<ProviderDomain | null> {
@@ -52,7 +58,10 @@ export class ProviderRepository implements IProvider {
             strProviderContact: foundProvider.prvContact ?? '',
             strProviderEmail: foundProvider.prvEmail ?? '',
             strProviderPhone: foundProvider.prvPhone ?? '',
-            boolProviderActive: foundProvider.prvActive
+            boolProviderActive: foundProvider.prvActive,
+            strProviderBusinessName: foundProvider.prvBusinessName ?? '',
+            strProviderAddress: foundProvider.prvAddress ?? '',
+            strRuc: foundProvider.prvRuc
         };
 
     }
@@ -77,7 +86,10 @@ export class ProviderRepository implements IProvider {
             strProviderContact: updatedProvider.prvContact ?? '',
             strProviderEmail: updatedProvider.prvEmail ?? '',
             strProviderPhone: updatedProvider.prvPhone ?? '',
-            boolProviderActive: updatedProvider.prvActive
+            boolProviderActive: updatedProvider.prvActive,
+            strProviderBusinessName: updatedProvider.prvBusinessName ?? '',
+            strProviderAddress: updatedProvider.prvAddress ?? '',
+            strRuc: updatedProvider.prvRuc
         };
 
     }

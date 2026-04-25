@@ -3,7 +3,7 @@ import { IWarehouse } from "../../domain/repository/warehouse.interface";
 import { WarehouseDomain } from "../../domain/warehouse.domain";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Warehouse } from "./warehouse.entity";
-import { ParameterDomain } from "src/core/parameter/domain/parameter.domain";
+import { ParameterDomain } from "@core/parameter/domain/parameter.domain";
 
 export class WarehouseTypeormRepository implements IWarehouse {
     constructor(

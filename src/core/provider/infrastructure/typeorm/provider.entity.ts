@@ -1,5 +1,5 @@
-import { ProductProvider } from "src/core/productProvider/infrastructure/typeorm/product-provider.entity";
-import { User } from "src/core/users/infrastructure/persistence/typeorm/user.entity";
+import { ProductProvider } from "@core/productProvider/infrastructure/typeorm/product-provider.entity";
+import { User } from "@core/users/infrastructure/persistence/typeorm/user.entity";
 import { Column, Entity, Index, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

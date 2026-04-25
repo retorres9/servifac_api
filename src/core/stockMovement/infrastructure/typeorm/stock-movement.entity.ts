@@ -1,6 +1,6 @@
-import { Parameter } from "src/core/parameter/infrastructure/typeorm/parameter.entity";
-import { StockMovementLine } from "src/core/stockMovementLine/infrastructure/typeorm/stock-movementLine.entity";
-import { User } from "src/core/users/infrastructure/persistence/typeorm/user.entity";
+import { Parameter } from "@core/parameter/infrastructure/typeorm/parameter.entity";
+import { StockMovementLine } from "@core/stockMovementLine/infrastructure/typeorm/stock-movementLine.entity";
+import { User } from "@core/users/infrastructure/persistence/typeorm/user.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

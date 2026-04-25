@@ -1,5 +1,5 @@
-import { Product } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
-import { Provider } from "src/core/provider/infrastructure/typeorm/provider.entity";
+import { Product } from "@core/product/infrastructure/persistence/typeorm/product.entity";
+import { Provider } from "@core/provider/infrastructure/typeorm/provider.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

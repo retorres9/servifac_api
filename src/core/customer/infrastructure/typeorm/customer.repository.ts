@@ -11,7 +11,7 @@ export class CustomerRepository implements ICustomer {
         private readonly customerRepository: Repository<Customer>
     ) {}
 
-    createCustomer(customer: CustomerDomain): Promise<void> {
+    async createCustomer(customer: CustomerDomain): Promise<void> {
         const newCustomerEntity = this.customerRepository.create({
             cusCi: customer.strCi,
             cusFirstName: customer.strName,
@@ -21,7 +21,7 @@ export class CustomerRepository implements ICustomer {
             cusAddress: customer.strAddress,
             cusFkWarehouse: { wrhId: customer.intIdWarehouse }
         });
-        return this.customerRepository.save(newCustomerEntity).then(() => {});
+        await this.customerRepository.save(newCustomerEntity);
     }
     async getCustomerById(id: number): Promise<CustomerDomain | null> {
         const customer = await this.customerRepository.findOne({

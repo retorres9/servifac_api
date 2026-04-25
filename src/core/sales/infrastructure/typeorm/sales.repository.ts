@@ -3,8 +3,8 @@ import { ISales } from "../../domain/interfaces/sales.interface";
 import { SalesDomain } from "../../domain/sales.domain";
 import { Sales } from "./sales.entity";
 import { Repository } from "typeorm";
-import { SaleLineDomain } from "src/core/salesLine/domain/saleLine.domain";
-import { Parameter } from "src/core/parameter/infrastructure/typeorm/parameter.entity";
+import { SaleLineDomain } from "@core/salesLine/domain/saleLine.domain";
+import { Parameter } from "@core/parameter/infrastructure/typeorm/parameter.entity";
 
 export class SalesRepository implements ISales {
     constructor(

@@ -2,8 +2,8 @@ import { Inject } from "@nestjs/common";
 import { type ITransactionManager, TRANSACTION_MANAGER } from "src/common/domain/transaction.manager";
 import { SALES_INTERFACE, type ISales } from "../../domain/interfaces/sales.interface";
 import { SellStockInput } from "../model/createSale.input";
-import { CUSTOMER_REPOSITORY, type ICustomer } from "src/core/customer/domain/interfaces/customer.interface";
-import { type IStockMovement, STOCK_MOVEMENT_INTERFACE } from "src/core/stockMovement/domain/repository/stockMovement.interface";
+import { CUSTOMER_REPOSITORY, type ICustomer } from "@core/customer/domain/interfaces/customer.interface";
+import { type IStockMovement, STOCK_MOVEMENT_INTERFACE } from "@core/stockMovement/domain/repository/stockMovement.interface";
 
 export class CreateSaleUseCase {
     constructor(

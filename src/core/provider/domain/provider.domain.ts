@@ -8,5 +8,5 @@ export class ProviderDomain {
     public strProviderPhone!: string;
     public strProviderAddress!: string;
     public boolProviderActive!: boolean;
-    public intIdProvider!: number;
+    public intIdProvider?: number;
 }

@@ -1,7 +1,7 @@
-import { Customer } from "src/core/customer/infrastructure/typeorm/customer.entity";
-import { Parameter } from "src/core/parameter/infrastructure/typeorm/parameter.entity";
-import { SalesLine } from "src/core/salesLine/infrastructure/typeorm/sales-line.entity";
-import { User } from "src/core/users/infrastructure/persistence/typeorm/user.entity";
+import { Customer } from "@core/customer/infrastructure/typeorm/customer.entity";
+import { Parameter } from "@core/parameter/infrastructure/typeorm/parameter.entity";
+import { SalesLine } from "@core/salesLine/infrastructure/typeorm/sales-line.entity";
+import { User } from "@core/users/infrastructure/persistence/typeorm/user.entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

@@ -1,4 +1,4 @@
-import { SaleLineDomain } from "src/core/salesLine/domain/saleLine.domain";
+import { SaleLineDomain } from "@core/salesLine/domain/saleLine.domain";
 
 
 export class SalesDomain {

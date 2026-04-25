@@ -1,4 +1,4 @@
-import { Parameter } from "src/core/parameter/infrastructure/typeorm/parameter.entity";
+import { Parameter } from "@core/parameter/infrastructure/typeorm/parameter.entity";
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

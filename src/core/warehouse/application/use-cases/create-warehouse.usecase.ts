@@ -2,7 +2,7 @@ import { BadRequestException, Inject } from "@nestjs/common";
 import { WAREHOUSE_INTERFACE, type IWarehouse } from "../../domain/repository/warehouse.interface";
 import { CreateWarehouseInput } from "../model/create-warehosue.input";
 import { WarehouseDomain } from "../../domain/warehouse.domain";
-import { type IParameter, PARAMETER_INTERFACE } from "src/core/parameter/domain/repository/parameter.interface";
+import { type IParameter, PARAMETER_INTERFACE } from "@core/parameter/domain/repository/parameter.interface";
 
 export class CreateWarehouseUseCase {
     constructor(

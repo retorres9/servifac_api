@@ -1,7 +1,7 @@
 import { InjectRepository } from "@nestjs/typeorm";
-import { IUser } from "src/core/users/domain/repository/user.interface";
+import { IUser } from "@core/users/domain/repository/user.interface";
 import { Like, Repository } from "typeorm";
-import { UserDomain } from "src/core/users/domain/user.domain";
+import { UserDomain } from "@core/users/domain/user.domain";
 import { BadRequestException } from "@nestjs/common";
 import * as bcrypt from 'bcryptjs';
 import { User } from "./user.entity";

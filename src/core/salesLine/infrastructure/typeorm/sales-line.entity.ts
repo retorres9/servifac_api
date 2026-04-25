@@ -1,6 +1,6 @@
-import { Product } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
-import { Sales } from "src/core/sales/infrastructure/typeorm/sales.entity";
-import { Warehouse } from "src/core/warehouse/infrastructure/typeorm/warehouse.entity";
+import { Product } from "@core/product/infrastructure/persistence/typeorm/product.entity";
+import { Sales } from "@core/sales/infrastructure/typeorm/sales.entity";
+import { Warehouse } from "@core/warehouse/infrastructure/typeorm/warehouse.entity";
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

@@ -2,10 +2,10 @@ import { WAREHOUSESTOCK_INTERFACE, type IWarehouseStock } from "../../domain/rep
 import { BadRequestException, Inject } from "@nestjs/common";
 import { AddStockMovementInput } from "../model/add-stock-movement.input";
 import { WarehouseStockDomain } from "../../domain/warehouseStock.domain";
-import { type IProduct, PRODUCT_INTERFACE } from "src/core/product/domain/repository/product.interface";
-import { type ILocation, LOCATION_INTERFACE } from "src/core/location/domain/repository/location.interface";
-import { LocationDomain } from "src/core/location/domain/location.domain";
-import { ProductDomain } from "src/core/product/domain/product.domain";
+import { type IProduct, PRODUCT_INTERFACE } from "@core/product/domain/repository/product.interface";
+import { type ILocation, LOCATION_INTERFACE } from "@core/location/domain/repository/location.interface";
+import { LocationDomain } from "@core/location/domain/location.domain";
+import { ProductDomain } from "@core/product/domain/product.domain";
 
 export class AddWarehouseStockMovementUseCase {
     constructor(

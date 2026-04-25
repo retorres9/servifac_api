@@ -1,6 +1,6 @@
-import { Location } from "src/core/location/infrastructure/typeorm/location.entity";
-import { Product } from "src/core/product/infrastructure/persistence/typeorm/product.entity";
-import { Warehouse } from "src/core/warehouse/infrastructure/typeorm/warehouse.entity";
+import { Location } from "@core/location/infrastructure/typeorm/location.entity";
+import { Product } from "@core/product/infrastructure/persistence/typeorm/product.entity";
+import { Warehouse } from "@core/warehouse/infrastructure/typeorm/warehouse.entity";
 import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
