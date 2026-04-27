@@ -2,11 +2,12 @@ import { Controller, Post, Body, Param } from '@nestjs/common';
 import { CreateCategoryUseCase } from '@core/categories/application/use-cases/create-category.usecase';
 import { CreateCategoryDto } from '../../dto/create-category.dto';
 import { GetCategoriesDto } from '../../dto/get-categories.dto';
+import { GetCategoriesUseCase } from '@core/categories/application/use-cases/get-categories.usecase';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly createCategoryUseCase: CreateCategoryUseCase,
-    private readonly getCategoryByIdUseCase: GetCategoryByIdUseCase
+    private readonly getCategoriesUseCase: GetCategoriesUseCase
 
   ) {}
 
@@ -20,10 +21,10 @@ export class CategoriesController {
   //   return this.categoriesService.findAll();
   // }
 
-   @Post('find')
+   @Post('findAll')
    findOne(@Body() getCategoryByIdDto: GetCategoriesDto) {
     const { intId } = getCategoryByIdDto;
-     return this.(intId);
+     return this.getCategoriesUseCase.execute();
    }
 
   // @Patch(':id')

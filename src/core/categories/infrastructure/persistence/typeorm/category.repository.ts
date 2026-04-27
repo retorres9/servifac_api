@@ -4,7 +4,7 @@ import { CategoryDomain } from '@core/categories/domain/category.domain';
 import { Repository } from 'typeorm';
 import { ICategory } from '@core/categories/domain/repository/category.interface';
 
-export class CategoryTypeormRepository implements ICategory {
+export class CategoryRepository implements ICategory {
   constructor(
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>
@@ -52,5 +52,9 @@ export class CategoryTypeormRepository implements ICategory {
         entity.catId, 
       )
     );
+  }
+
+  getCategoryById(id: number): Promise<CategoryDomain> {
+    throw new Error('Method not implemented.');
   }
 }
