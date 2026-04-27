@@ -5,5 +5,6 @@ export const CATEGORY_INTERFACE = Symbol('CATEGORY_INTERFACE');
 export interface ICategory {
   createCategory(createCategoryDto: CategoryDomain): Promise<CategoryDomain>;
   getCategories(): Promise<CategoryDomain[]>;
+  getCategoryById(id: number): Promise<CategoryDomain>;
   findByName(createCategoryDto: CategoryDomain): Promise<CategoryDomain | null>;
 }
