@@ -54,7 +54,19 @@ export class CategoryRepository implements ICategory {
     );
   }
 
-  getCategoryById(id: number): Promise<CategoryDomain> {
-    throw new Error('Method not implemented.');
+  async getCategoryById(id: number): Promise<CategoryDomain | null> {
+    const categoryEntity = await this.categoryRepository.findOne({
+      where: { catId: id },
+      relations: ['catFkCreatedBy']
+    });
+    return categoryEntity
+      ? new CategoryDomain(
+          categoryEntity.catName,
+          categoryEntity.catDescription,
+          categoryEntity.catCreatedBy.usrId,
+          categoryEntity.catCreatedBy.usrUsername,
+          categoryEntity.catId
+        )
+      : null;
   }
 }

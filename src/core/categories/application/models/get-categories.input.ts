@@ -1,4 +1,4 @@
-export type GetCategoriesInput = {
+export type GetCategoriesFiltersInput = {
     intPage: number;
     intLimit: number;
     strSearchTerm?: string;
