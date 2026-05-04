@@ -1,5 +1,5 @@
 export type GetCategoriesFiltersInput = {
-    intPage: number;
+    intPage: number | undefined;
     intLimit: number;
     strSearchTerm?: string;
     dtFromDate?: Date;
