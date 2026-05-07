@@ -2,8 +2,6 @@ import { IsNumber } from "class-validator";
 
 export class GetCategoriesDto {
     @IsNumber()
-    intId?: number;
-    @IsNumber()
     intPage?: number;
     @IsNumber()
     intLimit?: number;

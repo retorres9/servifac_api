@@ -18,7 +18,14 @@ export class CategoriesController {
 
    @Post('findAll')
    findOne(@Body() getCategoryByIdDto: GetCategoriesDto) {
-     return this.getCategoriesUseCase.execute(getCategoryByIdDto);
+    const input = {
+      intPage: getCategoryByIdDto.intPage ?? 1,
+      intLimit: getCategoryByIdDto.intLimit ?? 10,
+      strSearchTerm: getCategoryByIdDto.strSearchTerm,
+      dtFromDate: getCategoryByIdDto.dtFromDate,
+      dtToDate: getCategoryByIdDto.dtToDate,
+    }
+     return this.getCategoriesUseCase.execute(input);
    }
 
   // @Patch(':id')
