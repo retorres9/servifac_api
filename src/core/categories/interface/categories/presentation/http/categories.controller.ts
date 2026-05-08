@@ -1,13 +1,16 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Param, Patch } from '@nestjs/common';
 import { CreateCategoryUseCase } from '@core/categories/application/use-cases/create-category.usecase';
 import { CreateCategoryDto } from '../../dto/create-category.dto';
 import { GetCategoriesDto } from '../../dto/get-categories.dto';
 import { GetCategoriesUseCase } from '@core/categories/application/use-cases/get-categories.usecase';
+import { UpdateCategoryDto } from '../../dto/update-category.dto';
+import { UpdateCategoryUseCase } from '@core/categories/application/use-cases/upd-category.usecase';
 
 @Controller('categories')
 export class CategoriesController {
   constructor(private readonly createCategoryUseCase: CreateCategoryUseCase,
-    private readonly getCategoriesUseCase: GetCategoriesUseCase
+    private readonly getCategoriesUseCase: GetCategoriesUseCase,
+    private readonly updateCategoryUseCase: UpdateCategoryUseCase
 
   ) {}
 
@@ -28,13 +31,8 @@ export class CategoriesController {
      return this.getCategoriesUseCase.execute(input);
    }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
-  //   return this.categoriesService.update(+id, updateCategoryDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.categoriesService.remove(+id);
-  // }
+  @Patch(':id')
+  update(@Body() updateCategoryDto: UpdateCategoryDto) {
+    return this.updateCategoryUseCase.execute(updateCategoryDto);
+  }
 }

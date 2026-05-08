@@ -6,6 +6,7 @@ import { CATEGORY_INTERFACE } from '../../domain/repository/category.interface';
 import { CategoryRepository } from '../../infrastructure/persistence/typeorm/category.repository';
 import { CreateCategoryUseCase } from '../../application/use-cases/create-category.usecase';
 import { GetCategoriesUseCase } from '@core/categories/application/use-cases/get-categories.usecase';
+import { UpdateCategoryUseCase } from '@core/categories/application/use-cases/upd-category.usecase';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Category])],
@@ -14,6 +15,7 @@ import { GetCategoriesUseCase } from '@core/categories/application/use-cases/get
     { provide: CATEGORY_INTERFACE, useClass: CategoryRepository },
     CreateCategoryUseCase,
     GetCategoriesUseCase,
+    UpdateCategoryUseCase
   ],
 })
 export class CategoriesModule {}

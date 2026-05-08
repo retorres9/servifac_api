@@ -9,6 +9,18 @@ export class CategoryRepository implements ICategory {
     @InjectRepository(Category)
     private readonly categoryRepository: Repository<Category>
   ) {}
+  async updateCategory(updateCategory: CategoryDomain): Promise<void> {
+    const category = await this.categoryRepository.preload({
+      catId: updateCategory.intId,
+      catName: updateCategory.strCategoryName,
+      catDescription: updateCategory.strCategoryDescription,
+      catUpdatedBy: { usrId: updateCategory.intUserId },
+    });
+    if (!category) {
+      throw new Error('Category not found');
+    }
+    await this.categoryRepository.save(category);
+  }
 
   async findByName(
     createCategoryDto: CategoryDomain

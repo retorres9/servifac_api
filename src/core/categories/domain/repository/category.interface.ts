@@ -8,4 +8,5 @@ export interface ICategory {
   getCategories(input: GetCategoriesFiltersInput): Promise<CategoryDomain[]>;
   getCategoryById(id: number): Promise<CategoryDomain | null>;
   findByName(createCategoryDto: CategoryDomain): Promise<CategoryDomain | null>;
+  updateCategory(updateCategoryDto: CategoryDomain): Promise<void>;
 }
