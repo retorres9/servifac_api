@@ -11,12 +11,17 @@ export class WarehouseTypeormRepository implements IWarehouse {
         private readonly warehouseRepository: Repository<Warehouse>
     ) {}
     async createWarehouseEntry(entry: DeepPartial<WarehouseDomain>): Promise<void> {
-
+        console.log('Creating warehouse entry with data:', entry);
+        const fk = (() => {
+            if (!entry.intTypeOfWarehouse) return undefined;
+            const v = entry.intTypeOfWarehouse as any;
+            if (typeof v === 'number') return { prmId: v };
+            return { prmId: v.prmId ?? v.intId ?? v };
+        })();
         const newWarehouse = this.warehouseRepository.create({
             wrhName: entry.strWarehouseName,
             wrhDescription: entry.strWarehouseDescription,
-            wrhFkTypeOfWarehouse: entry.intTypeOfWarehouse! ? { prmId: (entry.intTypeOfWarehouse as any).prmId ?? (entry.intTypeOfWarehouse as any).intId }
-      : undefined,
+            wrhFkTypeOfWarehouse: fk as any,
             wrhAddress: entry.strWarehouseAddress
         });
         await this.warehouseRepository.save(newWarehouse);
@@ -48,15 +53,22 @@ export class WarehouseTypeormRepository implements IWarehouse {
     }
 
     async updateWarehouse(entry: WarehouseDomain): Promise<WarehouseDomain | null> {
-        const warehouse = await this.warehouseRepository.findOne({ where: { wrhId: entry.intIdWarehouse }, relations: { wrhFkTypeOfWarehouse: true } });
-        if (!warehouse) {
-            return null;
-        }
-        warehouse.wrhName = entry.strWarehouseName;
-        warehouse.wrhDescription = entry.strWarehouseDescription;
-        warehouse.wrhFkTypeOfWarehouse = entry.intTypeOfWarehouse! ? { prmId: entry.intTypeOfWarehouse } : undefined as any;
-        warehouse.wrhAddress = entry.strWarehouseAddress;
-        const updatedWarehouse = await this.warehouseRepository.save(warehouse);
+        const existing = await this.warehouseRepository.findOne({ where: { wrhId: entry.intIdWarehouse } });
+        if (!existing) return null;
+        const fk = (() => {
+            if (!entry.intTypeOfWarehouse) return undefined;
+            const v = entry.intTypeOfWarehouse as any;
+            if (typeof v === 'number') return { prmId: v };
+            return { prmId: v.prmId ?? v.intId ?? v };
+        })();
+        await this.warehouseRepository.update(entry.intIdWarehouse as any, {
+            wrhName: entry.strWarehouseName,
+            wrhDescription: entry.strWarehouseDescription,
+            wrhFkTypeOfWarehouse: fk as any,
+            wrhAddress: entry.strWarehouseAddress
+        } as any);
+        const updatedWarehouse = await this.warehouseRepository.findOne({ where: { wrhId: entry.intIdWarehouse }, relations: { wrhFkTypeOfWarehouse: true } });
+        if (!updatedWarehouse) return null;
         return {
             intIdWarehouse: updatedWarehouse.wrhId,
             strWarehouseName: updatedWarehouse.wrhName,
