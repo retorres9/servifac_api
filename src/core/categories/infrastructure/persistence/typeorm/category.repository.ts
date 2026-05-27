@@ -28,7 +28,7 @@ export class CategoryRepository implements ICategory {
     const name = createCategoryDto.strCategoryName;
     const categoryFound = await this.categoryRepository.findOne({
       where: { catName: name },
-      relations: ['catFkCreatedBy']
+      relations: ['catCreatedBy']
     });
     return categoryFound
       ? new CategoryDomain(
@@ -69,7 +69,7 @@ export class CategoryRepository implements ICategory {
   async getCategoryById(id: number): Promise<CategoryDomain | null> {
     const categoryEntity = await this.categoryRepository.findOne({
       where: { catId: id },
-      relations: ['catFkCreatedBy']
+      relations: ['catCreatedBy']
     });
     return categoryEntity
       ? new CategoryDomain(

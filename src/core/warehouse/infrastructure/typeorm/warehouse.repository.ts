@@ -11,7 +11,6 @@ export class WarehouseTypeormRepository implements IWarehouse {
         private readonly warehouseRepository: Repository<Warehouse>
     ) {}
     async createWarehouseEntry(entry: DeepPartial<WarehouseDomain>): Promise<void> {
-        console.log('Creating warehouse entry with data:', entry);
         const fk = (() => {
             if (!entry.intTypeOfWarehouse) return undefined;
             const v = entry.intTypeOfWarehouse as any;

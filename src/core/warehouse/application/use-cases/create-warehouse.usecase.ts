@@ -14,7 +14,6 @@ export class CreateWarehouseUseCase {
 
     async execute(input: CreateWarehouseInput): Promise<void> {
         const typeOfWarehouse = await this.parameterRepository.findParameterById(input.intTypeOfWarehouse);
-        console.log('Type of warehouse:', typeOfWarehouse);
         if (!typeOfWarehouse) {
             throw new BadRequestException('Invalid type of warehouse');
         }
