@@ -30,6 +30,8 @@ export class LocationRepository implements ILocation {
     const newLocationEntity = this.locationRepository.create({
       locName: createLocationDto.strLocationName,
       locFkWarehouseId: {wrhId: createLocationDto.intWarehouse || 0},
+      locDescription: createLocationDto.strLocationDescription,
+      locFkUserCreate: {usrId: createLocationDto.intUserCreate || 0},
     });
     const savedLocation = await this.locationRepository.save(newLocationEntity);
     return new LocationDomain(
@@ -61,14 +63,16 @@ export class LocationRepository implements ILocation {
     );
   }
   async findByName(name: string): Promise<LocationDomain | null> {
-    const LocationFound = await this.locationRepository.findOne({
+    const locationFound = await this.locationRepository.findOne({
       where: { locName: name },
+      relations: ['locFkWarehouseId', 'locFkUserCreate', 'locFkUserUpdate']
     });
-    return LocationFound
+    console.log('LocationFound:', locationFound);
+    return locationFound
       ? new LocationDomain(
-          LocationFound.locName,
-          LocationFound.locDescription,
-          LocationFound.locFkWarehouseId.wrhId
+          locationFound.locName,
+          locationFound.locDescription,
+          locationFound.locFkWarehouseId.wrhId
         )
       : null;
   }

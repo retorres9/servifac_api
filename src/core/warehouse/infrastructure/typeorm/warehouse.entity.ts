@@ -1,5 +1,6 @@
 import { Parameter } from "@core/parameter/infrastructure/typeorm/parameter.entity";
-import { Column, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Location } from "@core/location/infrastructure/typeorm/location.entity";
 
 @Entity()
 export class Warehouse {
@@ -28,4 +29,7 @@ export class Warehouse {
 
     @Column({ type: 'boolean', default: true })
     wrhIsActive!: boolean;
+
+    @OneToMany(() => Location, (location) => location.locFkWarehouseId)
+    locations!: Location[];
 }
