@@ -19,19 +19,20 @@ export class ProductRepository implements IProduct {
     return (productEntity as unknown) as ProductDomain;
   }
 
-  async createProduct(product: ProductDomain): Promise<ProductDomain> {
+  async createProduct(product: ProductDomain): Promise<void> {
     const productFound = await this.productRepository.findOne({ where: { prodBarcode: product.strProductCode } });
     if (productFound) {
       throw new BadRequestException('Product already exists');
     }
     const newProductEntity = this.productRepository.create({
       prodBarcode: product.strProductCode,
+      prodCode: product.strProductCode,
       prodName: product.strProductName,
-      prodTypeOfTax: product.intTypeOfTax,
+      prodFkTypeOfTax: { prmId: product.intTypeOfTax },
       category: { catId: product.intIdCategory }
     });
-    const savedProduct = await this.productRepository.save(newProductEntity);
-    return this.mapToDomainEntity(savedProduct);
+    await this.productRepository.save(newProductEntity);
+    
   }
   getProducts(param: string): Promise<ProductDomain[]> {
     throw new Error('Method not implemented.');

@@ -1,7 +1,7 @@
 import { ProductDomain } from '../product.domain';
 export const PRODUCT_INTERFACE = Symbol('PRODUCT_INTERFACE');
 export interface IProduct {
-  createProduct(product: ProductDomain): Promise<ProductDomain>;
+  createProduct(product: ProductDomain): Promise<void>;
   getProducts(param: string): Promise<ProductDomain[]>;
   getProductById(productId: number): Promise<ProductDomain | null>;
   findByCode(strProductCode: string): Promise<ProductDomain | null>;

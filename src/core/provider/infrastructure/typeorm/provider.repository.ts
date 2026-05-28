@@ -13,6 +13,9 @@ export class ProviderRepository implements IProvider {
         const newProvider = this.providerRepository.create({
             prvName: entry.strProviderName,
             prvDescription: entry.strProviderDescription,
+            prvRuc: entry.strRuc,
+            prvBusinessName: entry.strProviderBusinessName,
+            prvAddress: entry.strProviderAddress,
             prvContact: entry.strProviderContact,
             prvEmail: entry.strProviderEmail,
             prvPhone: entry.strProviderPhone,
@@ -77,7 +80,10 @@ export class ProviderRepository implements IProvider {
             prvContact: entry.strProviderContact,
             prvEmail: entry.strProviderEmail,
             prvPhone: entry.strProviderPhone,
-            prvActive: entry.boolProviderActive
+            prvActive: entry.boolProviderActive,
+            prvBusinessName: entry.strProviderBusinessName,
+            prvAddress: entry.strProviderAddress,
+            prvRuc: entry.strRuc
         });
         return {
             intIdProvider: updatedProvider.prvId,

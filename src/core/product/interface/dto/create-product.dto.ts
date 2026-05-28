@@ -5,6 +5,9 @@ export class CreateProductDto {
   @MinLength(3)
   strProductCode!: string;
   @IsNotEmpty()
+  @MinLength(3)
+  strCode!: string;
+  @IsNotEmpty()
   @MinLength(5)
   strProductName!: string;
   @IsNotEmpty()

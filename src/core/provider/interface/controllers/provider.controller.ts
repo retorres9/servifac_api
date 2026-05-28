@@ -2,7 +2,7 @@ import { Body, Controller, Post } from "@nestjs/common";
 import { CreateProviderUseCase } from "../../application/use-cases/create-provider.usecase";
 import { CreateProviderDto } from "../dto/create-provider.dto";
 
-@Controller()
+@Controller('provider')
 export class ProviderController {
     constructor(
         private readonly createProviderUseCase: CreateProviderUseCase

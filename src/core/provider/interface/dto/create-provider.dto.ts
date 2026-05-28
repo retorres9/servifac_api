@@ -3,6 +3,7 @@ import { Contains, IsNotEmpty, Length } from "class-validator";
 export class CreateProviderDto {
     @IsNotEmpty()
     @Length(13)
+    //TODO: Validar RUC con algoritmo de validación de RUC ecuatoriano
     public strRuc!: string;
     @IsNotEmpty()
     public strProviderName!: string;

@@ -13,7 +13,7 @@ export class CreateProductUseCase {
 
   async execute(
     productInput: CreateProductInput
-  ): Promise<CreateProductOutput> {
+  ): Promise<void> {
     const existingProduct = await this.productRepository.findByCode(
       productInput.strProductCode
     );
@@ -23,16 +23,14 @@ export class CreateProductUseCase {
 
     const product = new ProductDomain(
       productInput.strProductCode,
+      productInput.strCode,
       productInput.strProductName,
       productInput.intTypeOfTax,
       productInput.intIdLocation,
       productInput.intIdCategory
     );
 
-    const productOutput = await this.productRepository.createProduct(product);
-    return {
-      strProductId: productOutput.strProductCode,
-      strProductName: productOutput.strProductName
-    };
+    await this.productRepository.createProduct(product);
+    
   }
 }

@@ -1,4 +1,5 @@
 import { Category } from '@core/categories/infrastructure/persistence/typeorm/category.entity';
+import { Parameter } from '@core/parameter/infrastructure/typeorm/parameter.entity';
 import { ProductProvider } from '@core/productProvider/infrastructure/typeorm/product-provider.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -17,11 +18,8 @@ export class Product {
   @Column({ unique: true, nullable: false })
   prodName!: string;
 
-  @Column({ type: 'boolean', default: true })
-  prodIsTaxed!: boolean;
-
-  @Column({ type: 'smallint' })
-  prodTypeOfTax!: number;
+  @ManyToOne(() => Parameter, { eager: true })
+  prodFkTypeOfTax!: Parameter;
 
   @ManyToOne(() => Category, (categories) => categories.products, {
     eager: true,
