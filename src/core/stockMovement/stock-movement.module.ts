@@ -3,12 +3,13 @@ import { StockMovement } from "./infrastructure/typeorm/stock-movement.entity";
 import { Module } from "@nestjs/common";
 import { STOCK_MOVEMENT_INTERFACE } from "./domain/repository/stockMovement.interface";
 import { StockMovementRepository } from "./infrastructure/typeorm/stock-movement.repository";
+import { StockMovementController } from "./interface/controller/stockMovement.controller";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([StockMovement])
     ],
-    controllers: [],
+    controllers: [StockMovementController],
     providers: [
         {
             provide: STOCK_MOVEMENT_INTERFACE,

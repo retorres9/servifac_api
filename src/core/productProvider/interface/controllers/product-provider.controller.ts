@@ -5,7 +5,7 @@ import { UpdateProductProviderUseCase } from "../../application/use-cases/update
 import { GetAllProductProvidersUseCase } from "../../application/use-cases/getAllProdcutProviders.usecase";
 import { GetProductByProviderUseCase } from "../../application/use-cases/getProductByProvider.usecase";
 
-@Controller('providers')
+@Controller('product-provider')
 export class ProductProviderController {
     constructor(
         private readonly createProductProviderUseCase: CreateProcuctProviderUseCase,

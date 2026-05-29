@@ -7,12 +7,13 @@ import { UpdateProductProviderUseCase } from "./application/use-cases/updateProd
 import { GetAllProductProvidersUseCase } from "./application/use-cases/getAllProdcutProviders.usecase";
 import { GetProductByProviderUseCase } from "./application/use-cases/getProductByProvider.usecase";
 import { CreateProcuctProviderUseCase } from "./application/use-cases/addProductProvider.usecase";
+import { ProductProviderController } from "./interface/controllers/product-provider.controller";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([ProductProvider])
     ],
-    controllers: [],
+    controllers: [ProductProviderController],
     providers: [
         {
             provide: PRODUCT_PROVIDER_REPOSITORY,
