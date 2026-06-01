@@ -1,6 +1,7 @@
 import { Parameter } from "@core/parameter/infrastructure/typeorm/parameter.entity";
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Location } from "@core/location/infrastructure/typeorm/location.entity";
+import { Customer } from "@core/customer/infrastructure/typeorm/customer.entity";
 
 @Entity()
 export class Warehouse {
@@ -32,4 +33,7 @@ export class Warehouse {
 
     @OneToMany(() => Location, (location) => location.locFkWarehouseId)
     locations!: Location[];
+
+    @OneToMany(() => Customer, (customer) => customer.cusFkWarehouse)
+    customers!: Customer[];
 }

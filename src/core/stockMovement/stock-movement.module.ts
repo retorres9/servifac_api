@@ -4,6 +4,7 @@ import { Module } from "@nestjs/common";
 import { STOCK_MOVEMENT_INTERFACE } from "./domain/repository/stockMovement.interface";
 import { StockMovementRepository } from "./infrastructure/typeorm/stock-movement.repository";
 import { StockMovementController } from "./interface/controller/stockMovement.controller";
+import { AddStockMovementUseCase } from "./application/use-cases/addStockMovement.usecase";
 
 @Module({
     imports: [
@@ -14,7 +15,8 @@ import { StockMovementController } from "./interface/controller/stockMovement.co
         {
             provide: STOCK_MOVEMENT_INTERFACE,
             useClass: StockMovementRepository,
-        }
+        },
+        AddStockMovementUseCase,
     ],
     exports: [STOCK_MOVEMENT_INTERFACE]
 })

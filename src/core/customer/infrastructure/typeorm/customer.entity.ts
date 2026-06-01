@@ -1,6 +1,7 @@
 import { Sales } from "@core/sales/infrastructure/typeorm/sales.entity";
 import { Warehouse } from "@core/warehouse/infrastructure/typeorm/warehouse.entity";
-import { Column, Entity, Index, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { join } from "path";
+import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Customer {
@@ -29,6 +30,7 @@ export class Customer {
     @OneToMany(() => Sales, (sales) => sales.salFkIdCustomer)
     cusFksales!: Sales[];
 
-    @OneToOne(() => Warehouse, (warehouse) => warehouse.wrhId)
+    @ManyToOne(() => Warehouse, (warehouse) => warehouse.wrhId)
+    @JoinColumn({ name: 'cusFkWarehouse' })
     cusFkWarehouse!: Warehouse;
 }

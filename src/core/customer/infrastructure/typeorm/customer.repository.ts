@@ -3,7 +3,7 @@ import { CustomerDomain } from "../../domain/customer.domain";
 import { ICustomer } from "../../domain/interfaces/customer.interface";
 import { Customer } from "./customer.entity";
 import { Repository } from "typeorm";
-import { NotFoundException } from "@nestjs/common";
+import { BadRequestException, NotFoundException } from "@nestjs/common";
 
 export class CustomerRepository implements ICustomer {
     constructor(
@@ -12,6 +12,10 @@ export class CustomerRepository implements ICustomer {
     ) {}
 
     async createCustomer(customer: CustomerDomain): Promise<void> {
+        const existingCustomer = await this.customerRepository.findOne({ where: { cusCi: customer.strCi } });
+        if (existingCustomer) {
+            throw new BadRequestException('Customer with this CI already exists');
+        }
         const newCustomerEntity = this.customerRepository.create({
             cusCi: customer.strCi,
             cusFirstName: customer.strName,
@@ -21,6 +25,7 @@ export class CustomerRepository implements ICustomer {
             cusAddress: customer.strAddress,
             cusFkWarehouse: { wrhId: customer.intIdWarehouse }
         });
+        console.log('Creating customer with warehouse ID:', newCustomerEntity);
         await this.customerRepository.save(newCustomerEntity);
     }
     async getCustomerById(id: number): Promise<CustomerDomain | null> {
