@@ -1,6 +1,5 @@
 import { Sales } from "@core/sales/infrastructure/typeorm/sales.entity";
 import { Warehouse } from "@core/warehouse/infrastructure/typeorm/warehouse.entity";
-import { join } from "path";
 import { Column, Entity, Index, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()

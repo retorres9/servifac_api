@@ -3,6 +3,7 @@ import { Category } from './category.entity';
 import { CategoryDomain } from '@core/categories/domain/category.domain';
 import { Repository } from 'typeorm';
 import { ICategory } from '@core/categories/domain/repository/category.interface';
+import { GetCategoriesFiltersInput } from '@core/categories/application/models/get-categories.input';
 
 export class CategoryRepository implements ICategory {
   constructor(
@@ -54,9 +55,28 @@ export class CategoryRepository implements ICategory {
     return new CategoryDomain(savedCategory.catName, savedCategory.catDescription, savedCategory.catCreatedBy.usrId);
   }
 
-  async getCategories(): Promise<CategoryDomain[]> {
-    const categoryEntities = await this.categoryRepository.find();
-    return categoryEntities.map(
+  async getCategories(dto: GetCategoriesFiltersInput): Promise<CategoryDomain[]> {
+    const { intPage = 1, intLimit = 10, strSearchTerm, dtFromDate, dtToDate, strSortBy = 'catCreatedAt', strSortOrder = 'DESC' } = dto;
+
+    const qb = this.categoryRepository.createQueryBuilder('c')
+    .leftJoinAndSelect('c.catCreatedBy', 'u');
+
+    if (strSearchTerm) {
+      qb.andWhere('c.catName LIKE :searchTerm OR c.catDescription LIKE :searchTerm', { searchTerm: `%${strSearchTerm}%` });
+    }
+
+    if (dtFromDate) qb.andWhere('c.catCreatedAt >= :fromDate', { fromDate: dtFromDate });
+    if (dtToDate) qb.andWhere('c.catCreatedAt <= :toDate', { toDate: dtToDate });
+
+    const allowedSortFields = ['catName', 'catCreatedAt', 'catDescription'];
+
+    const sortBy = allowedSortFields.includes(strSortBy) ? strSortBy : 'catName';
+
+    qb.orderBy(`c.${sortBy}`, strSortOrder === 'ASC' ? 'ASC' : 'DESC');
+
+    const [items, total] = await qb
+      .skip((intPage - 1) * intLimit).take(intLimit).getManyAndCount();
+    return items.map(
       (entity) => new CategoryDomain(
         entity.catName, 
         entity.catDescription, 

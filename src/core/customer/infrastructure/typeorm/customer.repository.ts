@@ -25,7 +25,6 @@ export class CustomerRepository implements ICustomer {
             cusAddress: customer.strAddress,
             cusFkWarehouse: { wrhId: customer.intIdWarehouse }
         });
-        console.log('Creating customer with warehouse ID:', newCustomerEntity);
         await this.customerRepository.save(newCustomerEntity);
     }
     async getCustomerById(id: number): Promise<CustomerDomain | null> {
