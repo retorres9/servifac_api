@@ -1,7 +1,6 @@
 import { BadRequestException, Inject } from '@nestjs/common';
 import { PRODUCT_INTERFACE } from '../../domain/repository/product.interface';
 import type { IProduct } from '../../domain/repository/product.interface';
-import { CreateProductOutput } from '../model/create-product.output';
 import { CreateProductInput } from '../model/create-product.input';
 import { ProductDomain } from '../../domain/product.domain';
 

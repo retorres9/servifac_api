@@ -1,9 +1,8 @@
-import { Contains, IsNotEmpty, IsNumber, Length, MaxLength, MinLength } from "class-validator";
+import { IsEcuadorianId } from "@common/validator/isEcuadorianId.validator";
+import { Contains, IsNotEmpty, IsNumber, Length } from "class-validator";
 
 export class CreateCustomerDto {
-    @IsNotEmpty()
-    @MinLength(10)
-    @MaxLength(13)
+    @IsEcuadorianId()
     strCi!: string;
     @IsNotEmpty()
     strName!: string;

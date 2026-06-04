@@ -31,7 +31,7 @@ export class CategoriesController {
      return this.getCategoriesUseCase.execute(input);
    }
 
-  @Patch(':id')
+  @Patch('update')
   update(@Body() updateCategoryDto: UpdateCategoryDto) {
     return this.updateCategoryUseCase.execute(updateCategoryDto);
   }

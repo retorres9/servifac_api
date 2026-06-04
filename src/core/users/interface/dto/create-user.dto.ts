@@ -1,3 +1,4 @@
+import { IsEcuadorianId } from "@common/validator/isEcuadorianId.validator";
 import { IsNotEmpty, MinLength } from "class-validator";
 
 export class CreateUserDto {
@@ -10,8 +11,7 @@ export class CreateUserDto {
     strFirstName!: string;
     @IsNotEmpty()
     strLastName!: string;
-    @IsNotEmpty()
-    @MinLength(10)
+    @IsEcuadorianId()
     strCi!: string;
     @IsNotEmpty()
     @MinLength(10)

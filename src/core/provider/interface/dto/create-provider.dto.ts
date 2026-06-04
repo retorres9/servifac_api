@@ -1,9 +1,8 @@
-import { Contains, IsNotEmpty, Length } from "class-validator";
+import { IsEcuadorianId } from "@common/validator/isEcuadorianId.validator";
+import { Contains, IsNotEmpty } from "class-validator";
 
 export class CreateProviderDto {
-    @IsNotEmpty()
-    @Length(13)
-    //TODO: Validar RUC con algoritmo de validación de RUC ecuatoriano
+    @IsEcuadorianId()
     public strRuc!: string;
     @IsNotEmpty()
     public strProviderName!: string;
