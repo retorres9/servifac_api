@@ -5,5 +5,6 @@ export class CategoryDomain {
     public intUserId: number,
     public strUser?: string,
     public intId?: number,
+    public intTotalItems?: number,
   ) {}
 }

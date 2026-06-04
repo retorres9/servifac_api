@@ -21,13 +21,14 @@ import { RestorePasswordUseCase } from './application/use-cases/restore-password
   ],
   controllers: [UserController],
   providers: [{
-    provide: USER_INTERFACE,
-    useClass: UserTypeormRepository,
-  },
-  CreateUserUseCase,
-  LoginUseCase,
-  ResetPasswordUseCase,
-  RestorePasswordUseCase
+      provide: USER_INTERFACE,
+      useClass: UserTypeormRepository,
+    },
+    CreateUserUseCase,
+    LoginUseCase,
+    ResetPasswordUseCase,
+    RestorePasswordUseCase
     ],
+    exports: [USER_INTERFACE]
 })
 export class UserModule {}

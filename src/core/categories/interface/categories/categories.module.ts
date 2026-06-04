@@ -7,9 +7,13 @@ import { CategoryRepository } from '../../infrastructure/persistence/typeorm/cat
 import { CreateCategoryUseCase } from '../../application/use-cases/create-category.usecase';
 import { GetCategoriesUseCase } from '@core/categories/application/use-cases/get-categories.usecase';
 import { UpdateCategoryUseCase } from '@core/categories/application/use-cases/upd-category.usecase';
+import { UserModule } from '@core/users/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Category])],
+  imports: [
+    TypeOrmModule.forFeature([Category]),
+    UserModule
+  ],
   controllers: [CategoriesController],
   providers: [
     { provide: CATEGORY_INTERFACE, useClass: CategoryRepository },
@@ -17,5 +21,6 @@ import { UpdateCategoryUseCase } from '@core/categories/application/use-cases/up
     GetCategoriesUseCase,
     UpdateCategoryUseCase
   ],
+  exports: [CATEGORY_INTERFACE]
 })
 export class CategoriesModule {}

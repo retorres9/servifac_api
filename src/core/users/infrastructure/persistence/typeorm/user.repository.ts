@@ -11,6 +11,10 @@ export class UserTypeormRepository implements IUser {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>
   ) {}
+    async findById(id: number): Promise<boolean> {
+        const user = this.userRepository.findOne({ where: { usrId: id } });
+        return user.then(found => !!found);
+    }
     async restorePassword(user: UserDomain, prevPassword: string, newPassword: string): Promise<void> {
         const validPreviousPassword = await bcrypt.compare(prevPassword, user.strPassword);
         if (!validPreviousPassword) {

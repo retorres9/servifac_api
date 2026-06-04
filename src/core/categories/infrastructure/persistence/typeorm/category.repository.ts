@@ -45,7 +45,7 @@ export class CategoryRepository implements ICategory {
   async createCategory(
     createCategoryDto: CategoryDomain
   ): Promise<CategoryDomain> {
-    //!TODO: Handle user creation properly, validate user existence, etc.
+    
     const newCategoryEntity = this.categoryRepository.create({
       catName: createCategoryDto.strCategoryName,
       catDescription: createCategoryDto.strCategoryDescription,
@@ -83,6 +83,7 @@ export class CategoryRepository implements ICategory {
         entity.catCreatedBy.usrId,
         entity.catCreatedBy.usrUsername,
         entity.catId, 
+        total
       )
     );
   }
