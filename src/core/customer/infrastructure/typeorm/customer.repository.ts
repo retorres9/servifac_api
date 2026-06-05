@@ -10,6 +10,23 @@ export class CustomerRepository implements ICustomer {
         @InjectRepository(Customer)
         private readonly customerRepository: Repository<Customer>
     ) {}
+    
+    async getCustomerByCi(ci: string): Promise<CustomerDomain | null> {
+        const customer = await this.customerRepository.findOne({ where: { cusCi: ci }, relations: ['cusFkWarehouse'] });
+        if (!customer) {
+            return null;
+        }
+        return new CustomerDomain(
+            customer.cusCi,
+            customer.cusFirstName,
+            customer.cusLastName,
+            customer.cusEmail,
+            customer.cusPhone,
+            customer.cusAddress,
+            customer.cusFkWarehouse.wrhId,
+            customer.cusFkWarehouse.wrhName
+        );
+    }
 
     async createCustomer(customer: CustomerDomain): Promise<void> {
         const existingCustomer = await this.customerRepository.findOne({ where: { cusCi: customer.strCi } });
