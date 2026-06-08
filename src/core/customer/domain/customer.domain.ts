@@ -8,6 +8,7 @@ export class CustomerDomain {
         public strAddress: string,
         public intIdWarehouse: number,
         public strWarehouseName: string | null,
-        public intCustomerId?: number
+        public intCustomerId?: number,
+        public intCount?: number
     ) {}
 }

@@ -1,4 +1,5 @@
 import { PaginationDto } from "@common/models/pagination.dto";
 
-export class GetCategoriesDto extends PaginationDto {
+export class GetCustomerDto extends PaginationDto {
+    
 }

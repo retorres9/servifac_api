@@ -5,6 +5,8 @@ import { CustomerRepository } from "./infrastructure/typeorm/customer.repository
 import { CUSTOMER_REPOSITORY } from "./domain/interfaces/customer.interface";
 import { CustomerController } from "./interface/controller/customer.controller";
 import { CreateCustomerUseCase } from "./application/use-cases/createCustomer.usecase";
+import { UpdateCustomerUseCase } from "./application/use-cases/updateCostumer.usecase";
+import { GetCustomersUseCase } from "./application/use-cases/getCustomers.usecase";
 
 @Module({
     imports: [
@@ -17,6 +19,8 @@ import { CreateCustomerUseCase } from "./application/use-cases/createCustomer.us
             useClass: CustomerRepository
         },
         CreateCustomerUseCase,
+        GetCustomersUseCase,
+        UpdateCustomerUseCase
     ],
     exports: [CUSTOMER_REPOSITORY]
 })

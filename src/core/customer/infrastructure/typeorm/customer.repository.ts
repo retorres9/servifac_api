@@ -4,6 +4,7 @@ import { ICustomer } from "../../domain/interfaces/customer.interface";
 import { Customer } from "./customer.entity";
 import { Repository } from "typeorm";
 import { BadRequestException, NotFoundException } from "@nestjs/common";
+import { GetCustomersInput } from "@core/customer/application/model/getCustomers.input";
 
 export class CustomerRepository implements ICustomer {
     constructor(
@@ -63,8 +64,30 @@ export class CustomerRepository implements ICustomer {
             customer.cusFkWarehouse.wrhName
         );
     }
-    async getAllCustomers(): Promise<CustomerDomain[]> {
-        const customers = await this.customerRepository.find({ relations: ['cusFkWarehouse'] });
+    async getAllCustomers(getCustomersInput: GetCustomersInput): Promise<CustomerDomain[]> {
+        const { intPage = 1, intLimit = 10, strSearchTerm, dtFromDate, dtToDate, strSortBy = 'cusId', strSortOrder = 'ASC' } = getCustomersInput;
+
+        const qb = this.customerRepository.createQueryBuilder('customer')
+            .leftJoinAndSelect('customer.cusFkWarehouse', 'warehouse');
+        if (strSearchTerm) {
+            const likeTerm = `%${strSearchTerm.trim()}%`;
+            const exactTerm = strSearchTerm.trim();
+
+            qb.andWhere(
+            '(customer.cusFirstName ILIKE :likeTerm OR customer.cusLastName ILIKE :likeTerm OR customer.cusCi = :exactTerm)',
+            { likeTerm, exactTerm }
+            );
+        }
+        
+        if (dtFromDate) qb.andWhere('customer.cusCreatedAt >= :fromDate', { fromDate: dtFromDate });
+        if (dtToDate) qb.andWhere('customer.cusCreatedAt <= :toDate', { toDate: dtToDate });
+        
+        const allowedSortFields = ['cusFirstName', 'cusLastName', 'cusCi', 'cusCreatedAt'];
+        const sortBy = allowedSortFields.includes(strSortBy) ? strSortBy : 'cusId';
+        
+        qb.orderBy(`customer.${sortBy}`, strSortOrder.toUpperCase() === 'DESC' ? 'DESC' : 'ASC');
+
+        const [customers, total] = await qb.skip((intPage - 1) * intLimit).take(intLimit).getManyAndCount();
         return customers.map(customer => new CustomerDomain(
             customer.cusCi,
             customer.cusFirstName,
@@ -73,8 +96,9 @@ export class CustomerRepository implements ICustomer {
             customer.cusPhone,
             customer.cusAddress,
             customer.cusFkWarehouse.wrhId,
-            customer.cusFkWarehouse.wrhName)
-        );
+            customer.cusFkWarehouse.wrhName,
+            total
+        ));
     }
     
     async updateCustomer(customer: CustomerDomain): Promise<void> {

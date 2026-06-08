@@ -26,6 +26,12 @@ export class Customer {
     @Column({ type: 'varchar' })
     cusAddress!: string;
 
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    cusCreatedAt!: Date;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    cusUpdatedAt!: Date;
+
     @OneToMany(() => Sales, (sales) => sales.salFkIdCustomer)
     cusFksales!: Sales[];
 
