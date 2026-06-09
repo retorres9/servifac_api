@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { Location } from './location.entity';
 import { ILocation } from '../../domain/interfaces/location.interface';
 import { LocationDomain } from '../../domain/location.domain';
+import { GetLocationDomain } from '@core/location/domain/getLocation.domain';
 
 export class LocationRepository implements ILocation {
   constructor(
@@ -46,8 +47,28 @@ export class LocationRepository implements ILocation {
       savedLocation.locUpdatedAt
     );
   }
-  async getLocations(): Promise<LocationDomain[]> {
-    const locations = await this.locationRepository.find();
+  async getLocations(getLocationDomain: GetLocationDomain): Promise<LocationDomain[]> {
+    const { intPage = 1, intLimit = 10, strSearchTerm, dtFromDate, dtToDate, strSortBy = 'locId', strSortOrder = 'ASC' } = getLocationDomain;
+    const qb = this.locationRepository.createQueryBuilder('location')
+      .leftJoinAndSelect('location.locFkWarehouseId', 'warehouse')
+      .leftJoinAndSelect('location.locFkUserCreate', 'userCreate')
+      .leftJoinAndSelect('location.locFkUserUpdate', 'userUpdate');
+    if (strSearchTerm) {
+      qb.andWhere('locations.locName ILIKE :strSearchTerm OR locations.locDescription ILIKE :strSearchTerm', {strSearchTerm});
+    }
+
+    if (dtFromDate) qb.andWhere('locations.locCreatedAt >= :dtFromDate', { dtFromDate });
+    if (dtToDate) qb.andWhere('locations.locCreatedAt <= :dtToDate', { dtToDate });
+
+    const validSortFields = ['locId', 'locName', 'locCreatedAt', 'locUpdatedAt'];
+    const sortBy = validSortFields.includes(strSortBy) ? strSortBy : 'locId';
+
+    qb.orderBy(`location.${sortBy}`, strSortOrder.toUpperCase() === 'DESC' ? 'DESC' : 'ASC')
+      .skip((intPage - 1) * intLimit)
+      .take(intLimit);
+      
+
+    const [locations, count] = await qb.getManyAndCount();
     return locations.map(
       (location) => new LocationDomain(
         location.locName, 
