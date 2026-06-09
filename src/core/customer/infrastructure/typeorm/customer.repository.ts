@@ -68,7 +68,8 @@ export class CustomerRepository implements ICustomer {
         const { intPage = 1, intLimit = 10, strSearchTerm, dtFromDate, dtToDate, strSortBy = 'cusId', strSortOrder = 'ASC' } = getCustomersInput;
 
         const qb = this.customerRepository.createQueryBuilder('customer')
-            .leftJoinAndSelect('customer.cusFkWarehouse', 'warehouse');
+            .leftJoinAndSelect('customer.cusFkWarehouse', 'warehouse')
+            .leftJoinAndSelect('customer.cusFkUser', 'user');
         if (strSearchTerm) {
             const likeTerm = `%${strSearchTerm.trim()}%`;
             const exactTerm = strSearchTerm.trim();
@@ -97,6 +98,8 @@ export class CustomerRepository implements ICustomer {
             customer.cusAddress,
             customer.cusFkWarehouse.wrhId,
             customer.cusFkWarehouse.wrhName,
+            customer.cusId,
+            customer.cusFkUser.usrUsername,
             total
         ));
     }

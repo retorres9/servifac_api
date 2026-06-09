@@ -1,5 +1,6 @@
 import { Category } from "@core/categories/infrastructure/persistence/typeorm/category.entity";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Customer } from "@core/customer/infrastructure/typeorm/customer.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class User {
@@ -59,4 +60,8 @@ export class User {
     
     @OneToMany(() => Category, (category) => category.catCreatedBy)
     categories!: Category[];
+
+    @ManyToOne(() => Customer, (customer) => customer.cusFkUser)
+    @JoinColumn({ name: 'usrFkCustomer' })
+    customers!: Customer;
 };
