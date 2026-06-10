@@ -2,11 +2,12 @@ import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { Customer } from "./infrastructure/typeorm/customer.entity";
 import { CustomerRepository } from "./infrastructure/typeorm/customer.repository";
-import { CUSTOMER_REPOSITORY } from "./domain/interfaces/customer.interface";
+import { CUSTOMER_INTERFACE } from "./domain/interfaces/customer.interface";
 import { CustomerController } from "./interface/controller/customer.controller";
 import { CreateCustomerUseCase } from "./application/use-cases/createCustomer.usecase";
 import { UpdateCustomerUseCase } from "./application/use-cases/updateCostumer.usecase";
 import { GetCustomersUseCase } from "./application/use-cases/getCustomers.usecase";
+import { GetCustomerUseCase } from "./application/use-cases/getCustomer.usecase";
 
 @Module({
     imports: [
@@ -15,13 +16,14 @@ import { GetCustomersUseCase } from "./application/use-cases/getCustomers.usecas
     controllers: [CustomerController],
     providers: [
         {
-            provide: CUSTOMER_REPOSITORY,
+            provide: CUSTOMER_INTERFACE,
             useClass: CustomerRepository
         },
         CreateCustomerUseCase,
         GetCustomersUseCase,
-        UpdateCustomerUseCase
+        UpdateCustomerUseCase,
+        GetCustomerUseCase
     ],
-    exports: [CUSTOMER_REPOSITORY]
+    exports: [CUSTOMER_INTERFACE]
 })
 export class CustomerModule {}

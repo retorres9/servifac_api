@@ -8,6 +8,7 @@ import { CreateCategoryUseCase } from '../../application/use-cases/create-catego
 import { GetCategoriesUseCase } from '@core/categories/application/use-cases/get-categories.usecase';
 import { UpdateCategoryUseCase } from '@core/categories/application/use-cases/upd-category.usecase';
 import { UserModule } from '@core/users/user.module';
+import { DeleteCategoryUseCase } from '@core/categories/application/use-cases/delete-category.usecase';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { UserModule } from '@core/users/user.module';
     { provide: CATEGORY_INTERFACE, useClass: CategoryRepository },
     CreateCategoryUseCase,
     GetCategoriesUseCase,
-    UpdateCategoryUseCase
+    UpdateCategoryUseCase,
+    DeleteCategoryUseCase
   ],
   exports: [CATEGORY_INTERFACE]
 })

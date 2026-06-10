@@ -1,10 +1,10 @@
 import { Inject } from "@nestjs/common";
-import { CUSTOMER_REPOSITORY, type ICustomer } from "../../domain/interfaces/customer.interface";
+import { CUSTOMER_INTERFACE, type ICustomer } from "../../domain/interfaces/customer.interface";
 import { CreateCustomerInput } from "../model/createCustomer.input";
 
 export class CreateCustomerUseCase {
     constructor(
-        @Inject(CUSTOMER_REPOSITORY)
+        @Inject(CUSTOMER_INTERFACE)
         private readonly customer: ICustomer
     ) {}
 

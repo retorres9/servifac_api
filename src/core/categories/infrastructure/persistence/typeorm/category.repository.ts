@@ -4,6 +4,7 @@ import { CategoryDomain } from '@core/categories/domain/category.domain';
 import { Repository } from 'typeorm';
 import { ICategory } from '@core/categories/domain/repository/category.interface';
 import { GetCategoriesFiltersInput } from '@core/categories/application/models/get-categories.input';
+import { BadRequestException } from '@nestjs/common';
 
 export class CategoryRepository implements ICategory {
   constructor(
@@ -102,5 +103,14 @@ export class CategoryRepository implements ICategory {
           categoryEntity.catId
         )
       : null;
+  }
+
+  async deleteCategory(categoryId: number): Promise<void> {
+    const category = await this.categoryRepository.findOne({ where: { catId: categoryId } });
+    if (!category) {
+      throw new BadRequestException('Category not found');
+    }
+    const updatedCategory = { ...category, catIsActive: false };
+    await this.categoryRepository.save(updatedCategory);
   }
 }

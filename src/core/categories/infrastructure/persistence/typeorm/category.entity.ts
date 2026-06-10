@@ -30,4 +30,7 @@ export class Category {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   catUpdatedAt!: Date;
+
+  @Column({ default: true })
+  catIsActive!: boolean;
 }

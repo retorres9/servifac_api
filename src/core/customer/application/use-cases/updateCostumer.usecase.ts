@@ -1,9 +1,9 @@
-import { CUSTOMER_REPOSITORY, type ICustomer } from "@core/customer/domain/interfaces/customer.interface";
+import { CUSTOMER_INTERFACE, type ICustomer } from "@core/customer/domain/interfaces/customer.interface";
 import { Inject } from "@nestjs/common";
 
 export class UpdateCustomerUseCase {
     constructor(
-        @Inject(CUSTOMER_REPOSITORY) 
+        @Inject(CUSTOMER_INTERFACE) 
         private readonly customerRepository: ICustomer
     ) {}
 
