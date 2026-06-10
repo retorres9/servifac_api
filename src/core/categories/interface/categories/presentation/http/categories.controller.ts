@@ -1,4 +1,4 @@
-import { Controller, Post, Body,  Patch, Param } from '@nestjs/common';
+import { Controller, Post, Body,  Patch, Param, Delete } from '@nestjs/common';
 import { CreateCategoryUseCase } from '@core/categories/application/use-cases/create-category.usecase';
 import { CreateCategoryDto } from '../../dto/create-category.dto';
 import { GetCategoriesDto } from '../../dto/get-categories.dto';
@@ -38,7 +38,7 @@ export class CategoriesController {
     return this.updateCategoryUseCase.execute(updateCategoryDto);
   }
 
-  @Patch(':id')
+  @Delete(':id')
   delete(@Param('id') categoryId: number) {
     return this.deleteCategoryUseCase.execute(categoryId);
   }

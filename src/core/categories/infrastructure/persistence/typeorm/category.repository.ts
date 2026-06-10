@@ -110,6 +110,13 @@ export class CategoryRepository implements ICategory {
     if (!category) {
       throw new BadRequestException('Category not found');
     }
+    const categoryWithRelations = await this.categoryRepository.findOne({
+      where: { catId: categoryId },
+      relations: ['products']
+    });
+    if (categoryWithRelations?.products?.length) {
+      throw new BadRequestException('Cannot delete category with associated products');
+    }
     const updatedCategory = { ...category, catIsActive: false };
     await this.categoryRepository.save(updatedCategory);
   }
