@@ -3,12 +3,15 @@ import { CreateLocationDto } from '../../dto/create-location.dto';
 import { CreateLocationUseCase } from '@core/location/application/use-cases/create-location.usecase';
 import { GetLocationsDto } from '../../dto/getLocations.dto';
 import { GetLocationsUseCase } from '@core/location/application/use-cases/get-locations.usecase';
+import { UpdateLocationsUseCase } from '@core/location/application/use-cases/update-locations.usecase';
+import { UpdateLocationDto } from '../../dto/update-location.dto';
 
 @Controller('location')
 export class LocationController {
   constructor(
     private readonly createLocationUseCase: CreateLocationUseCase,
-    private readonly getLocationsUseCase: GetLocationsUseCase
+    private readonly getLocationsUseCase: GetLocationsUseCase,
+    private readonly updateLocationUseCase: UpdateLocationsUseCase
   ) { }
 
   @Post('new')
@@ -17,8 +20,8 @@ export class LocationController {
   }
 
   @Patch('update')
-  updateLocation(@Body() createLocationDto: CreateLocationDto) {
-    return this.createLocationUseCase.execute(createLocationDto);
+  updateLocation(@Body() updateLocationDto: UpdateLocationDto) {
+    return this.updateLocationUseCase.execute(updateLocationDto);
   }
 
   @Post('find')

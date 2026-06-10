@@ -4,12 +4,20 @@ import { Location } from './location.entity';
 import { ILocation } from '../../domain/interfaces/location.interface';
 import { LocationDomain } from '../../domain/location.domain';
 import { GetLocationDomain } from '@core/location/domain/getLocation.domain';
+import { Warehouse } from '@core/warehouse/infrastructure/typeorm/warehouse.entity';
+import { BadRequestException } from '@nestjs/common';
+import { User } from '@core/users/infrastructure/persistence/typeorm/user.entity';
+import { UpdateLocationDto } from '@core/location/interface/dto/update-location.dto';
 
 export class LocationRepository implements ILocation {
   constructor(
     @InjectRepository(Location)
-    private readonly locationRepository: Repository<Location>
-  ) {}
+    private readonly locationRepository: Repository<Location>,
+    @InjectRepository(Warehouse)
+    private readonly warehouseRepository: Repository<Warehouse>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>
+  ) {}  
   async getLocationById(locationId: number): Promise<LocationDomain | null> {
     const location = await this.locationRepository.findOne({
       where: { locId: locationId },
@@ -79,7 +87,8 @@ export class LocationRepository implements ILocation {
         location.locFkUserCreate.usrId,
         location.locCreatedAt,
         location.locFkUserUpdate.usrId,
-        location.locUpdatedAt
+        location.locUpdatedAt,
+        count
       )
     );
   }
@@ -96,5 +105,26 @@ export class LocationRepository implements ILocation {
           locationFound.locFkWarehouseId.wrhId
         )
       : null;
+  }
+
+  async updateLocation(updateLocationDto: UpdateLocationDto): Promise<void> {
+    const locationEntity = await this.locationRepository.findOne({ where: { locId: updateLocationDto.intLocationId } });
+    if (!locationEntity) {
+      throw new BadRequestException(`Location with ID ${updateLocationDto.intLocationId} not found`);
+    }
+    const userUpdateId = await this.userRepository.findOne({ where: { usrId: updateLocationDto.intUserUpdate || 0 } });
+    if (!userUpdateId) {
+      throw new BadRequestException(`User with ID ${updateLocationDto.intUserUpdate} not found`);
+    }
+    const warehouse = await this.warehouseRepository.findOne({ where: { wrhId: updateLocationDto.intWarehouse } });
+    if (!warehouse) {
+      throw new BadRequestException(`Warehouse with ID ${updateLocationDto.intWarehouse} not found`);
+    }
+    locationEntity.locName = updateLocationDto.strLocationName;
+    locationEntity.locDescription = updateLocationDto.strLocationDescription;
+    locationEntity.locUpdatedAt = new Date();
+    locationEntity.locFkWarehouseId = { wrhId: warehouse ? warehouse.wrhId : 0 } as Warehouse;
+    locationEntity.locFkUserUpdate = { usrId: userUpdateId ? userUpdateId.usrId : 0 } as User;
+    await this.locationRepository.save(locationEntity);
   }
 }

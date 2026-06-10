@@ -1,6 +1,5 @@
 import { LocationDomain } from '../location.domain';
 import { GetLocationDomain } from '../getLocation.domain';
-import { GetLocationOutput } from '@core/location/application/model/getLocation.output';
 export const LOCATION_INTERFACE = Symbol('LOCATION_INTERFACE');
 
 export interface ILocation {
@@ -8,4 +7,5 @@ export interface ILocation {
   getLocations(getLocationInput: GetLocationDomain): Promise<LocationDomain[]>;
   findByName(name: string): Promise<LocationDomain | null>;
   getLocationById(locationId: number): Promise<LocationDomain | null>;
+  updateLocation(location: LocationDomain): Promise<void>;
 }
