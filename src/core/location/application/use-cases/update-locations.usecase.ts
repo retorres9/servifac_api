@@ -8,7 +8,7 @@ export class UpdateLocationsUseCase {
     private readonly locationRepository: ILocation
     ) {}
 
-    async execute(updateLocationDto: UpdateLocationDto): Promise<void> {
-        await this.locationRepository.updateLocation(updateLocationDto);
+    async execute(intIdLocation: number, updateLocationDto: UpdateLocationDto): Promise<void> {
+        await this.locationRepository.updateLocation(intIdLocation, updateLocationDto);
     }
 }

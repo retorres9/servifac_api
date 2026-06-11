@@ -7,5 +7,5 @@ export interface ILocation {
   getLocations(getLocationInput: GetLocationDomain): Promise<LocationDomain[]>;
   findByName(name: string): Promise<LocationDomain | null>;
   getLocationById(locationId: number): Promise<LocationDomain | null>;
-  updateLocation(location: LocationDomain): Promise<void>;
+  updateLocation(intIdLocation: number, location: LocationDomain): Promise<void>;
 }

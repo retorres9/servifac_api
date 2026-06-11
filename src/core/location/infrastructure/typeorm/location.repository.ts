@@ -5,9 +5,11 @@ import { ILocation } from '../../domain/interfaces/location.interface';
 import { LocationDomain } from '../../domain/location.domain';
 import { GetLocationDomain } from '@core/location/domain/getLocation.domain';
 import { Warehouse } from '@core/warehouse/infrastructure/typeorm/warehouse.entity';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, Inject } from '@nestjs/common';
 import { User } from '@core/users/infrastructure/persistence/typeorm/user.entity';
 import { UpdateLocationDto } from '@core/location/interface/dto/update-location.dto';
+import { REDIS_CLIENT } from '@common/Redis/redis.provider';
+import { Redis } from 'ioredis';
 
 export class LocationRepository implements ILocation {
   constructor(
@@ -16,14 +18,27 @@ export class LocationRepository implements ILocation {
     @InjectRepository(Warehouse)
     private readonly warehouseRepository: Repository<Warehouse>,
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>
+    private readonly userRepository: Repository<User>,
+    @Inject(REDIS_CLIENT)
+    private readonly redisClient: Redis
   ) {}  
   async getLocationById(locationId: number): Promise<LocationDomain | null> {
+    const redisKey = `location:getLocationById:${locationId}`;
+    try{
+      const cachedLocation = await this.redisClient.get(redisKey);
+      if (cachedLocation) {
+        const parsedLocation = JSON.parse(cachedLocation);
+        return parsedLocation;
+      }
+    } catch (error) {
+      console.error('Error fetching location from Redis:', error);
+    }
     const location = await this.locationRepository.findOne({
       where: { locId: locationId },
       relations: ['locFkWarehouseId', 'locFkUserCreate', 'locFkUserUpdate']
     });
-    return location ? new LocationDomain(
+
+    const locationDomain = location ? new LocationDomain(
       location.locName, 
       location.locDescription, 
       location.locFkWarehouseId.wrhId,
@@ -34,7 +49,16 @@ export class LocationRepository implements ILocation {
       location.locFkUserUpdate.usrId,
       location.locUpdatedAt
     ) : null;
+    if (locationDomain) {
+      try {
+        await this.redisClient.set(redisKey, JSON.stringify(locationDomain), 'EX', 3600);
+      } catch (error) {
+        console.error('Error caching location in Redis:', error);
+      }
+    }
+    return locationDomain;
   }
+
   async createLocation(createLocationDto: LocationDomain): Promise<LocationDomain> {
     const newLocationEntity = this.locationRepository.create({
       locName: createLocationDto.strLocationName,
@@ -57,6 +81,16 @@ export class LocationRepository implements ILocation {
   }
   async getLocations(getLocationDomain: GetLocationDomain): Promise<LocationDomain[]> {
     const { intPage = 1, intLimit = 10, strSearchTerm, dtFromDate, dtToDate, strSortBy = 'locId', strSortOrder = 'ASC' } = getLocationDomain;
+    const redisKey = `locations:getLocations:${intPage}:${intLimit}:${strSearchTerm || ''}:${dtFromDate?.toISOString() || ''}:${dtToDate?.toISOString() || ''}:${strSortBy}:${strSortOrder}`;
+    try {
+      const cachedLocations = await this.redisClient.get(redisKey);
+      if (cachedLocations) {
+        const parsedLocations = JSON.parse(cachedLocations);
+        return parsedLocations;
+      }
+    } catch (error) {
+      console.error('Error retrieving locations from Redis:', error);
+    }
     const qb = this.locationRepository.createQueryBuilder('location')
       .leftJoinAndSelect('location.locFkWarehouseId', 'warehouse')
       .leftJoinAndSelect('location.locFkUserCreate', 'userCreate')
@@ -77,7 +111,7 @@ export class LocationRepository implements ILocation {
       
 
     const [locations, count] = await qb.getManyAndCount();
-    return locations.map(
+    const locationDomain = locations.map(
       (location) => new LocationDomain(
         location.locName, 
         location.locDescription,
@@ -91,26 +125,50 @@ export class LocationRepository implements ILocation {
         count
       )
     );
+    try {
+      await this.redisClient.set(redisKey, JSON.stringify(locationDomain), 'EX', 3600);
+    } catch (error) {
+      console.error('Error caching locations in Redis:', error);
+    }
+    return locationDomain;
   }
+
   async findByName(name: string): Promise<LocationDomain | null> {
+    const redisKey = `location:findByName:${name}`;
+    try {
+      const cachedLocation = await this.redisClient.get(redisKey);
+      if (cachedLocation) {
+        const parsedLocation = JSON.parse(cachedLocation);
+        return parsedLocation;
+      }
+    } catch (error) {
+      console.error('Error retrieving location from Redis:', error);
+    }
     const locationFound = await this.locationRepository.findOne({
       where: { locName: name },
       relations: ['locFkWarehouseId', 'locFkUserCreate', 'locFkUserUpdate']
     });
-    console.log('LocationFound:', locationFound);
-    return locationFound
+    
+    const locationDomain = locationFound
       ? new LocationDomain(
           locationFound.locName,
           locationFound.locDescription,
           locationFound.locFkWarehouseId.wrhId
         )
       : null;
-  }
+    try {
+      await this.redisClient.set(redisKey, JSON.stringify(locationDomain), 'EX', 3600);
+    } catch (error) {
+      console.error('Error caching location in Redis:', error);
+    }
+    return locationDomain;
+    
+    }
 
-  async updateLocation(updateLocationDto: UpdateLocationDto): Promise<void> {
-    const locationEntity = await this.locationRepository.findOne({ where: { locId: updateLocationDto.intLocationId } });
+  async updateLocation(intIdLocation: number, updateLocationDto: UpdateLocationDto): Promise<void> {
+    const locationEntity = await this.locationRepository.findOne({ where: { locId: intIdLocation } });
     if (!locationEntity) {
-      throw new BadRequestException(`Location with ID ${updateLocationDto.intLocationId} not found`);
+      throw new BadRequestException(`Location with ID ${intIdLocation} not found`);
     }
     const userUpdateId = await this.userRepository.findOne({ where: { usrId: updateLocationDto.intUserUpdate || 0 } });
     if (!userUpdateId) {

@@ -1,4 +1,4 @@
-import { Body, Controller, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
 import { CreateLocationDto } from '../../dto/create-location.dto';
 import { CreateLocationUseCase } from '@core/location/application/use-cases/create-location.usecase';
 import { GetLocationsDto } from '../../dto/getLocations.dto';
@@ -14,17 +14,17 @@ export class LocationController {
     private readonly updateLocationUseCase: UpdateLocationsUseCase
   ) { }
 
-  @Post('new')
+  @Post()
   createLocation(@Body() createLocationDto: CreateLocationDto) {
     return this.createLocationUseCase.execute(createLocationDto);
   }
 
-  @Patch('update')
-  updateLocation(@Body() updateLocationDto: UpdateLocationDto) {
-    return this.updateLocationUseCase.execute(updateLocationDto);
+  @Patch(':id')
+  updateLocation(@Param('id') id: string, @Body() updateLocationDto: UpdateLocationDto) {
+    return this.updateLocationUseCase.execute(Number.parseInt(id, 10), updateLocationDto);
   }
 
-  @Post('find')
+  @Post('search')
   findLocation(@Body() getLocationDto: GetLocationsDto) {
     return this.getLocationsUseCase.execute(getLocationDto);
   }

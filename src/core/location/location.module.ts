@@ -9,9 +9,14 @@ import { GetLocationsUseCase } from './application/use-cases/get-locations.useca
 import { Warehouse } from '@core/warehouse/infrastructure/typeorm/warehouse.entity';
 import { User } from '@core/users/infrastructure/persistence/typeorm/user.entity';
 import { UpdateLocationsUseCase } from './application/use-cases/update-locations.usecase';
+import { RedisModule } from '@common/Redis/redis.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Location]), TypeOrmModule.forFeature([User]), TypeOrmModule.forFeature([Warehouse])],
+  imports: [TypeOrmModule.forFeature([Location]), 
+  TypeOrmModule.forFeature([User]), 
+  TypeOrmModule.forFeature([Warehouse]),
+  RedisModule
+],
   controllers: [LocationController],
   providers: [
     { provide: LOCATION_INTERFACE, useClass: LocationRepository },

@@ -168,8 +168,8 @@ export class CustomerRepository implements ICustomer {
         customerFound.cusAddress = customer.strAddress;
         customerFound.cusFkWarehouse = { wrhId: customer.intIdWarehouse } as any;
         await this.customerRepository.save(customerFound);
-
     }
+    
     async deleteCustomer(id: number): Promise<void> {
         const customerFound = await this.customerRepository.findOne({ where: { cusId: id } });
         if (!customerFound) {
