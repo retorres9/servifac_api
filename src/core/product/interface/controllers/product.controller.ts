@@ -1,12 +1,16 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateProductDto } from '../dto/create-product.dto';
 import { CreateProductUseCase } from '../../application/use-cases/create-product.usecase';
+import { GetProductCodeUseCase } from '@core/product/application/use-cases/get-product-code.usecase';
 
 @Controller('products')
 export class ProductController {
-  constructor(private readonly createProductUseCase: CreateProductUseCase) {}
+  constructor(
+    private readonly createProductUseCase: CreateProductUseCase,
+    private readonly getProductByCodeUseCase: GetProductCodeUseCase
+  ) {}
 
-  @Post('new')
+  @Post()
   createProduct(@Body() createProductDto: CreateProductDto) {
     return this.createProductUseCase.execute(createProductDto);
   }
@@ -27,8 +31,8 @@ export class ProductController {
   }
 
   @Get('code/:code')
-  getProductByCode(@Param('code') code: string) {
-    // Implement the logic to get a product by its code
+  async getProductByCode(@Param('code') code: string) {
+    return await this.getProductByCodeUseCase.execute(code);
   }
 
   @Patch(':id')

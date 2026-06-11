@@ -5,18 +5,23 @@ import { Product } from './infrastructure/persistence/typeorm/product.entity';
 import { PRODUCT_INTERFACE } from './domain/repository/product.interface';
 import { ProductRepository } from './infrastructure/persistence/typeorm/product.repository';
 import { CreateProductUseCase } from './application/use-cases/create-product.usecase';
+import { RedisModule } from '@common/Redis/redis.module';
+import { GetProductCodeUseCase } from './application/use-cases/get-product-code.usecase';
 
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Product])
+    TypeOrmModule.forFeature([Product]),
+    RedisModule
   ],
   controllers: [ProductController],
   providers: [{
-    provide: PRODUCT_INTERFACE,
-    useClass: ProductRepository,
-  },
-  CreateProductUseCase],
+      provide: PRODUCT_INTERFACE,
+      useClass: ProductRepository,
+    },
+    CreateProductUseCase,
+    GetProductCodeUseCase
+  ],
   exports: [PRODUCT_INTERFACE]
 })
 export class ProductModule {}
