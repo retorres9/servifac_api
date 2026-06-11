@@ -1,3 +1,4 @@
+import { Type } from "class-transformer";
 import { IsNumber } from "class-validator";
 
 export class PaginationDto {
@@ -8,7 +9,9 @@ export class PaginationDto {
     intLimit?: number;
     
     strSearchTerm?: string;
+    @Type(() => Date)
     dtFromDate?: Date;
+    @Type(() => Date)
     dtToDate?: Date;
     strSortBy?: string;
     strSortOrder?: 'ASC' | 'DESC';
