@@ -8,10 +8,12 @@ import { CreateCustomerUseCase } from "./application/use-cases/createCustomer.us
 import { UpdateCustomerUseCase } from "./application/use-cases/updateCostumer.usecase";
 import { GetCustomersUseCase } from "./application/use-cases/getCustomers.usecase";
 import { GetCustomerUseCase } from "./application/use-cases/getCustomer.usecase";
+import { RedisModule } from "@common/Redis/redis.module";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Customer])
+        TypeOrmModule.forFeature([Customer]),
+        RedisModule
     ],
     controllers: [CustomerController],
     providers: [
