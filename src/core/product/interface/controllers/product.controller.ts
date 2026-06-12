@@ -2,12 +2,15 @@ import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/commo
 import { CreateProductDto } from '../dto/create-product.dto';
 import { CreateProductUseCase } from '../../application/use-cases/create-product.usecase';
 import { GetProductCodeUseCase } from '@core/product/application/use-cases/get-product-code.usecase';
+import { SearchProductUseCase } from '@core/product/application/use-cases/search-product.usecase';
+import { SearchProductDto } from '../dto/search.product.dto';
 
 @Controller('products')
 export class ProductController {
   constructor(
     private readonly createProductUseCase: CreateProductUseCase,
-    private readonly getProductByCodeUseCase: GetProductCodeUseCase
+    private readonly getProductByCodeUseCase: GetProductCodeUseCase,
+    private readonly searchProductsUseCase: SearchProductUseCase
   ) {}
 
   @Post()
@@ -15,9 +18,9 @@ export class ProductController {
     return this.createProductUseCase.execute(createProductDto);
   }
 
-  @Post('find')
-  findProducts() {
-    // Implement the logic to find products based on criteria
+  @Post('search')
+  async findProducts(@Body() searchDto: SearchProductDto) {
+    return await this.searchProductsUseCase.execute(searchDto);
   }
 
   @Get('autocomplete')

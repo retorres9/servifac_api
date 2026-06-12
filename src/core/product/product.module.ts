@@ -7,6 +7,7 @@ import { ProductRepository } from './infrastructure/persistence/typeorm/product.
 import { CreateProductUseCase } from './application/use-cases/create-product.usecase';
 import { RedisModule } from '@common/Redis/redis.module';
 import { GetProductCodeUseCase } from './application/use-cases/get-product-code.usecase';
+import { SearchProductUseCase } from './application/use-cases/search-product.usecase';
 
 
 @Module({
@@ -20,7 +21,8 @@ import { GetProductCodeUseCase } from './application/use-cases/get-product-code.
       useClass: ProductRepository,
     },
     CreateProductUseCase,
-    GetProductCodeUseCase
+    GetProductCodeUseCase,
+    SearchProductUseCase
   ],
   exports: [PRODUCT_INTERFACE]
 })

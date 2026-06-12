@@ -1,4 +1,5 @@
 import { ProductDomain } from '../product.domain';
+import { SearchProductDomain } from '../searchProduct.domain';
 export const PRODUCT_INTERFACE = Symbol('PRODUCT_INTERFACE');
 export interface IProduct {
   createProduct(product: ProductDomain): Promise<void>;
@@ -8,8 +9,6 @@ export interface IProduct {
   getProductsInventory(criteria: string, tax: number): Promise<ProductDomain[]>;
   getProductWarnings(): Promise<boolean>;
   getProductMinimumStock(): Promise<ProductDomain[]>;
-  updateProductStock(
-    strProductCode: number,
-    intQuantityAvailable: number
-  ): Promise<void>;
+  updateProductStock(strProductCode: number, intQuantityAvailable: number): Promise<void>;
+  searchProducts(searchProductDomain: SearchProductDomain): Promise<ProductDomain[]>;
 }
