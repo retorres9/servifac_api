@@ -9,6 +9,7 @@ export class LocationDomain {
     public dtCreatedAt?: Date,
     public intUserUpdate?: number,
     public dtUpdatedAt?: Date,
+    public boolIsActive?: boolean,
     public intCantidad?: number
   ) {}
 }

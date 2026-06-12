@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, Min, MinLength } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, Min, MinLength } from 'class-validator';
 
 export class UpdateLocationDto {
   @IsNotEmpty()
@@ -16,5 +16,7 @@ export class UpdateLocationDto {
   @IsNumber()
   @Min(1)
   intUserUpdate!: number;
-  
+
+  @IsBoolean()
+  boolIsActive!: boolean;  
 }

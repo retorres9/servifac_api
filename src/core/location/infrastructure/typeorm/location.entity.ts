@@ -30,4 +30,7 @@ export class Location {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   locUpdatedAt!: Date;
+
+  @Column({ default: true })
+  locIsActive!: boolean;
 }

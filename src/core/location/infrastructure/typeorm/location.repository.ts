@@ -7,7 +7,6 @@ import { GetLocationDomain } from '@core/location/domain/getLocation.domain';
 import { Warehouse } from '@core/warehouse/infrastructure/typeorm/warehouse.entity';
 import { BadRequestException, Inject } from '@nestjs/common';
 import { User } from '@core/users/infrastructure/persistence/typeorm/user.entity';
-import { UpdateLocationDto } from '@core/location/interface/dto/update-location.dto';
 import { REDIS_CLIENT } from '@common/Redis/redis.provider';
 import { Redis } from 'ioredis';
 
@@ -47,7 +46,8 @@ export class LocationRepository implements ILocation {
       location.locFkUserCreate.usrId,
       location.locCreatedAt,
       location.locFkUserUpdate.usrId,
-      location.locUpdatedAt
+      location.locUpdatedAt,
+      location.locIsActive
     ) : null;
     if (locationDomain) {
       try {
@@ -122,6 +122,7 @@ export class LocationRepository implements ILocation {
         location.locCreatedAt,
         location.locFkUserUpdate.usrId,
         location.locUpdatedAt,
+        location.locIsActive,
         count
       )
     );
@@ -153,7 +154,14 @@ export class LocationRepository implements ILocation {
       ? new LocationDomain(
           locationFound.locName,
           locationFound.locDescription,
-          locationFound.locFkWarehouseId.wrhId
+          locationFound.locFkWarehouseId.wrhId,
+          locationFound.locId,
+          locationFound.locFkWarehouseId.wrhName,
+          locationFound.locFkUserCreate.usrId,
+          locationFound.locCreatedAt,
+          locationFound.locFkUserUpdate.usrId,
+          locationFound.locUpdatedAt,
+          locationFound.locIsActive          
         )
       : null;
     try {
@@ -165,7 +173,7 @@ export class LocationRepository implements ILocation {
     
     }
 
-  async updateLocation(intIdLocation: number, updateLocationDto: UpdateLocationDto): Promise<void> {
+  async updateLocation(intIdLocation: number, updateLocationDto: LocationDomain): Promise<void> {
     const locationEntity = await this.locationRepository.findOne({ where: { locId: intIdLocation } });
     if (!locationEntity) {
       throw new BadRequestException(`Location with ID ${intIdLocation} not found`);
@@ -183,6 +191,7 @@ export class LocationRepository implements ILocation {
     locationEntity.locUpdatedAt = new Date();
     locationEntity.locFkWarehouseId = { wrhId: warehouse ? warehouse.wrhId : 0 } as Warehouse;
     locationEntity.locFkUserUpdate = { usrId: userUpdateId ? userUpdateId.usrId : 0 } as User;
+    locationEntity.locIsActive = updateLocationDto.boolIsActive ?? true;
     await this.locationRepository.save(locationEntity);
   }
 }
