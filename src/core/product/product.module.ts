@@ -8,6 +8,7 @@ import { CreateProductUseCase } from './application/use-cases/create-product.use
 import { RedisModule } from '@common/Redis/redis.module';
 import { GetProductCodeUseCase } from './application/use-cases/get-product-code.usecase';
 import { SearchProductUseCase } from './application/use-cases/search-product.usecase';
+import { GetProductByIdUseCase } from './application/use-cases/get-product-by-id.usecase';
 
 
 @Module({
@@ -22,7 +23,8 @@ import { SearchProductUseCase } from './application/use-cases/search-product.use
     },
     CreateProductUseCase,
     GetProductCodeUseCase,
-    SearchProductUseCase
+    SearchProductUseCase,
+    GetProductByIdUseCase
   ],
   exports: [PRODUCT_INTERFACE]
 })

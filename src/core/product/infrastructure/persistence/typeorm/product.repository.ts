@@ -15,8 +15,23 @@ export class ProductRepository implements IProduct {
     @Inject(REDIS_CLIENT)
     private readonly redisClient: Redis
   ) {}
-  getProductById(productId: number): Promise<ProductDomain | null> {
+  async getProductById(productId: number): Promise<ProductDomain | null> {
+    const redisKey = `product:getProductById:${productId}`;
+    try {
+      const cachedProduct = await this.redisClient.get(redisKey);
+      if (cachedProduct) {
+        const parsedProduct = JSON.parse(cachedProduct);
+        return parsedProduct;
+      }
+    } catch (error) {
+      console.error('Error retrieving product from Redis:', error);
+    }
     const product = this.productRepository.findOne({ where: { prodId: productId } });
+    try{
+      await this.redisClient.set(redisKey, JSON.stringify(product), 'EX', 60);
+    } catch (error) {
+      console.error('Error setting product in Redis:', error);
+    }
     return product.then(prod => prod ? this.mapToDomainEntity(prod) : null);
   }
 
@@ -79,7 +94,7 @@ export class ProductRepository implements IProduct {
   }
 
   async searchProducts(searchProductDomain: SearchProductDomain): Promise<ProductDomain[]> {
-    const { strProductCode, strProductName, intTypeOfTax, intIdLocation, intIdCategory, intPage, intLimit, strSortBy, strSortOrder } = searchProductDomain;
+    const { strProductCode, strProductName, intTypeOfTax, intIdCategory, intPage, intLimit, strSortBy, strSortOrder } = searchProductDomain;
     const redisKey = `product:search:${JSON.stringify(searchProductDomain)}`;
     try {
       const cachedProducts = await this.redisClient.get(redisKey);

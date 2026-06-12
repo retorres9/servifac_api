@@ -4,13 +4,15 @@ import { CreateProductUseCase } from '../../application/use-cases/create-product
 import { GetProductCodeUseCase } from '@core/product/application/use-cases/get-product-code.usecase';
 import { SearchProductUseCase } from '@core/product/application/use-cases/search-product.usecase';
 import { SearchProductDto } from '../dto/search.product.dto';
+import { GetProductByIdUseCase } from '@core/product/application/use-cases/get-product-by-id.usecase';
 
 @Controller('products')
 export class ProductController {
   constructor(
     private readonly createProductUseCase: CreateProductUseCase,
     private readonly getProductByCodeUseCase: GetProductCodeUseCase,
-    private readonly searchProductsUseCase: SearchProductUseCase
+    private readonly searchProductsUseCase: SearchProductUseCase,
+    private readonly getProductByIdUseCase: GetProductByIdUseCase
   ) {}
 
   @Post()
@@ -29,8 +31,8 @@ export class ProductController {
   }
 
   @Get(':id')
-  getProductById(@Param('id') id: string) {
-    // Implement the logic to get a product by its ID
+  async getProductById(@Param('id') id: string) {
+    return await this.getProductByIdUseCase.execute(Number.parseInt(id));
   }
 
   @Get('code/:code')
