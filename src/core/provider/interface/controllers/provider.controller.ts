@@ -1,11 +1,14 @@
 import { Body, Controller, Delete, Param, Patch, Post } from "@nestjs/common";
 import { CreateProviderUseCase } from "../../application/use-cases/create-provider.usecase";
 import { CreateProviderDto } from "../dto/create-provider.dto";
+import { SearchProviderDto } from "../dto/search-provider.dto";
+import { SearchProvidersUseCase } from "@core/provider/application/use-cases/search-providers.usecase";
 
 @Controller('providers')
 export class ProviderController {
     constructor(
-        private readonly createProviderUseCase: CreateProviderUseCase
+        private readonly createProviderUseCase: CreateProviderUseCase,
+        private readonly searchProvidersUseCase: SearchProvidersUseCase
     ) {}
     
     @Post()
@@ -14,8 +17,8 @@ export class ProviderController {
     }
 
     @Post('search')
-    searchProviders(@Body() criteria: any): Promise<any> {
-        return this.createProviderUseCase.execute(criteria);
+    searchProviders(@Body() searchProviderDto: SearchProviderDto) {
+        return this.searchProvidersUseCase.execute(searchProviderDto);
     }
 
     @Patch(':id')

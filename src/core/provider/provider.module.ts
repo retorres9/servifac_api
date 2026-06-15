@@ -5,10 +5,13 @@ import { ProviderController } from "./interface/controllers/provider.controller"
 import { ProviderRepository } from "./infrastructure/typeorm/provider.repository";
 import { PROVIDER_INTERFACE } from "./domain/repository/provider.interface";
 import { CreateProviderUseCase } from "./application/use-cases/create-provider.usecase";
+import { RedisModule } from "@common/Redis/redis.module";
+import { SearchProvidersUseCase } from "./application/use-cases/search-providers.usecase";
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([Provider])
+        TypeOrmModule.forFeature([Provider]),
+        RedisModule
     ],
     controllers: [ProviderController],
     providers: [
@@ -16,7 +19,8 @@ import { CreateProviderUseCase } from "./application/use-cases/create-provider.u
             provide: PROVIDER_INTERFACE,
             useClass: ProviderRepository
         },
-        CreateProviderUseCase
+        CreateProviderUseCase,
+        SearchProvidersUseCase
     ]
 })
 export class ProviderModule {}
