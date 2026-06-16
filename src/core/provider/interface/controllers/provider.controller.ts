@@ -3,12 +3,14 @@ import { CreateProviderUseCase } from "../../application/use-cases/create-provid
 import { CreateProviderDto } from "../dto/create-provider.dto";
 import { SearchProviderDto } from "../dto/search-provider.dto";
 import { SearchProvidersUseCase } from "@core/provider/application/use-cases/search-providers.usecase";
+import { DeleteProviderUseCase } from "@core/provider/application/use-cases/delete-provider.usecase";
 
 @Controller('providers')
 export class ProviderController {
     constructor(
         private readonly createProviderUseCase: CreateProviderUseCase,
-        private readonly searchProvidersUseCase: SearchProvidersUseCase
+        private readonly searchProvidersUseCase: SearchProvidersUseCase,
+        private readonly deleteProviderUseCase: DeleteProviderUseCase
     ) {}
     
     @Post()
@@ -28,6 +30,6 @@ export class ProviderController {
 
     @Delete(':id')
     deleteProvider(@Param('id') id: string) {
-        // Implement the logic to delete a provider by its ID
+        return this.deleteProviderUseCase.execute(id);
     }
 }

@@ -135,4 +135,18 @@ export class ProviderRepository implements IProvider {
         };
 
     }
+
+    async deleteProvider(id: string): Promise<void> {
+        const providerToDelete = await this.providerRepository.findOne({ where: { prvId: Number.parseInt(id) } });
+        if (!providerToDelete) {
+            throw new Error('Provider not found');
+        }
+        
+        const updatedProvider = await this.providerRepository.save({
+            ...providerToDelete,
+            prvActive: false
+        });
+
+        await this.providerRepository.softDelete(updatedProvider.prvId);
+    }
 }

@@ -7,4 +7,5 @@ export interface IProvider {
     getProviderEntries(searchProviderInput: SearchProviderDomain): Promise<ProviderDomain[]>;
     getProviderEntry(entry: ProviderDomain): Promise<ProviderDomain | null>;
     updateProvider(entry: ProviderDomain): Promise<ProviderDomain | null>;
+    deleteProvider(id: string): Promise<void>;
 }

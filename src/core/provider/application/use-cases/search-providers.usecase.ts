@@ -10,7 +10,6 @@ export class SearchProvidersUseCase {
         private readonly providerRepository: ProviderRepository
     ) {}
     async execute(searchProviderInput: SearchProviderInput): Promise<ProviderDomain[]> {
-        console.log('Executing SearchProvidersUseCase with input:', this.providerRepository, searchProviderInput);
         return await this.providerRepository.getProviderEntries(searchProviderInput);
     }
 }
