@@ -13,11 +13,11 @@ export class SalesRepository implements ISales {
     ) {}
     async createSale(sale: SalesDomain): Promise<number> {
         const saleEntity = this.salesRepository.create({
-            salFkIdCustomer: { cusId: sale.intCustomerId },
-            salFkIdStatus: { prmId: sale.intIdStatus },
+            salFkIdCustomer: sale.intCustomerId ? { cusId: sale.intCustomerId } as any : null,
+            salFkIdStatus: { prmId: sale.intIdStatus } as any,
             salTotal: sale.dcmTotal,
             salTotalWithTax: sale.dcmTotalWithTax,
-            salFkIdUser: { usrId: sale.intUserId },
+            salFkIdUser: sale.intUserId ? { usrId: sale.intUserId } as any : null,
         });
         const savedSale = await this.salesRepository.save(saleEntity);
         return savedSale.salId;

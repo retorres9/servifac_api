@@ -19,6 +19,10 @@ import { StockMovementLineModule } from './core/stockMovementLine/stock-movement
 import { SalesModule } from './core/sales/sales.module';
 import { SalesLineModule } from './core/salesLine/sales-line.module';
 import { CustomerModule } from './core/customer/customer.module';
+import { PaymentTypeModule } from '@core/paymentType/payment-type.module';
+import { PaymentModule } from '@core/payment/payment.module';
+import { LedgerEntryModule } from '@core/ledgerEntry/ledger-entry.module';
+import { AuditLogModule } from '@core/auditLog/audit-log.module';
 
 @Module({
   imports: [
@@ -45,7 +49,11 @@ import { CustomerModule } from './core/customer/customer.module';
     StockMovementLineModule,
     SalesModule,
     SalesLineModule,
-    CustomerModule
+    CustomerModule,
+    PaymentTypeModule,
+    PaymentModule,
+    LedgerEntryModule,
+    AuditLogModule
   ],
   controllers: [AppController],
   providers: [AppService],
