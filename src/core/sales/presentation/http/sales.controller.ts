@@ -18,7 +18,7 @@ export class SalesController {
       body.lines.reduce((s, l) => s + (l.quantity * l.unitPrice), 0),
       0,
       body.userId,
-      body.lines.map(l => new SaleLineDomain(0, l.productId, l.warehouseId, l.quantity, l.unitPrice, l.quantity * l.unitPrice, l.discount ?? 0))
+      body.lines.map(l => new SaleLineDomain(0, l.productId, body.warehouseId, l.quantity, l.unitPrice, l.quantity * l.unitPrice, l.discount ?? 0))
     );
     await this.createSaleUseCase.execute(saleDomain);
     return { ok: true };

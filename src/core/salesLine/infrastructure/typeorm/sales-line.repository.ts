@@ -1,8 +1,9 @@
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityManager, Repository } from 'typeorm';
 import { ISalesLine } from '../../domain/interfaces/saleLine.interface';
 import { SalesLine } from './sales-line.entity';
 import { SaleLineDomain } from '../../domain/saleLine.domain';
+import { TransactionContext } from '@common/domain/transaction.manager';
 
 export class SalesLineRepository implements ISalesLine {
   constructor(
@@ -10,7 +11,7 @@ export class SalesLineRepository implements ISalesLine {
     private readonly salesLineRepository: Repository<SalesLine>,
   ) {}
 
-  async createSaleLines(saleLines: SaleLineDomain[]): Promise<void> {
+  async createSaleLines(saleLines: SaleLineDomain[], ctx: TransactionContext): Promise<void> {
     if (!saleLines || saleLines.length === 0) return;
     const entities = saleLines.map(line => this.salesLineRepository.create({
       sllFkIdSales: { salId: line.intSaleId } as any,
@@ -21,7 +22,8 @@ export class SalesLineRepository implements ISalesLine {
       sllTotalPrice: line.intTotalPrice,
       sllDiscount: line.intDiscount,
     }));
-    await this.salesLineRepository.save(entities);
+    const repo = ctx ? (ctx as EntityManager).getRepository(SalesLine) : this.salesLineRepository;
+    await repo.save(entities);
   }
 
   async getSaleLineById(id: number): Promise<SaleLineDomain[] | null> {

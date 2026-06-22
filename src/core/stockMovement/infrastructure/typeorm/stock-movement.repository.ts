@@ -2,7 +2,8 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { IStockMovement } from "../../domain/repository/stockMovement.interface";
 import { StockMovementDomain } from "../../domain/stockMovement.domain";
 import { StockMovement } from "./stock-movement.entity";
-import { Repository } from "typeorm";
+import { EntityManager, Repository } from "typeorm";
+import { TransactionContext } from "@common/domain/transaction.manager";
 
 export class StockMovementRepository implements IStockMovement {
     constructor(
@@ -10,14 +11,15 @@ export class StockMovementRepository implements IStockMovement {
         private readonly stockMovementRepository: Repository<StockMovement>
     ) {}
 
-    async addStockMovement(stockMovement: StockMovementDomain): Promise<void> {
-        const newStockMovement = this.stockMovementRepository.create({
+    async addStockMovement(stockMovement: StockMovementDomain, ctx?: TransactionContext): Promise<void> {
+        const repo = ctx ? (ctx as EntityManager).getRepository(StockMovement) : this.stockMovementRepository;
+        const newStockMovement = repo.create({
             stmMovementType: stockMovement.intIdMovementType ? {prmId: stockMovement.intIdMovementType} : undefined,
             stmReferenceId: stockMovement.strReference,
             stmNote: stockMovement.strNote || undefined,
             stmCreatedBy: {usrId: stockMovement.intIdUser}
         });
-        await this.stockMovementRepository.save(newStockMovement);
+        await repo.save(newStockMovement);
         return Promise.resolve();
 
     }

@@ -20,10 +20,6 @@ class SaleLineDto {
 export class CreateSaleDto extends HeaderDto {
     @IsOptional()
     @IsInt()
-    userId?: number;
-
-    @IsOptional()
-    @IsInt()
     customerId?: number;
 
     @IsOptional()

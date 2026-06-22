@@ -2,24 +2,26 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ISales } from "../../domain/interfaces/sales.interface";
 import { SalesDomain } from "../../domain/sales.domain";
 import { Sales } from "./sales.entity";
-import { Repository } from "typeorm";
+import { EntityManager, Repository } from "typeorm";
 import { SaleLineDomain } from "@core/salesLine/domain/saleLine.domain";
 import { Parameter } from "@core/parameter/infrastructure/typeorm/parameter.entity";
+import { TransactionContext } from "@common/domain/transaction.manager";
 
 export class SalesRepository implements ISales {
     constructor(
         @InjectRepository(Sales)
         private readonly salesRepository: Repository<Sales>,
     ) {}
-    async createSale(sale: SalesDomain): Promise<number> {
-        const saleEntity = this.salesRepository.create({
+    async createSale(sale: SalesDomain, ctx: TransactionContext): Promise<number> {
+        const repo = ctx ? (ctx as EntityManager).getRepository(Sales) : this.salesRepository;
+        const saleEntity = repo.create({
             salFkIdCustomer: sale.intCustomerId ? { cusId: sale.intCustomerId } as any : null,
             salFkIdStatus: { prmId: sale.intIdStatus } as any,
             salTotal: sale.dcmTotal,
             salTotalWithTax: sale.dcmTotalWithTax,
             salFkIdUser: sale.intUserId ? { usrId: sale.intUserId } as any : null,
         });
-        const savedSale = await this.salesRepository.save(saleEntity);
+        const savedSale = await repo.save(saleEntity);
         return savedSale.salId;
     }
     async getSaleById(id: number): Promise<SalesDomain | null> {

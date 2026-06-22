@@ -2,7 +2,7 @@ import { IsInt, IsString } from "class-validator";
 
 export class HeaderDto {
     @IsInt()
-    userID!: number;
+    userId!: number;
     @IsInt()
     warehouseId!: number;
     @IsString()

@@ -7,6 +7,7 @@ import { PROVIDER_INTERFACE } from "./domain/repository/provider.interface";
 import { CreateProviderUseCase } from "./application/use-cases/create-provider.usecase";
 import { RedisModule } from "@common/Redis/redis.module";
 import { SearchProvidersUseCase } from "./application/use-cases/search-providers.usecase";
+import { DeleteProviderUseCase } from "./application/use-cases/delete-provider.usecase";
 
 @Module({
     imports: [
@@ -20,7 +21,8 @@ import { SearchProvidersUseCase } from "./application/use-cases/search-providers
             useClass: ProviderRepository
         },
         CreateProviderUseCase,
-        SearchProvidersUseCase
+        SearchProvidersUseCase,
+        DeleteProviderUseCase
     ]
 })
 export class ProviderModule {}

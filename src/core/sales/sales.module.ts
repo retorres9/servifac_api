@@ -7,16 +7,30 @@ import { SalesController } from "./presentation/http/sales.controller";
 import { SalesLine } from "@core/salesLine/infrastructure/typeorm/sales-line.entity";
 import { SalesLineRepository } from "@core/salesLine/infrastructure/typeorm/sales-line.repository";
 import { CreateSaleUseCase } from "./application/use-cases/createSale.usecase";
+import { AuditLogModule } from "@core/auditLog/audit-log.module";
+import { LedgerEntryModule } from "@core/ledgerEntry/ledger-entry.module";
+import { CustomerModule } from "@core/customer/customer.module";
+import { StockMovementModule } from "@core/stockMovement/stock-movement.module";
+import { SalesLineModule } from "@core/salesLine/sales-line.module";
+import { SALES_INTERFACE } from "./domain/interfaces/sales.interface";
+import { SALES_LINE_REPOSITORY } from "@core/salesLine/domain/interfaces/saleLine.interface";
+import { PaymentModule } from "@core/payment/payment.module";
 
 @Module({
     imports: [
         TypeOrmModule.forFeature([Sales, SalesLine]),
-        TransactionModule
+        TransactionModule,
+        CustomerModule,
+        LedgerEntryModule,
+        AuditLogModule,
+        StockMovementModule,
+        SalesLineModule,
+        PaymentModule,
     ],
     controllers: [SalesController],
     providers: [
-        { provide: 'SALES_INTERFACE', useClass: SalesRepository },
-        { provide: 'SALES_LINE_REPOSITORY', useClass: SalesLineRepository },
+        { provide: SALES_INTERFACE, useClass: SalesRepository },
+        { provide: SALES_LINE_REPOSITORY, useClass: SalesLineRepository },
         CreateSaleUseCase,
     ]
 })
