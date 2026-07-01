@@ -15,6 +15,7 @@ import { SalesLineModule } from "@core/salesLine/sales-line.module";
 import { SALES_INTERFACE } from "./domain/interfaces/sales.interface";
 import { SALES_LINE_REPOSITORY } from "@core/salesLine/domain/interfaces/saleLine.interface";
 import { PaymentModule } from "@core/payment/payment.module";
+import { StockMovementLineModule } from "@core/stockMovementLine/stock-movement-line.module";
 
 @Module({
     imports: [
@@ -26,6 +27,7 @@ import { PaymentModule } from "@core/payment/payment.module";
         StockMovementModule,
         SalesLineModule,
         PaymentModule,
+        StockMovementLineModule
     ],
     controllers: [SalesController],
     providers: [

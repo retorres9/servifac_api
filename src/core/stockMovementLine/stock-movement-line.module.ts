@@ -1,7 +1,7 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { StockMovementLine } from "./infrastructure/typeorm/stock-movementLine.entity";
-import { STOCKMOVEMENTLINE_INTERFACE } from "./domain/repository/stockMovement.Line.interface";
+import { STOCK_MOVEMENT_LINE_INTERFACE } from "./domain/repository/stockMovement.Line.interface";
 import { StockMovementLineRepository } from "./infrastructure/typeorm/stockMovementLine.repository";
 import { AddStockMovementLineUseCase } from "./application/use-cases/addStockMovementLine.usecase";
 
@@ -10,9 +10,9 @@ import { AddStockMovementLineUseCase } from "./application/use-cases/addStockMov
         TypeOrmModule.forFeature([StockMovementLine])
     ],
     providers: [{
-        provide: STOCKMOVEMENTLINE_INTERFACE,
+        provide: STOCK_MOVEMENT_LINE_INTERFACE,
         useClass: StockMovementLineRepository,
     },
     AddStockMovementLineUseCase],
-    exports: [STOCKMOVEMENTLINE_INTERFACE]})
+    exports: [STOCK_MOVEMENT_LINE_INTERFACE]})
 export class StockMovementLineModule {}

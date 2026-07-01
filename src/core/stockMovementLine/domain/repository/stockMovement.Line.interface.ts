@@ -1,7 +1,7 @@
 import { TransactionContext } from "@common/domain/transaction.manager";
 import { StockMovementLineDomain } from "../stockMovement.domain";
 
-export const STOCKMOVEMENTLINE_INTERFACE = Symbol('STOCKMOVEMENTLINE_INTERFACE');
+export const STOCK_MOVEMENT_LINE_INTERFACE = Symbol('STOCK_MOVEMENT_LINE_INTERFACE');
 
 export interface IStockMovementLine {
     addStockMovementLine(entry: StockMovementLineDomain[], manager: TransactionContext ): Promise<any>;

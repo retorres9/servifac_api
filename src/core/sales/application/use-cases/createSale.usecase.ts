@@ -7,6 +7,7 @@ import { type ISalesLine, SALES_LINE_REPOSITORY } from "@core/salesLine/domain/i
 import { SalesDomain } from "@core/sales/domain/sales.domain";
 import { SaleLineDomain } from "@core/salesLine/domain/saleLine.domain";
 import { type IPayment, PAYMENT_INTERFACE } from "@core/payment/domain/interfaces/payment.interface";
+import { type IStockMovementLine, STOCK_MOVEMENT_LINE_INTERFACE } from "@core/stockMovementLine/domain/repository/stockMovement.Line.interface";
 
 export class CreateSaleUseCase {
     constructor(
@@ -21,7 +22,9 @@ export class CreateSaleUseCase {
         @Inject(SALES_LINE_REPOSITORY)
         private readonly salesLineRepository: ISalesLine,
         @Inject(PAYMENT_INTERFACE)
-        private readonly paymentInterface: IPayment
+        private readonly paymentInterface: IPayment,
+        @Inject(STOCK_MOVEMENT_LINE_INTERFACE)
+        private readonly stockMovementLineRepository: IStockMovementLine
     ) {}
 
     async execute(input: SalesDomain): Promise<void> {
@@ -51,13 +54,24 @@ export class CreateSaleUseCase {
                 dtePaymentDate: new Date(),
                 intPaymentStatus: 1, // Assuming 1 represents a completed payment
             }, ctx); // Passing the TransactionContext
-            await this.stockMovementRepository.addStockMovement(
+            const movement = await this.stockMovementRepository.addStockMovement(
                 {
                     strReference: `Sale #${saleId}`,
                     intIdMovementType: 2, // Assuming 2 represents a sale
                     strNote: `Quantity: -${input.intUserId}`,
                     intIdUser: input.intUserId!,
                 }, ctx
+            );
+
+            await this.stockMovementLineRepository.addStockMovementLine(
+                input.SaleLines.map(line => ({
+                    intIdStockMovement: movement,
+                    intIdProduct: line.intIdProduct,
+                    intIdWarehouse: line.intIdWarehouse,
+                    intChange: -line.sllQuantity,
+                    intNewQuantity: 0, // This should be calculated based on current stock
+                    intPreviousQuantity: 0 // This should be fetched from current stock
+                })), ctx
             );
 
         });
