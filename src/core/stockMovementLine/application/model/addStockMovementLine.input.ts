@@ -3,6 +3,6 @@ export type AddStockMovementLineInput = {
     intIdProduct: number;
     intIdWarehouse: number;
     intChange: number;
-    intNewQty: number;
-    intPrevQty: number;
+    intNewQuantity: number;
+    intPreviousQuantity: number;
 };

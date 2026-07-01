@@ -4,7 +4,7 @@ export class StockMovementLineDomain {
         public intIdProduct: number,
         public intIdWarehouse: number,
         public intChange: number,
-        public intNewQty: number,
-        public intPrevQty: number
+        public intNewQuantity: number,
+        public intPreviousQuantity: number
     ) {}
 }

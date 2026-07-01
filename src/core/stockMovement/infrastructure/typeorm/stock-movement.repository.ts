@@ -11,7 +11,7 @@ export class StockMovementRepository implements IStockMovement {
         private readonly stockMovementRepository: Repository<StockMovement>
     ) {}
 
-    async addStockMovement(stockMovement: StockMovementDomain, ctx?: TransactionContext): Promise<void> {
+    async addStockMovement(stockMovement: StockMovementDomain, ctx?: TransactionContext): Promise<number> {
         const repo = ctx ? (ctx as EntityManager).getRepository(StockMovement) : this.stockMovementRepository;
         const newStockMovement = repo.create({
             stmMovementType: stockMovement.intIdMovementType ? {prmId: stockMovement.intIdMovementType} : undefined,
@@ -19,9 +19,8 @@ export class StockMovementRepository implements IStockMovement {
             stmNote: stockMovement.strNote || undefined,
             stmCreatedBy: {usrId: stockMovement.intIdUser}
         });
-        await repo.save(newStockMovement);
-        return Promise.resolve();
-
+        const savedStockMovement = await repo.save(newStockMovement);
+        return savedStockMovement.stmId;
     }
     getStockMovementsByProduct(productId: number): Promise<StockMovementDomain[]> {
         const movements = this.stockMovementRepository.find({
